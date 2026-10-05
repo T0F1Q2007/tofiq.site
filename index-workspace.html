@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self'; object-src 'none'; base-uri 'self';">
+  <title>Tofig Valizada — Google Developer &amp; Workspace Console</title>
+  <meta name="description" content="Google Developer Console & Portfolio Dossier of Tofig Valizada: CIS Student at ASOIU, Linux & ML Engineer.">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/switcher.css">
+  <link rel="stylesheet" href="css/v3-workspace.css">
+</head>
+<body class="workspace-theme">
+  <div class="scroll-progress-bar" aria-hidden="true"></div>
+  <a href="#console-main" class="skip-to-content">Skip to developer console</a>
+
+  <!-- Google Developer Top Bar -->
+  <header class="workspace-appbar">
+    <div class="workspace-brand-area">
+      <a href="index-workspace.html" class="workspace-logo-link">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+        </svg>
+        <span>tofiq.site</span>
+        <span class="g-dev-badge">Console</span>
+      </a>
+    </div>
+
+    <div class="workspace-actions-area no-print">
+      <!-- Waffle Menu Button (Linktree Launcher) -->
+      <div style="position: relative;">
+        <button type="button" class="waffle-menu-btn" id="waffle-btn" aria-label="Google Apps & Quick Links Launcher" title="Quick Links Launcher">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="5" cy="5" r="2.2"/>
+            <circle cx="12" cy="5" r="2.2"/>
+            <circle cx="19" cy="5" r="2.2"/>
+            <circle cx="5" cy="12" r="2.2"/>
+            <circle cx="12" cy="12" r="2.2"/>
+            <circle cx="19" cy="12" r="2.2"/>
+            <circle cx="5" cy="19" r="2.2"/>
+            <circle cx="12" cy="19" r="2.2"/>
+            <circle cx="19" cy="19" r="2.2"/>
+          </svg>
+        </button>
+
+        <!-- Waffle Dropdown (Linktree Deck) -->
+        <div class="waffle-dropdown" id="waffle-dropdown">
+          <div class="waffle-title">Direct Linktree Hub</div>
+          <div class="waffle-grid">
+            <a href="https://wa.me/994554947493" target="_blank" rel="noopener noreferrer" class="waffle-app-item">
+              <span style="font-size:22px;">💬</span>
+              <span>WhatsApp</span>
+            </a>
+            <a href="https://www.linkedin.com/in/velizadetofiq1" target="_blank" rel="noopener noreferrer" class="waffle-app-item">
+              <span style="font-size:22px;">💼</span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="waffle-app-item">
+              <span style="font-size:22px;">🐙</span>
+              <span>GitHub</span>
+            </a>
+            <a href="mailto:velizadetofiq1@gmail.com" class="waffle-app-item">
+              <span style="font-size:22px;">✉️</span>
+              <span>Personal</span>
+            </a>
+            <a href="mailto:tofiq.valizada@asoiu.edu.az" class="waffle-app-item">
+              <span style="font-size:22px;">🎓</span>
+              <span>ASOIU Mail</span>
+            </a>
+            <a href="tel:+994554947493" class="waffle-app-item">
+              <span style="font-size:22px;">📞</span>
+              <span>Call Phone</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-ws-cv" onclick="window.print()" title="Print CV">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Print CV
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace Two-Column Container -->
+  <div class="workspace-wrapper">
+    <!-- Left Sidebar Console Navigation -->
+    <aside class="workspace-sidebar" aria-label="Console Navigation">
+      <ul class="sidebar-nav-list">
+        <li class="sidebar-nav-item is-active">
+          <a href="#overview">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Overview
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#projects">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Projects Registry
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#education">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            Education Dossier
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#skills">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Technical Matrix
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#olympiad">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            Olympiad &amp; Activities
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#contact">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Direct Contact
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-metrics-panel">
+        <div class="metrics-title">System Metrics</div>
+        <div class="metric-row"><span class="metric-label">Status:</span><span class="metric-value" style="color:var(--g-green);">● Active Student</span></div>
+        <div class="metric-row"><span class="metric-label">Degree EQF:</span><span class="metric-value">Level 6</span></div>
+        <div class="metric-row"><span class="metric-label">Environment:</span><span class="metric-value">GNOME / Linux</span></div>
+        <div class="metric-row"><span class="metric-label">Location:</span><span class="metric-value">Baku, Azerbaijan</span></div>
+      </div>
+    </aside>
+
+    <!-- Main Dossier Content Area -->
+    <main class="workspace-main" id="console-main">
+
+      <!-- Candidate Terminal Card (Overview) -->
+      <section class="workspace-terminal-card" id="overview" data-reveal>
+        <div class="terminal-header-bar">
+          <span class="terminal-dot t-red"></span>
+          <span class="terminal-dot t-yellow"></span>
+          <span class="terminal-dot t-green"></span>
+          <span class="terminal-title">tofig@asoiu: ~/portfolio-manifest</span>
+        </div>
+        <div class="terminal-body">
+          <p><span class="t-prompt">tofig@asoiu:~$</span> <span class="t-cmd">whoami &amp;&amp; cat about_me.txt</span></p>
+          <div class="t-output">
+            <strong style="color:#FFFFFF; font-size:16px;">Tofig Valizada</strong><br>
+            BBA &amp; Computer Information Systems Student at Azerbaijan State Oil and Industry University (ASOIU)<br>
+            Location: Baku, Baku, Azerbaijan (Home) | Phone: (+994) 554947493<br><br>
+            "I'm a both Business Administration and Information Technology student who is eager to learn new skills and apply my knowledge into experience."
+          </div>
+        </div>
+
+        <!-- Terminal Linktree Quick Bar -->
+        <div class="ws-linktree-bar">
+          <a href="https://wa.me/994554947493" target="_blank" rel="noopener noreferrer" class="ws-link-chip">
+            &gt; whatsapp: 994554947493
+          </a>
+          <a href="https://www.linkedin.com/in/velizadetofiq1" target="_blank" rel="noopener noreferrer" class="ws-link-chip">
+            &gt; linkedin: velizadetofiq1
+          </a>
+          <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="ws-link-chip">
+            &gt; github: T0F1Q2007
+          </a>
+          <a href="mailto:velizadetofiq1@gmail.com" class="ws-link-chip">
+            &gt; email: velizadetofiq1@gmail.com
+          </a>
+          <a href="mailto:tofiq.valizada@asoiu.edu.az" class="ws-link-chip">
+            &gt; edu-mail: tofiq.valizada@asoiu.edu.az
+          </a>
+        </div>
+      </section>
+
+      <!-- Projects Registry Section -->
+      <section class="ws-section" id="projects" data-stagger>
+        <h2 class="ws-section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#4285F4"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Featured Software Projects Registry
+        </h2>
+
+        <div class="project-registry-grid">
+          <!-- Project 1: Redmi buds 8 pro manager -->
+          <article class="ws-card">
+            <div class="ws-card-repo-header">
+              <span class="ws-repo-name">Redmi-buds-8-pro-linux-software</span>
+              <span class="ws-meta-date">8 Aug 2026 – Current</span>
+            </div>
+            <p class="ws-card-desc">
+              A software solution for interaction with the device properly without depending on secondary device. Because the logic is also explained by reverse engineering, the same software can be built for the other platforms. Right now, the goal of the project is to maintain the support for the GNOME (a linux user interface) because the project itself is an extension for GNOME. The reason to this project's existence is the lack of software to manage the device outside of mobile devices.
+            </p>
+            <div class="ws-card-footer">
+              <div class="ws-tag-cloud">
+                <span class="ws-tag">GNOME</span>
+                <span class="ws-tag">Linux</span>
+                <span class="ws-tag">Reverse-Eng</span>
+                <span class="ws-tag">Bluetooth</span>
+              </div>
+              <a href="https://github.com/T0F1Q2007/Redmi-buds-8-pro-linux-software" target="_blank" rel="noopener noreferrer" class="ws-btn-repo">
+                Open GitHub Repo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 2: NVIDIA Stock Price Predicting Model -->
+          <article class="ws-card">
+            <div class="ws-card-repo-header">
+              <span class="ws-repo-name">nvidia-stock-price-forecasting-for-uni</span>
+              <span class="ws-meta-date">8 Feb 2026 – 16 Feb 2026</span>
+            </div>
+            <p class="ws-card-desc">
+              The aim of this model is to predict the future price fluctuations of NVIDIA stocks based on the past knowledge that we gathered from Kaggle. A project made by Valizada T., Majidzada N. and Hajiyeva N. for the AI/ML training program brought us by Azerbaijan State Oil and Industry University.
+            </p>
+            <div class="ws-card-footer">
+              <div class="ws-tag-cloud">
+                <span class="ws-tag">Python</span>
+                <span class="ws-tag">Machine-Learning</span>
+                <span class="ws-tag">Kaggle</span>
+                <span class="ws-tag">ASOIU</span>
+              </div>
+              <a href="https://github.com/T0F1Q2007/nvidia-stock-price-forecasting-for-uni" target="_blank" rel="noopener noreferrer" class="ws-btn-repo">
+                Open GitHub Repo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 3: RepEat Android Application -->
+          <article class="ws-card">
+            <div class="ws-card-repo-header">
+              <span class="ws-repo-name">RepEat</span>
+              <span class="ws-meta-date">1 Jun 2023 – 1 Jul 2024</span>
+            </div>
+            <p class="ws-card-desc">
+              An android app to study in Physics written in Kotlin programming language. Engineered to boost retention and practice structured physics exercises.
+            </p>
+            <div class="ws-card-footer">
+              <div class="ws-tag-cloud">
+                <span class="ws-tag">Kotlin</span>
+                <span class="ws-tag">Android</span>
+                <span class="ws-tag">EdTech</span>
+              </div>
+              <a href="https://github.com/T0F1Q2007/RepEat" target="_blank" rel="noopener noreferrer" class="ws-btn-repo">
+                Open GitHub Repo &rarr;
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 4: 3D model to Augmented Reality (AR) -->
+          <article class="ws-card">
+            <div class="ws-card-repo-header">
+              <span class="ws-repo-name">3DtoAR &amp; AR-try</span>
+              <span class="ws-meta-date">1 Jun 2024 – 30 Jun 2024</span>
+            </div>
+            <p class="ws-card-desc">
+              This project aims to show given 3D models (or at least for now, only models are working provided by me) in real life using Google application's built-in AR technology and iPhone's built-in AR functionality.
+            </p>
+            <div class="ws-card-footer">
+              <div class="ws-tag-cloud">
+                <span class="ws-tag">WebAR</span>
+                <span class="ws-tag">Google-ARCore</span>
+                <span class="ws-tag">iOS-QuickLook</span>
+                <span class="ws-tag">3D</span>
+              </div>
+              <div>
+                <a href="https://github.com/T0F1Q2007/3DtoAR" target="_blank" rel="noopener noreferrer" class="ws-btn-repo">3DtoAR</a> |
+                <a href="https://github.com/T0F1Q2007/AR-try" target="_blank" rel="noopener noreferrer" class="ws-btn-repo">AR-try</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Education Dossier Section -->
+      <section class="ws-section" id="education" data-reveal>
+        <h2 class="ws-section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#34A853"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Academic Credentials &amp; Education
+        </h2>
+
+        <table class="ws-data-table">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Degree / Level</th>
+              <th>Institution</th>
+              <th>Location &amp; Scope</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>15 Sep 2024 – Current</strong></td>
+              <td>Bachelor of Business Administration, Computer Information Systems (EQF 6)</td>
+              <td>Azerbaijan State Oil and Industry University (ASOIU) — <a href="https://asoiu.edu.az" target="_blank" rel="noopener noreferrer">asoiu.edu.az</a></td>
+              <td>Baku, Azerbaijan (Undergraduate)</td>
+            </tr>
+            <tr>
+              <td><strong>15 Sep 2013 – 15 Jul 2024</strong></td>
+              <td>High School (EQF 4)</td>
+              <td>Number 7 High School Named After Aliaga Kurchayli</td>
+              <td>Salyan, Azerbaijan (Secondary)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Technical Competency Matrix -->
+      <section class="ws-section" id="skills" data-reveal>
+        <h2 class="ws-section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#FBBC05"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Technical Competency Matrix &amp; Languages
+        </h2>
+
+        <table class="ws-data-table">
+          <thead>
+            <tr>
+              <th style="width:25%;">Category</th>
+              <th>Competencies &amp; Certifications</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Hard Skills</strong></td>
+              <td>Python (computer programming), Microsoft Excel, Microsoft Access, 3D modelling, Microsoft Office, Microsoft Powerpoint, use markup languages, Microsoft Word, operating systems, Linux</td>
+            </tr>
+            <tr>
+              <td><strong>Soft Skills</strong></td>
+              <td>lead a team, Organizational and planning skills, Team-work oriented, Public speaker</td>
+            </tr>
+            <tr>
+              <td><strong>Language Framework</strong></td>
+              <td>
+                • <strong>Azerbaijani:</strong> Mother tongue (Native)<br>
+                • <strong>English:</strong> Listening C1, Reading B2, Spoken production B1, Spoken interaction B1, Writing B1
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Olympiad Records Section -->
+      <section class="ws-section" id="olympiad" data-reveal>
+        <h2 class="ws-section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#EA4335"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          Social, Political &amp; Competitive Activities
+        </h2>
+
+        <div class="ws-card">
+          <div class="ws-card-repo-header">
+            <span style="font-weight:600; font-size:16px;">Republic Subject Olympiad in Informatics</span>
+            <span class="ws-meta-date">10 Nov 2024 – 24 Nov 2024 | Baku</span>
+          </div>
+          <p class="ws-card-desc">
+            I prepared myself to this programming competition and used C++ and Python to solve the issues like in EOlymp or LeetCode at 11th grade. I was able to get to the pre-final round.
+          </p>
+        </div>
+      </section>
+
+      <!-- Direct Reach Section -->
+      <section class="ws-section" id="contact" data-reveal>
+        <h2 class="ws-section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#4285F4"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Direct Reach &amp; Identity Verification
+        </h2>
+
+        <div class="ws-card" style="background:var(--g-surface-0);">
+          <p style="font-size:14px; margin-bottom:12px;">Connect with Tofig Valizada directly via verified channels:</p>
+          <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <a href="https://wa.me/994554947493" target="_blank" rel="noopener noreferrer" style="font-weight:600;">WhatsApp: wa.me/994554947493</a> |
+            <a href="https://www.linkedin.com/in/velizadetofiq1" target="_blank" rel="noopener noreferrer" style="font-weight:600;">LinkedIn: velizadetofiq1</a> |
+            <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" style="font-weight:600;">GitHub: T0F1Q2007</a> |
+            <a href="mailto:velizadetofiq1@gmail.com" style="font-weight:600;">velizadetofiq1@gmail.com</a> |
+            <a href="mailto:tofiq.valizada@asoiu.edu.az" style="font-weight:600;">tofiq.valizada@asoiu.edu.az</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Safety Disclaimer -->
+      <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--g-border); font-size: 12px; color: var(--g-text-tertiary);">
+        Designed with privacy in mind. Completely client-side, zero data collection, zero cookies, zero external analytics. &copy; 2026 Tofig Valizada (tofiq.site).
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/animations.js"></script>
+  <script src="js/switcher.js"></script>
+  <script>
+    // Waffle launcher toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      var waffleBtn = document.getElementById('waffle-btn');
+      var waffleMenu = document.getElementById('waffle-dropdown');
+      if (waffleBtn && waffleMenu) {
+        waffleBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          waffleMenu.classList.toggle('is-open');
+        });
+        document.addEventListener('click', function(e) {
+          if (!waffleMenu.contains(e.target) && e.target !== waffleBtn) {
+            waffleMenu.classList.remove('is-open');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

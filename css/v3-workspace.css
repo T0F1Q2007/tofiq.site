@@ -1,0 +1,490 @@
+/**
+ * Variation 3: Google Developer / Workspace Console
+ * tofiq.site
+ */
+
+body.workspace-theme {
+  background-color: #FFFFFF;
+  color: var(--g-text-primary);
+}
+
+/* 1. Top Developer App Bar */
+.workspace-appbar {
+  position: sticky;
+  top: 0;
+  height: 56px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--g-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 200;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+}
+
+.workspace-brand-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.workspace-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--g-text-primary);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.workspace-logo-link:hover {
+  text-decoration: none;
+}
+
+.g-dev-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--g-blue-container);
+  color: var(--g-on-blue-container);
+  padding: 2px 8px;
+  border-radius: var(--g-radius-xs);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.workspace-actions-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Waffle Menu Icon */
+.waffle-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--g-text-secondary);
+  position: relative;
+  transition: background var(--g-duration-fast) ease;
+}
+
+.waffle-menu-btn:hover {
+  background: var(--g-surface-2);
+  color: var(--g-text-primary);
+}
+
+/* Waffle Dropdown (Linktree Deck) */
+.waffle-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 320px;
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  box-shadow: var(--g-shadow-3);
+  border-radius: var(--g-radius-lg);
+  padding: 16px;
+  display: none;
+  z-index: 500;
+}
+
+.waffle-dropdown.is-open {
+  display: block;
+}
+
+.waffle-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--g-text-secondary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.waffle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.waffle-app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 6px;
+  border-radius: var(--g-radius-md);
+  text-decoration: none;
+  color: var(--g-text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background var(--g-duration-fast) ease;
+  text-align: center;
+  gap: 6px;
+}
+
+.waffle-app-item:hover {
+  background: var(--g-surface-2);
+  text-decoration: none;
+}
+
+.btn-ws-cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--g-blue-hover);
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: var(--g-radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background var(--g-duration-fast) ease;
+}
+
+.btn-ws-cv:hover {
+  background: #174EA6;
+  text-decoration: none;
+}
+
+/* 2. Workspace Two-Column Layout */
+.workspace-wrapper {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: flex;
+  min-height: calc(100vh - 56px);
+}
+
+/* Left Sidebar */
+.workspace-sidebar {
+  width: 270px;
+  border-right: 1px solid var(--g-border);
+  padding: 24px 16px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--g-radius-pill);
+  color: var(--g-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--g-duration-fast) ease;
+}
+
+.sidebar-nav-item a:hover {
+  background: var(--g-surface-2);
+  color: var(--g-text-primary);
+  text-decoration: none;
+}
+
+.sidebar-nav-item.is-active a {
+  background: var(--g-blue-container);
+  color: var(--g-on-blue-container);
+  font-weight: 600;
+}
+
+.sidebar-metrics-panel {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--g-border-subtle);
+}
+
+.metrics-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--g-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 4px 0;
+}
+
+.metric-label {
+  color: var(--g-text-secondary);
+}
+
+.metric-value {
+  font-weight: 600;
+  color: var(--g-text-primary);
+}
+
+/* Main Dossier Content */
+.workspace-main {
+  flex: 1;
+  padding: 32px 40px 100px 40px;
+  max-width: 1050px;
+}
+
+/* Candidate Terminal Banner */
+.workspace-terminal-card {
+  background: #202124;
+  color: #E8EAED;
+  border-radius: var(--g-radius-md);
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  font-family: var(--g-font-mono);
+}
+
+.terminal-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #3C4043;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.t-red { background: #EA4335; }
+.t-yellow { background: #FBBC05; }
+.t-green { background: #34A853; }
+
+.terminal-title {
+  font-size: 12px;
+  color: #9AA0A6;
+  margin-left: 8px;
+}
+
+.terminal-body {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.t-prompt {
+  color: #8AB4F8;
+  font-weight: 600;
+}
+
+.t-cmd {
+  color: #FFFFFF;
+}
+
+.t-output {
+  margin-top: 8px;
+  color: #BDC1C6;
+  font-family: var(--g-font-sans);
+}
+
+/* Linktree Terminal Quick-Actions */
+.ws-linktree-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #3C4043;
+}
+
+.ws-link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--g-radius-pill);
+  background: #303134;
+  color: #8AB4F8;
+  font-family: var(--g-font-mono);
+  font-size: 12px;
+  text-decoration: none;
+  transition: background var(--g-duration-fast) ease;
+}
+
+.ws-link-chip:hover {
+  background: #3C4043;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+/* Sections */
+.ws-section {
+  margin-bottom: 40px;
+}
+
+.ws-section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--g-text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--g-border-subtle);
+  padding-bottom: 10px;
+}
+
+/* Registry Cards (Projects) */
+.project-registry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.ws-card {
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-md);
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+  transition: box-shadow var(--g-duration-fast) ease, border-color var(--g-duration-fast) ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.ws-card:hover {
+  box-shadow: 0 3px 10px rgba(60, 64, 67, 0.15);
+  border-color: var(--g-blue);
+}
+
+.ws-card-repo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.ws-repo-name {
+  font-family: var(--g-font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--g-text-link);
+}
+
+.ws-meta-date {
+  font-size: 12px;
+  color: var(--g-text-tertiary);
+}
+
+.ws-card-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--g-text-secondary);
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.ws-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--g-border-subtle);
+}
+
+.ws-tag-cloud {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ws-tag {
+  font-family: var(--g-font-mono);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--g-radius-xs);
+  background: var(--g-surface-2);
+  color: var(--g-text-secondary);
+}
+
+.ws-btn-repo {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--g-blue-hover);
+  text-decoration: none;
+}
+
+.ws-btn-repo:hover {
+  text-decoration: underline;
+}
+
+/* Tabular Technical Matrix */
+.ws-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 12px;
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-md);
+  overflow: hidden;
+}
+
+.ws-data-table th, .ws-data-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--g-border);
+}
+
+.ws-data-table th {
+  background: var(--g-surface-0);
+  font-weight: 600;
+  color: var(--g-text-secondary);
+  font-size: 13px;
+}
+
+.ws-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .workspace-wrapper {
+    flex-direction: column;
+  }
+
+  .workspace-sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--g-border);
+    padding: 16px;
+  }
+
+  .sidebar-metrics-panel {
+    display: none;
+  }
+
+  .project-registry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-main {
+    padding: 20px 16px 80px 16px;
+  }
+}

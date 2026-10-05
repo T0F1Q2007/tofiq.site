@@ -1,0 +1,462 @@
+/**
+ * Variation 1: Google Search SERP & Knowledge Panel
+ * tofiq.site
+ */
+
+/* Search Header */
+.search-header {
+  position: sticky;
+  top: 0;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--g-border-subtle);
+  z-index: 100;
+  padding: 16px 24px 0 24px;
+}
+
+.search-header-top {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-logo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: var(--g-blue);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.search-logo:hover {
+  text-decoration: none;
+}
+
+.logo-g { color: var(--g-blue); }
+.logo-o1 { color: var(--g-red); }
+.logo-o2 { color: var(--g-yellow); }
+.logo-g2 { color: var(--g-blue); }
+.logo-l { color: var(--g-green); }
+.logo-e { color: var(--g-red); }
+
+.search-box-wrapper {
+  flex: 1;
+  max-width: 692px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.20);
+  border-radius: var(--g-radius-pill);
+  padding: 8px 16px;
+  gap: 12px;
+  transition: box-shadow var(--g-duration-fast) ease, border-color var(--g-duration-fast) ease;
+}
+
+.search-box:focus-within {
+  box-shadow: 0 1px 8px rgba(32, 33, 36, 0.28);
+  border-color: transparent;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--g-text-primary);
+  background: transparent;
+}
+
+.search-box-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--g-text-secondary);
+  background: transparent;
+  padding: 4px;
+  border-radius: 50%;
+  transition: color var(--g-duration-fast) ease;
+}
+
+.search-icon-btn:hover {
+  color: var(--g-blue-hover);
+}
+
+.search-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.btn-header-cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--g-blue-hover);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: var(--g-radius-pill);
+  transition: background var(--g-duration-fast) ease, box-shadow var(--g-duration-fast) ease;
+}
+
+.btn-header-cv:hover {
+  background: #174EA6;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Tabs */
+.search-tabs-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 16px auto 0 auto;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.search-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--g-text-secondary);
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--g-duration-fast) ease, border-color var(--g-duration-fast) ease;
+}
+
+.search-tab:hover {
+  color: var(--g-text-primary);
+  text-decoration: none;
+}
+
+.search-tab.is-active {
+  color: var(--g-blue-hover);
+  border-bottom-color: var(--g-blue-hover);
+}
+
+/* Search Body Layout */
+.search-main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px 80px 24px;
+}
+
+.search-stats {
+  font-size: 14px;
+  color: var(--g-text-tertiary);
+  margin-bottom: 24px;
+}
+
+.search-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1.2fr);
+  gap: 40px;
+  align-items: start;
+}
+
+/* Organic Results Column */
+.search-results-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.search-result-card {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--g-border-subtle);
+}
+
+.search-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--g-text-secondary);
+  margin-bottom: 4px;
+}
+
+.breadcrumb-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--g-surface-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.search-result-title {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.search-result-title a {
+  color: var(--g-search-title);
+  text-decoration: none;
+}
+
+.search-result-title a:hover {
+  text-decoration: underline;
+}
+
+.search-snippet {
+  font-size: 14px;
+  line-height: 1.58;
+  color: #4D5156;
+  margin-bottom: 10px;
+}
+
+.search-sitelinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.sitelink-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  background: var(--g-surface-0);
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-pill);
+  font-size: 12px;
+  color: var(--g-text-secondary);
+  text-decoration: none;
+  transition: all var(--g-duration-fast) ease;
+}
+
+.sitelink-chip:hover {
+  background: var(--g-blue-container);
+  color: var(--g-on-blue-container);
+  border-color: #D2E3FC;
+  text-decoration: none;
+}
+
+/* Knowledge Graph Column */
+.knowledge-graph-card {
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-lg);
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.12);
+  padding: 24px;
+  position: sticky;
+  top: 140px;
+}
+
+.kg-header {
+  border-bottom: 1px solid var(--g-border-subtle);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.kg-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.kg-name {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--g-text-primary);
+}
+
+.kg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--g-radius-pill);
+  background: var(--g-green-container);
+  color: var(--g-on-green-container);
+}
+
+.kg-subtitle {
+  font-size: 14px;
+  color: var(--g-text-secondary);
+  margin-top: 4px;
+}
+
+.kg-location {
+  font-size: 13px;
+  color: var(--g-text-tertiary);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Linktree Quick Action Deck in Knowledge Graph */
+.kg-linktree-deck {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.kg-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--g-radius-pill);
+  border: 1px solid var(--g-border);
+  background: var(--g-surface-0);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--g-text-primary);
+  text-decoration: none;
+  transition: all var(--g-duration-fast) ease;
+}
+
+.kg-action-btn:hover {
+  background: var(--g-surface-2);
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.2);
+  text-decoration: none;
+}
+
+.kg-action-btn.btn-whatsapp:hover {
+  background: var(--g-green-container);
+  color: var(--g-on-green-container);
+  border-color: #CEEAD6;
+}
+
+.kg-action-btn.btn-linkedin:hover {
+  background: var(--g-blue-container);
+  color: var(--g-on-blue-container);
+  border-color: #D2E3FC;
+}
+
+.kg-action-btn.btn-github:hover {
+  background: #24292E;
+  color: #FFFFFF;
+  border-color: #24292E;
+}
+
+.kg-action-btn.btn-cv {
+  grid-column: span 2;
+  background: var(--g-blue-hover);
+  color: #FFFFFF;
+  border-color: var(--g-blue-hover);
+}
+
+.kg-action-btn.btn-cv:hover {
+  background: #174EA6;
+  color: #FFFFFF;
+}
+
+/* KG Fact Table */
+.kg-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 1px solid var(--g-border-subtle);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.kg-fact-row {
+  display: flex;
+  gap: 8px;
+}
+
+.kg-fact-label {
+  font-weight: 500;
+  color: var(--g-text-secondary);
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.kg-fact-val {
+  color: var(--g-text-primary);
+}
+
+/* Skills Cloud in KG */
+.kg-skills-section h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--g-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.kg-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.kg-chip {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: var(--g-radius-pill);
+  background: var(--g-surface-2);
+  color: var(--g-text-primary);
+}
+
+/* Bottom Safety Disclaimer */
+.site-disclaimer {
+  max-width: 1200px;
+  margin: 32px auto 0 auto;
+  padding: 16px 24px;
+  border-top: 1px solid var(--g-border-subtle);
+  font-size: 12px;
+  color: var(--g-text-tertiary);
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .search-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .knowledge-graph-card {
+    position: static;
+    order: -1; /* Knowledge graph displays on top on mobile for fast Linktree access! */
+  }
+
+  .search-box-wrapper {
+    max-width: 100%;
+  }
+
+  .btn-header-cv {
+    display: none;
+  }
+}

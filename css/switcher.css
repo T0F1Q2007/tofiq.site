@@ -1,0 +1,126 @@
+/**
+ * Floating Google Variation Switcher Dock
+ * tofiq.site
+ */
+
+.g-variation-switcher {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--g-border);
+  box-shadow: 0 4px 18px rgba(60, 64, 67, 0.18), 0 2px 6px rgba(60, 64, 67, 0.12);
+  border-radius: var(--g-radius-pill);
+  padding: 6px 10px;
+  transition: transform var(--g-duration-fast) var(--g-ease-standard), box-shadow var(--g-duration-fast) ease;
+}
+
+.g-variation-switcher:hover {
+  box-shadow: 0 6px 24px rgba(60, 64, 67, 0.22), 0 3px 8px rgba(60, 64, 67, 0.14);
+}
+
+.switcher-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--g-surface-0);
+  border: 1px solid var(--g-border-subtle);
+  flex-shrink: 0;
+}
+
+.switcher-brand-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.switcher-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.switcher-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--g-radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--g-text-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all var(--g-duration-fast) ease;
+  white-space: nowrap;
+}
+
+.switcher-pill:hover {
+  background: var(--g-surface-2);
+  color: var(--g-text-primary);
+  text-decoration: none;
+}
+
+.switcher-pill.is-active {
+  background: var(--g-blue-container);
+  color: var(--g-on-blue-container);
+  border-color: #D2E3FC;
+  font-weight: 600;
+}
+
+.switcher-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dot-blue { background-color: var(--g-blue); }
+.dot-green { background-color: var(--g-green); }
+.dot-red { background-color: var(--g-red); }
+.dot-yellow { background-color: var(--g-yellow); }
+
+/* Mobile optimization */
+@media (max-width: 640px) {
+  .g-variation-switcher {
+    bottom: 12px;
+    padding: 4px 6px;
+    gap: 4px;
+    max-width: 95vw;
+  }
+  
+  .switcher-brand-icon {
+    display: none;
+  }
+
+  .switcher-pill {
+    padding: 6px 9px;
+    font-size: 12px;
+    gap: 4px;
+  }
+  
+  .switcher-label-full {
+    display: none;
+  }
+
+  .switcher-label-short {
+    display: inline;
+  }
+}
+
+@media (min-width: 641px) {
+  .switcher-label-short {
+    display: none;
+  }
+}
