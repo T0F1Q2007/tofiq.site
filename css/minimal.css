@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;400&display=swap');
 
 :root {
   --text-primary: #ffffff;
@@ -6,6 +6,8 @@
   --border-color: rgba(255, 255, 255, 0.2);
   --hover-bg: #ffffff;
   --hover-text: #050505;
+  --ascii-accent: #00ff88;
+  --ascii-glow: rgba(0, 255, 136, 0.3);
 }
 
 * {
@@ -22,8 +24,9 @@ body {
   background-size: 100% 400%;
   background-position: 50% 0%;
   /* Smoothing for fast scrolling */
-  transition: background-position 0.1s ease-out;
+  transition: background-position 0.1s ease-out, color 0.3s ease;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Hide scrollbar for an ultra-clean look */
@@ -32,7 +35,20 @@ body {
   background: transparent;
 }
 
+/* 1. Background ASCII Canvas */
+#asciiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .scroll-container {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,37 +63,154 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  text-align: center;
 }
 
-/* Hero Section */
+/* 2. Floating ASCII Magic Mode Toggle */
+.ascii-mode-btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  user-select: none;
+}
+
+.ascii-mode-btn:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.ascii-mode-btn.active {
+  border-color: var(--ascii-accent);
+  color: var(--ascii-accent);
+  background: rgba(0, 255, 136, 0.08);
+  box-shadow: 0 0 20px var(--ascii-glow);
+}
+
+.ascii-sparkle {
+  font-size: 12px;
+  transition: transform 0.4s ease;
+}
+
+.ascii-mode-btn:hover .ascii-sparkle,
+.ascii-mode-btn.active .ascii-sparkle {
+  transform: rotate(90deg);
+}
+
+/* 3. Hero Section */
 .hero {
-  gap: 24px;
+  gap: 20px;
+}
+
+/* Interactive Avatar Morphing Container */
+.avatar-container {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.avatar-container:hover {
+  transform: scale(1.03);
 }
 
 .minimal-avatar {
-  width: 160px;
-  height: 160px;
+  width: 164px;
+  height: 164px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--border-color);
+  transition: border-color 0.4s ease, filter 0.2s ease, opacity 0.2s ease;
+  background-color: #0b0c10;
 }
 
-.minimal-name {
-  font-size: 2.5rem;
-  font-weight: 300;
+.avatar-style-tag {
+  margin-top: 12px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
   letter-spacing: 2px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 12px;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+}
+
+.avatar-container:hover .avatar-style-tag {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Glitch Transition on Avatar Click */
+.avatar-container.glitching .minimal-avatar {
+  filter: contrast(180%) brightness(130%) hue-rotate(90deg);
+  opacity: 0.6;
+  transform: translate(2px, -2px);
+}
+
+/* Typography */
+.minimal-name {
+  font-size: 2.75rem;
+  font-weight: 300;
+  letter-spacing: 3px;
   text-align: center;
+  margin-top: 6px;
+}
+
+.ascii-subtitle {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  letter-spacing: 1.5px;
+  min-height: 24px;
+  display: inline-block;
+  opacity: 0.85;
+}
+
+.ascii-subtitle::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .scroll-hint {
   color: var(--text-secondary);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-weight: 300;
-  letter-spacing: 1px;
-  font-size: 0.9rem;
-  margin-top: 20px;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  margin-top: 24px;
   opacity: 0.6;
-  animation: bounce 2s infinite ease-in-out;
+  animation: bounce 2.2s infinite ease-in-out;
 }
 
 @keyframes bounce {
@@ -85,9 +218,19 @@ body {
   50% { transform: translateY(8px); }
 }
 
-/* Links Section */
+/* 4. Links Section */
 .link-section {
   gap: 20px;
+}
+
+.links-header {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  opacity: 0.6;
 }
 
 .minimal-btn {
@@ -96,37 +239,94 @@ body {
   border: 1px solid var(--border-color);
   padding: 16px 40px;
   border-radius: 50px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 300;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   text-align: center;
-  transition: all 0.4s ease;
-  backdrop-filter: blur(5px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
 }
 
 .minimal-btn:hover {
   background-color: var(--hover-bg);
   color: var(--hover-text);
   transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
   font-weight: 400;
 }
 
-/* Entrance Animations */
+/* 5. ASCII Active State (Toggled by Button) */
+body.ascii-mode {
+  --border-color: rgba(0, 255, 136, 0.3);
+}
+
+body.ascii-mode .minimal-name {
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+}
+
+body.ascii-mode .ascii-subtitle {
+  color: var(--ascii-accent);
+  text-shadow: 0 0 10px var(--ascii-glow);
+}
+
+body.ascii-mode .avatar-style-tag {
+  border-color: var(--ascii-accent);
+  color: var(--ascii-accent);
+  box-shadow: 0 0 10px var(--ascii-glow);
+}
+
+body.ascii-mode .minimal-btn {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 3.5px;
+  border-color: rgba(0, 255, 136, 0.35);
+  background: rgba(0, 255, 136, 0.02);
+}
+
+body.ascii-mode .minimal-btn:hover {
+  background-color: var(--ascii-accent);
+  color: #050505;
+  border-color: var(--ascii-accent);
+  box-shadow: 0 0 30px var(--ascii-glow);
+  font-weight: 600;
+}
+
+/* 6. Entrance Animations */
 .fade-in-up {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 1s forwards ease-out;
 }
 
-.delay-1 { animation-delay: 0.2s; }
-.delay-2 { animation-delay: 0.4s; }
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
 
 @keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .minimal-name {
+    font-size: 2.1rem;
+    letter-spacing: 2px;
+  }
+  .minimal-avatar {
+    width: 140px;
+    height: 140px;
+  }
+  .ascii-mode-btn {
+    top: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    font-size: 10px;
   }
 }

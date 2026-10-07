@@ -5,22 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tofig Valizada</title>
   <meta name="description" content="Personal Portfolio of Tofig Valizada">
-  <!-- Minimal Dark Stylesheet -->
+  <!-- Minimalist Stylesheet with ASCII Magic -->
   <link rel="stylesheet" href="css/minimal.css">
 </head>
 <body class="minimal-dark">
-  
+
+  <!-- Ambient ASCII Particle Canvas -->
+  <canvas id="asciiCanvas" aria-hidden="true"></canvas>
+
+  <!-- ASCII Magic Mode Toggle -->
+  <button class="ascii-mode-btn" id="asciiModeToggle" type="button" aria-label="Toggle ASCII Magic Mode">
+    <span class="ascii-sparkle">✦</span>
+    <span>ASCII MAGIC</span>
+  </button>
+
   <div class="scroll-container">
     
     <!-- Hero / Profile Section (100vh) -->
     <section class="screen hero">
-      <img src="assets/profile.jpg" alt="Tofig Valizada" class="minimal-avatar fade-in-up">
+      <div class="avatar-container fade-in-up" id="avatarContainer" tabindex="0" role="button" aria-label="Cycle avatar art style">
+        <img src="assets/profile.jpg" alt="Tofig Valizada" class="minimal-avatar" id="avatarImg">
+        <span class="avatar-style-tag" id="avatarStyleTag">ORIGINAL</span>
+      </div>
+
       <h1 class="minimal-name fade-in-up delay-1">Tofig Valizada</h1>
-      <p class="scroll-hint fade-in-up delay-2">Scroll down &darr;</p>
+      <div class="ascii-subtitle fade-in-up delay-2" id="asciiSubtitle"></div>
+      <p class="scroll-hint fade-in-up delay-3">Scroll down &darr;</p>
     </section>
     
     <!-- Links Section (100vh) -->
     <section class="screen link-section">
+      <div class="links-header">Direct Channels</div>
       <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="minimal-btn">GitHub</a>
       <a href="https://www.linkedin.com/in/velizadetofiq1" target="_blank" rel="noopener noreferrer" class="minimal-btn">LinkedIn</a>
       <a href="mailto:velizadetofiq1@gmail.com" class="minimal-btn">Email</a>
@@ -28,8 +43,9 @@
     </section>
     
   </div>
-  
-  <!-- Scroll Gradient Script -->
+
+  <!-- Interactive Scripts -->
   <script src="js/scroll-bg.js"></script>
+  <script src="js/ascii-magic.js"></script>
 </body>
 </html>
