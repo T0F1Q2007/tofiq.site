@@ -226,3 +226,35 @@
     initSubtitleTyping();
   });
 })();
+
+  // 5. Scroll-based Background Change
+  function initScrollBg() {
+    const bgContainer = document.getElementById('scrollBgContainer');
+    if (!bgContainer) return;
+
+    const bgs = [
+      'assets/bg_ascii_1.png',
+      'assets/bg_ascii_2.png',
+      'assets/bg_ascii_3.png',
+      'assets/bg_ascii_4.png'
+    ];
+
+    window.addEventListener('scroll', () => {
+      // Calculate scroll percentage (0 to 1)
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      let scrollPct = 0;
+      if (scrollHeight > 0) {
+        scrollPct = window.scrollY / scrollHeight;
+      }
+      
+      // Determine index based on percentage
+      let index = Math.floor(scrollPct * bgs.length);
+      if (index >= bgs.length) index = bgs.length - 1;
+
+      bgContainer.style.backgroundImage = `url('${bgs[index]}')`;
+    }, { passive: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initScrollBg();
+  });

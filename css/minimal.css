@@ -330,3 +330,16 @@ body.ascii-mode .minimal-btn:hover {
     font-size: 10px;
   }
 }
+
+/* Scroll Background */
+#scrollBgContainer {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../assets/bg_ascii_1.png');
+  opacity: 0.6;
+  transition: background-image 0.5s ease-out;
+}
