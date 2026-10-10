@@ -332,3 +332,36 @@ body.ascii-mode .minimal-btn:hover {
 }
 
 /* Scroll Background */
+
+/* Fancy Themed Buttons */
+.github-btn { border-color: rgba(144, 150, 155, 0.5); }
+.github-btn:hover {
+  background: linear-gradient(135deg, #24292e, #040d14) !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2) !important;
+}
+
+.linkedin-btn { border-color: rgba(0, 119, 181, 0.5); }
+.linkedin-btn:hover {
+  background: linear-gradient(135deg, #0077b5, #005582) !important;
+  color: #ffffff !important;
+  border-color: #0077b5 !important;
+  box-shadow: 0 10px 25px rgba(0, 119, 181, 0.6) !important;
+}
+
+.email-btn { border-color: rgba(234, 67, 53, 0.5); }
+.email-btn:hover {
+  background: linear-gradient(135deg, #ea4335, #b31404) !important;
+  color: #ffffff !important;
+  border-color: #ea4335 !important;
+  box-shadow: 0 10px 25px rgba(234, 67, 53, 0.6) !important;
+}
+
+.spotify-btn { border-color: rgba(29, 185, 84, 0.5); }
+.spotify-btn:hover {
+  background: linear-gradient(135deg, #1db954, #10662d) !important;
+  color: #ffffff !important;
+  border-color: #1db954 !important;
+  box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6) !important;
+}
