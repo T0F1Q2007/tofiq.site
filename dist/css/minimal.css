@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;400&display=swap');
 
 :root {
@@ -366,41 +365,3 @@ body.ascii-mode .minimal-btn:hover {
   border-color: #1db954 !important;
   box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6) !important;
 }
-
-/* WindSong Font overrides */
-body { font-family: 'WindSong', cursive; font-size: 1.2rem; }
-.minimal-name { font-family: 'WindSong', cursive; font-size: 4.5rem; font-weight: 500; letter-spacing: 2px; }
-.scroll-hint { font-family: 'WindSong', cursive; font-size: 1.5rem; letter-spacing: 1px; }
-.links-header { font-family: 'WindSong', cursive; font-size: 1.8rem; letter-spacing: 2px; }
-.minimal-btn { font-family: 'WindSong', cursive; font-size: 1.6rem; letter-spacing: 1px; }
-.avatar-style-tag { font-family: 'WindSong', cursive; font-size: 1rem; }
-
-/* Fixed Content Layout for Scroll Anim */
-.fixed-content {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;
-  pointer-events: none;
-}
-
-#heroSec, #linkSec {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  pointer-events: auto;
-  transition: opacity 0.1s linear, transform 0.1s linear;
-}
-
-#linkSec {
-  opacity: 0;
-  transform: scale(0.9) translateY(40px);
-  pointer-events: none;
-}
-
