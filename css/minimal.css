@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Isometra&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;400&display=swap');
 
 :root {
@@ -367,13 +367,13 @@ body.ascii-mode .minimal-btn:hover {
   box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6) !important;
 }
 
-/* WindSong Font overrides */
-body { font-family: 'WindSong', cursive; font-size: 1.2rem; }
-.minimal-name { font-family: 'WindSong', cursive; font-size: 4.5rem; font-weight: 500; letter-spacing: 2px; }
-.scroll-hint { font-family: 'WindSong', cursive; font-size: 1.5rem; letter-spacing: 1px; }
-.links-header { font-family: 'WindSong', cursive; font-size: 1.8rem; letter-spacing: 2px; }
-.minimal-btn { font-family: 'WindSong', cursive; font-size: 1.6rem; letter-spacing: 1px; }
-.avatar-style-tag { font-family: 'WindSong', cursive; font-size: 1rem; }
+/* Isometra Font overrides */
+body { font-family: 'Isometra', sans-serif; font-size: 1rem; }
+.minimal-name { font-family: 'Isometra', sans-serif; font-size: 3.2rem; font-weight: 400; letter-spacing: 3px; }
+.scroll-hint { font-family: 'Isometra', sans-serif; font-size: 0.95rem; letter-spacing: 2px; }
+.links-header { font-family: 'Isometra', sans-serif; font-size: 1.1rem; letter-spacing: 3px; }
+.minimal-btn { font-family: 'Isometra', sans-serif; font-size: 1.15rem; letter-spacing: 2px; }
+.avatar-style-tag { font-family: 'Isometra', sans-serif; font-size: 0.8rem; letter-spacing: 1.5px; }
 
 /* Fixed Content Layout for Scroll Anim */
 .fixed-content {

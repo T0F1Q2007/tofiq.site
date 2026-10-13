@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Isometra&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300;400&display=swap');
 
 :root {
@@ -365,3 +366,41 @@ body.ascii-mode .minimal-btn:hover {
   border-color: #1db954 !important;
   box-shadow: 0 10px 25px rgba(29, 185, 84, 0.6) !important;
 }
+
+/* Isometra Font overrides */
+body { font-family: 'Isometra', sans-serif; font-size: 1rem; }
+.minimal-name { font-family: 'Isometra', sans-serif; font-size: 3.2rem; font-weight: 400; letter-spacing: 3px; }
+.scroll-hint { font-family: 'Isometra', sans-serif; font-size: 0.95rem; letter-spacing: 2px; }
+.links-header { font-family: 'Isometra', sans-serif; font-size: 1.1rem; letter-spacing: 3px; }
+.minimal-btn { font-family: 'Isometra', sans-serif; font-size: 1.15rem; letter-spacing: 2px; }
+.avatar-style-tag { font-family: 'Isometra', sans-serif; font-size: 0.8rem; letter-spacing: 1.5px; }
+
+/* Fixed Content Layout for Scroll Anim */
+.fixed-content {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#heroSec, #linkSec {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  transition: opacity 0.1s linear, transform 0.1s linear;
+}
+
+#linkSec {
+  opacity: 0;
+  transform: scale(0.9) translateY(40px);
+  pointer-events: none;
+}
+
