@@ -1,0 +1,70 @@
+/**
+ * Google Material Design 3 (MD3) Design Tokens
+ * tofiq.site - Personal Portfolio & Linktree
+ */
+
+:root {
+  /* Google 4-Color Brand Palette */
+  --g-blue: #4285F4;
+  --g-blue-hover: #1A73E8;
+  --g-blue-container: #E8F0FE;
+  --g-on-blue-container: #174EA6;
+
+  --g-red: #EA4335;
+  --g-red-hover: #D93025;
+  --g-red-container: #FCE8E6;
+  --g-on-red-container: #A50E0E;
+
+  --g-yellow: #FBBC05;
+  --g-yellow-hover: #F9AB00;
+  --g-yellow-container: #FEF7E0;
+  --g-on-yellow-container: #7C4A00;
+
+  --g-green: #34A853;
+  --g-green-hover: #1E8E3E;
+  --g-green-container: #E6F4EA;
+  --g-on-green-container: #0D652D;
+
+  /* Material You / Neutral Surface Hierarchy */
+  --g-bg: #FFFFFF;
+  --g-surface-0: #F8F9FA;         /* Google Gray 50 (page background) */
+  --g-surface-1: #FFFFFF;         /* Elevation 1 (cards) */
+  --g-surface-2: #F1F3F4;         /* Google Gray 100 (hover, secondary chips) */
+  --g-surface-3: #E8EAED;         /* Google Gray 200 (dividers, active chips) */
+  --g-border: #DADCE0;            /* Google Border Gray */
+  --g-border-subtle: #ECEFF1;     /* Subtle container border */
+
+  /* Typography Text Colors */
+  --g-text-primary: #202124;      /* High emphasis (Google Dark 900) */
+  --g-text-secondary: #5F6368;    /* Medium emphasis (subtitles, dates) */
+  --g-text-tertiary: #80868B;     /* Low emphasis (captions, placeholders) */
+  --g-text-link: #1A73E8;         /* Google interactive link blue */
+  --g-search-title: #1A0DAB;      /* Classic Google Search result blue */
+
+  /* Fonts */
+  --g-font-sans: 'Google Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --g-font-mono: 'Roboto Mono', 'SF Mono', Consolas, Menlo, monospace;
+
+  /* Corner Radii */
+  --g-radius-xs: 4px;
+  --g-radius-sm: 8px;
+  --g-radius-md: 14px;
+  --g-radius-lg: 20px;
+  --g-radius-xl: 28px;
+  --g-radius-pill: 9999px;
+
+  /* Elevations & Shadows */
+  --g-shadow-0: none;
+  --g-shadow-1: 0 1px 2px 0 rgba(60, 64, 67, 0.30), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --g-shadow-2: 0 1px 3px 0 rgba(60, 64, 67, 0.30), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --g-shadow-3: 0 4px 8px 3px rgba(60, 64, 67, 0.15), 0 8px 16px 4px rgba(60, 64, 67, 0.10);
+  --g-shadow-hover: 0 2px 6px 2px rgba(60, 64, 67, 0.18), 0 1px 2px 0 rgba(60, 64, 67, 0.30);
+
+  /* Motion Curves */
+  --g-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --g-ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --g-ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --g-duration-fast: 150ms;
+  --g-duration-medium: 300ms;
+  --g-duration-slow: 500ms;
+}

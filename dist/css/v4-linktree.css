@@ -1,0 +1,360 @@
+/**
+ * Variation 4: Modern Linktree + Interactive Timeline
+ * tofiq.site
+ */
+
+body.linktree-theme {
+  background-color: var(--g-surface-0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.linktree-wrapper {
+  width: 100%;
+  max-width: 680px;
+  padding: 40px 20px 100px 20px;
+  margin: 0 auto;
+}
+
+/* 1. Profile Hero */
+.lt-profile-hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.lt-avatar-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 16px auto;
+}
+
+.lt-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--g-blue) 0%, var(--g-red) 50%, var(--g-yellow) 100%);
+  padding: 3px;
+  box-shadow: 0 4px 14px rgba(66, 133, 244, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lt-avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--g-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.lt-verified-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--g-blue-hover);
+  color: #FFFFFF;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.lt-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--g-text-primary);
+  margin-bottom: 4px;
+}
+
+.lt-tagline {
+  font-size: 15px;
+  color: var(--g-text-secondary);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.lt-location {
+  font-size: 13px;
+  color: var(--g-text-tertiary);
+  margin-bottom: 12px;
+}
+
+.lt-bio {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #3C4043;
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  padding: 12px 18px;
+  border-radius: var(--g-radius-lg);
+  margin-bottom: 20px;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.05);
+}
+
+/* Social Quick Icon Strip */
+.lt-social-strip {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.lt-social-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--g-text-secondary);
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+  transition: all var(--g-duration-fast) ease;
+}
+
+.lt-social-circle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(60, 64, 67, 0.15);
+  color: var(--g-text-primary);
+  text-decoration: none;
+}
+
+/* 2. Linktree Action Stack */
+.lt-action-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 44px;
+}
+
+.lt-link-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-pill);
+  color: var(--g-text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
+  transition: all var(--g-duration-fast) ease;
+}
+
+.lt-link-card:hover {
+  transform: translateY(-2px);
+  border-color: #BCC1C8;
+  box-shadow: 0 4px 12px rgba(60, 64, 67, 0.14);
+  text-decoration: none;
+}
+
+.lt-link-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lt-link-card.btn-hero-cv {
+  background: var(--g-blue-hover);
+  color: #FFFFFF;
+  border-color: var(--g-blue-hover);
+}
+
+.lt-link-card.btn-hero-cv:hover {
+  background: #174EA6;
+  color: #FFFFFF;
+}
+
+/* 3. Chronological Journey Timeline */
+.lt-timeline-section {
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-xl);
+  padding: 28px 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.06);
+}
+
+.timeline-header {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--g-text-primary);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-track {
+  position: relative;
+  padding-left: 32px;
+}
+
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 11px;
+  width: 2px;
+  background: var(--g-border);
+}
+
+.timeline-node {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-node:last-child {
+  margin-bottom: 0;
+}
+
+.node-dot {
+  position: absolute;
+  left: -32px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid var(--g-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dot-inner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--g-blue);
+}
+
+.node-dot.dot-green { border-color: var(--g-green); }
+.node-dot.dot-green .dot-inner { background: var(--g-green); }
+
+.node-dot.dot-yellow { border-color: var(--g-yellow); }
+.node-dot.dot-yellow .dot-inner { background: var(--g-yellow); }
+
+.node-dot.dot-red { border-color: var(--g-red); }
+.node-dot.dot-red .dot-inner { background: var(--g-red); }
+
+.node-content-card {
+  background: var(--g-surface-0);
+  border: 1px solid var(--g-border-subtle);
+  border-radius: var(--g-radius-md);
+  padding: 14px 16px;
+  transition: transform var(--g-duration-fast) ease;
+}
+
+.node-content-card:hover {
+  transform: translateX(4px);
+  background: #FFFFFF;
+}
+
+.node-date {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--g-text-tertiary);
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.node-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--g-text-primary);
+  margin-bottom: 4px;
+}
+
+.node-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--g-text-secondary);
+}
+
+.node-links {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+/* 4. Skills Accordion */
+.lt-accordion {
+  background: #FFFFFF;
+  border: 1px solid var(--g-border);
+  border-radius: var(--g-radius-xl);
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.06);
+}
+
+.accordion-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--g-text-primary);
+  margin-bottom: 16px;
+}
+
+.lt-chip-group {
+  margin-bottom: 16px;
+}
+
+.lt-chip-group:last-child {
+  margin-bottom: 0;
+}
+
+.lt-chip-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--g-text-tertiary);
+  margin-bottom: 8px;
+}
+
+.lt-chip-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lt-chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--g-radius-pill);
+  background: var(--g-surface-2);
+  color: var(--g-text-primary);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .linktree-wrapper {
+    padding: 24px 12px 90px 12px;
+  }
+
+  .lt-name {
+    font-size: 21px;
+  }
+
+  .lt-timeline-section, .lt-accordion {
+    padding: 18px 14px;
+  }
+}

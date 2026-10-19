@@ -1,0 +1,256 @@
+/**
+ * Base styles, typography, reset, scroll animations, and print stylesheet
+ * tofiq.site
+ */
+
+/* 1. Box Sizing & Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--g-font-sans);
+  color: var(--g-text-primary);
+  background-color: var(--g-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* 2. Accessibility: Skip Link & Focus */
+.skip-to-content {
+  position: absolute;
+  top: -60px;
+  left: 16px;
+  background: var(--g-blue-hover);
+  color: #FFFFFF;
+  padding: 8px 16px;
+  border-radius: var(--g-radius-pill);
+  font-weight: 500;
+  z-index: 10000;
+  text-decoration: none;
+  transition: top var(--g-duration-fast) ease;
+}
+
+.skip-to-content:focus {
+  top: 16px;
+  outline: 3px solid #000;
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--g-blue-hover);
+  outline-offset: 2px;
+}
+
+/* 3. Scroll Progress Indicator Bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--g-blue) 0%, var(--g-red) 33%, var(--g-yellow) 66%, var(--g-green) 100%);
+  z-index: 9999;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* 4. Common Typography & Links */
+a {
+  color: var(--g-text-link);
+  text-decoration: none;
+  transition: color var(--g-duration-fast) ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img, svg {
+  vertical-align: middle;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* 5. Scroll Reveal Engine Classes */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s var(--g-ease-standard),
+              transform 0.6s var(--g-ease-standard);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal="scale"] {
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.5s var(--g-ease-standard),
+              transform 0.5s var(--g-ease-standard);
+}
+
+[data-reveal="scale"].is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Staggered Children */
+[data-stagger] > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s var(--g-ease-standard),
+              transform 0.5s var(--g-ease-standard);
+}
+
+[data-stagger].is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-stagger].is-visible > *:nth-child(1) { transition-delay: 50ms; }
+[data-stagger].is-visible > *:nth-child(2) { transition-delay: 110ms; }
+[data-stagger].is-visible > *:nth-child(3) { transition-delay: 170ms; }
+[data-stagger].is-visible > *:nth-child(4) { transition-delay: 230ms; }
+[data-stagger].is-visible > *:nth-child(5) { transition-delay: 290ms; }
+[data-stagger].is-visible > *:nth-child(6) { transition-delay: 350ms; }
+[data-stagger].is-visible > *:nth-child(7) { transition-delay: 410ms; }
+[data-stagger].is-visible > *:nth-child(8) { transition-delay: 470ms; }
+
+/* 6. Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  [data-reveal],
+  [data-reveal="scale"],
+  [data-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .scroll-progress-bar {
+    display: none;
+  }
+}
+
+/* 7. Print Stylesheet (CV Printing Optimization) */
+@media print {
+  /* Hide non-print chrome */
+  .scroll-progress-bar,
+  .g-variation-switcher,
+  .no-print,
+  .search-mic-icon,
+  .search-lens-btn,
+  .waffle-menu-btn,
+  header .action-deck,
+  .timeline-marker-pulse {
+    display: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+  }
+
+  a {
+    color: #111111 !important;
+    text-decoration: underline !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555555;
+  }
+
+  /* Don't expand mailto/tel redundantly */
+  a[href^="mailto:"]:after,
+  a[href^="tel:"]:after {
+    content: "";
+  }
+
+  .container, .search-main, .bento-grid, .workspace-layout, .linktree-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .card, .bento-card, .search-result-item, .workspace-card {
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #CCCCCC !important;
+    margin-bottom: 12pt !important;
+  }
+}
+
+/* ====== ENHANCED ANIMATIONS ====== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  /* Use a much springier bezier curve for high visibility pop-in */
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Optional scale-up reveal for specific elements */
+[data-reveal="scale"] {
+  transform: scale(0.85);
+}
+[data-reveal="scale"].is-revealed {
+  transform: scale(1);
+}
+
+/* ====== ENHANCED ANIMATIONS (Overriding defaults) ====== */
+[data-stagger] > * {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  /* Use a much springier bezier curve for high visibility pop-in */
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+[data-stagger].is-visible > * {
+  opacity: 1;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* Stagger delay overrides for more visibility */
+[data-stagger].is-visible > *:nth-child(1) { transition-delay: 50ms !important; }
+[data-stagger].is-visible > *:nth-child(2) { transition-delay: 150ms !important; }
+[data-stagger].is-visible > *:nth-child(3) { transition-delay: 250ms !important; }
+[data-stagger].is-visible > *:nth-child(4) { transition-delay: 350ms !important; }
+[data-stagger].is-visible > *:nth-child(5) { transition-delay: 450ms !important; }
+[data-stagger].is-visible > *:nth-child(6) { transition-delay: 550ms !important; }
+[data-stagger].is-visible > *:nth-child(7) { transition-delay: 650ms !important; }
+[data-stagger].is-visible > *:nth-child(8) { transition-delay: 750ms !important; }
+
