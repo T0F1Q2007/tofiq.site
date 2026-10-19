@@ -1,7 +1,7 @@
 /**
- * KINETIC-BIO.JS — Spatial WebGL, Fluid Cursor Physics, 3D Tilt & Identity Controller
+ * KINETIC-BIO.JS : Lenis Momentum Scroll, Scroll-Coupled 3D WebGL, Gyroscope Parallax,
+ * Velocity-Reactive Card Skew, Tactile Touch Ripples & Identity Controller.
  * Engineered for https://tofiq.site (Root Instagram & Social Referral Portal)
- * Zero external runtime dependencies beyond Three.js r128.
  */
 
 (function () {
@@ -9,6 +9,20 @@
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  /* Shared Reactive Telemetry State across Lenis, Three.js, Gyroscope & DOM */
+  const kineticState = {
+    scrollY: 0,
+    scrollProgress: 0,
+    rawVelocity: 0,
+    smoothVelocity: 0,
+    gyroActive: false,
+    gyroNormX: 0, // -1 to 1 (gamma roll)
+    gyroNormY: 0, // -1 to 1 (beta pitch relative to neutral holding angle)
+    pointerNormX: 0,
+    pointerNormY: 0
+  };
 
   /* ==========================================================================
      1. Procedural SVG Fallback Avatar Generator (Resilience for Local Previews)
@@ -33,7 +47,299 @@
   }
 
   /* ==========================================================================
-     2. Fluid Velocity-Reactive Magnetic Cursor & Ambient Spotlight Controller
+     2. Lenis Decoupled Smooth Momentum Scroll & Velocity-Reactive Card Skew
+     ========================================================================== */
+  function initLenisAndScrollTelemetry() {
+    const hudPill = document.getElementById('scroll-hud-pill');
+    const hudPct = document.getElementById('hud-scroll-pct');
+    const hudVel = document.getElementById('hud-scroll-vel');
+    const velocityCards = Array.from(document.querySelectorAll('[data-velocity-card]'));
+
+    let lenis = null;
+    let hudHideTimer = null;
+
+    function markHudActive() {
+      if (!hudPill) return;
+      hudPill.classList.add('is-active');
+      if (hudHideTimer) clearTimeout(hudHideTimer);
+      hudHideTimer = setTimeout(() => {
+        if (Math.abs(kineticState.smoothVelocity) < 0.08) {
+          hudPill.classList.remove('is-active');
+        }
+      }, 1800);
+    }
+
+    function updateNativeScrollFallback() {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const currentY = window.scrollY || window.pageYOffset || 0;
+      const delta = currentY - kineticState.scrollY;
+      kineticState.scrollY = currentY;
+      kineticState.scrollProgress = docHeight > 0 ? Math.min(Math.max(currentY / docHeight, 0), 1) : 0;
+      kineticState.rawVelocity = delta * 0.65;
+      markHudActive();
+    }
+
+    if (!prefersReducedMotion && typeof window.Lenis !== 'undefined') {
+      lenis = new window.Lenis({
+        lerp: 0.08,
+        wheelMultiplier: 0.95,
+        touchMultiplier: 1.25,
+        smoothWheel: true,
+        syncTouch: true,
+        syncTouchLerp: 0.085
+      });
+
+      lenis.on('scroll', (e) => {
+        kineticState.scrollY = e.scroll;
+        kineticState.scrollProgress = e.progress || 0;
+        kineticState.rawVelocity = e.velocity || 0;
+        markHudActive();
+      });
+    } else {
+      window.addEventListener('scroll', updateNativeScrollFallback, { passive: true });
+      updateNativeScrollFallback();
+    }
+
+    // Smoothly handle internal anchor links via Lenis if active
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const targetId = anchor.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const targetEl = document.querySelector(targetId);
+        if (targetEl && lenis) {
+          e.preventDefault();
+          lenis.scrollTo(targetEl, { offset: -16 });
+        }
+      });
+    });
+
+    // Central RAF Loop for Lenis, HUD Progress Bar & Spring-Damped Velocity Skew
+    function updateScrollKineticLoop(time) {
+      if (lenis) {
+        lenis.raf(time);
+      }
+
+      // Spring-damped interpolation of scroll velocity
+      kineticState.smoothVelocity += (kineticState.rawVelocity - kineticState.smoothVelocity) * 0.14;
+      kineticState.rawVelocity *= 0.88; // Decay raw velocity when scroll events pause
+
+      if (Math.abs(kineticState.smoothVelocity) < 0.001) {
+        kineticState.smoothVelocity = 0;
+      }
+
+      // Update Top Hairline Progress Bar CSS Variable
+      document.documentElement.style.setProperty(
+        '--scroll-progress',
+        kineticState.scrollProgress.toFixed(4)
+      );
+
+      // Compute clamped velocity skew (-3deg to +3deg) and parallax shift
+      if (!prefersReducedMotion) {
+        const clampedSkew = Math.max(-3.0, Math.min(3.0, kineticState.smoothVelocity * 0.18));
+        document.documentElement.style.setProperty('--scroll-skew', `${clampedSkew.toFixed(3)}deg`);
+
+        velocityCards.forEach((stageEl) => {
+          const factor = parseFloat(stageEl.getAttribute('data-parallax-factor') || '1');
+          const shiftY = Math.max(-14, Math.min(14, -kineticState.smoothVelocity * 0.65 * factor));
+          stageEl.style.setProperty('--card-parallax-y', `${shiftY.toFixed(2)}px`);
+        });
+      }
+
+      // Update Futuristic HUD Telemetry Readouts
+      if (hudPct) {
+        const pctInt = Math.round(kineticState.scrollProgress * 100);
+        hudPct.textContent = `SCR: ${String(pctInt).padStart(3, '0')}%`;
+      }
+      if (hudVel) {
+        const absVel = Math.abs(kineticState.smoothVelocity).toFixed(2);
+        hudVel.textContent = `VEL: ${absVel}`;
+      }
+      if (hudPill) {
+        hudPill.classList.toggle('is-high-velocity', Math.abs(kineticState.smoothVelocity) > 2.2);
+      }
+
+      requestAnimationFrame(updateScrollKineticLoop);
+    }
+
+    requestAnimationFrame(updateScrollKineticLoop);
+  }
+
+  /* ==========================================================================
+     3. Viewport Stagger Reveals (IntersectionObserver with Cyber-Luxe Timing)
+     ========================================================================== */
+  function initViewportReveals() {
+    const revealItems = document.querySelectorAll('.reveal-item');
+    if (!revealItems.length) return;
+
+    if (prefersReducedMotion || typeof window.IntersectionObserver === 'undefined') {
+      revealItems.forEach((el) => el.classList.add('is-revealed'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
+            setTimeout(() => {
+              el.classList.add('is-revealed');
+            }, delay);
+            obs.unobserve(el);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -6% 0px',
+        threshold: 0.08
+      }
+    );
+
+    revealItems.forEach((el) => observer.observe(el));
+  }
+
+  /* ==========================================================================
+     4. Mobile Tactile Touch Ripples & Haptic Spring Compression
+     ========================================================================== */
+  function initTactileTouchInteractions() {
+    const rippleTargets = document.querySelectorAll('[data-ripple], .tilt-card, .action-pill-btn');
+
+    function spawnRipple(container, clientX, clientY) {
+      if (prefersReducedMotion) return;
+      const rect = container.getBoundingClientRect();
+      const localX = clientX - rect.left;
+      const localY = clientY - rect.top;
+      const maxDim = Math.max(rect.width, rect.height);
+
+      const ripple = document.createElement('span');
+      ripple.className = 'tactile-ripple';
+      ripple.style.width = `${maxDim * 0.85}px`;
+      ripple.style.height = `${maxDim * 0.85}px`;
+      ripple.style.left = `${localX}px`;
+      ripple.style.top = `${localY}px`;
+
+      container.appendChild(ripple);
+      ripple.addEventListener('animationend', () => {
+        ripple.remove();
+      });
+    }
+
+    rippleTargets.forEach((el) => {
+      el.addEventListener('pointerdown', (e) => {
+        // Avoid double ripple if a nested button inside a card was tapped
+        if (e.target !== el && e.target.closest('button, a') && e.target.closest('button, a') !== el) {
+          return;
+        }
+
+        el.classList.add('is-touch-pressed');
+        el.classList.add('is-touch-active');
+
+        const rect = el.getBoundingClientRect();
+        el.style.setProperty('--card-mx', `${e.clientX - rect.left}px`);
+        el.style.setProperty('--card-my', `${e.clientY - rect.top}px`);
+
+        // Update Ambient Spotlight on mobile touch as well
+        document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
+
+        spawnRipple(el, e.clientX, e.clientY);
+      }, { passive: true });
+
+      const releaseTouch = () => {
+        el.classList.remove('is-touch-pressed');
+        setTimeout(() => {
+          el.classList.remove('is-touch-active');
+        }, 320);
+      };
+
+      el.addEventListener('pointerup', releaseTouch, { passive: true });
+      el.addEventListener('pointercancel', releaseTouch, { passive: true });
+      el.addEventListener('pointerleave', releaseTouch, { passive: true });
+    });
+  }
+
+  /* ==========================================================================
+     5. Smartphone Gyroscope / DeviceOrientation Holographic Parallax
+     ========================================================================== */
+  function initGyroscopeParallax() {
+    const gyroBtn = document.getElementById('gyro-toggle-btn');
+    const gyroBtnLabel = document.getElementById('gyro-btn-label');
+    const hudGyroBadge = document.getElementById('hud-gyro-indicator');
+    const cards = document.querySelectorAll('[data-tilt]');
+
+    if (prefersReducedMotion || typeof window.DeviceOrientationEvent === 'undefined') {
+      return;
+    }
+
+    let baselineBeta = null;
+
+    function handleOrientation(event) {
+      if (event.gamma === null || event.beta === null) return;
+
+      if (baselineBeta === null) {
+        baselineBeta = event.beta; // Calibrate neutral holding angle (usually ~45deg)
+      }
+
+      kineticState.gyroActive = true;
+      if (hudGyroBadge) hudGyroBadge.hidden = false;
+
+      // Clamp gamma (-30 to +30 deg) and relative beta (-25 to +25 deg)
+      const clampedGamma = Math.max(-30, Math.min(30, event.gamma));
+      const relativeBeta = Math.max(-25, Math.min(25, event.beta - baselineBeta));
+
+      const normX = clampedGamma / 30; // -1 to 1
+      const normY = relativeBeta / 25; // -1 to 1
+
+      kineticState.gyroNormX += (normX - kineticState.gyroNormX) * 0.15;
+      kineticState.gyroNormY += (normY - kineticState.gyroNormY) * 0.15;
+
+      // Shift ambient background spotlight subtly with phone tilt
+      const spotX = 50 + kineticState.gyroNormX * 32;
+      const spotY = 35 + kineticState.gyroNormY * 28;
+      document.documentElement.style.setProperty('--cursor-x', `${spotX.toFixed(1)}vw`);
+      document.documentElement.style.setProperty('--cursor-y', `${spotY.toFixed(1)}vh`);
+
+      // Apply Holographic 3D Perspective Tilt to Cards on Mobile
+      cards.forEach((card) => {
+        if (card.classList.contains('is-touch-pressed')) return;
+        const maxTilt = card.classList.contains('tilt-card--featured') ? 5.5 : 7.0;
+        const rx = (-kineticState.gyroNormY * maxTilt).toFixed(2);
+        const ry = (kineticState.gyroNormX * maxTilt).toFixed(2);
+        card.style.setProperty('--rx', `${rx}deg`);
+        card.style.setProperty('--ry', `${ry}deg`);
+        card.style.setProperty('--card-mx', `${(50 + kineticState.gyroNormX * 40).toFixed(1)}%`);
+        card.style.setProperty('--card-my', `${(50 + kineticState.gyroNormY * 40).toFixed(1)}%`);
+        card.style.setProperty('--spotlight-opacity', '0.75');
+      });
+    }
+
+    // Check if iOS 13+ explicit permission is required
+    if (typeof window.DeviceOrientationEvent.requestPermission === 'function') {
+      if (isTouchDevice && gyroBtn) {
+        gyroBtn.hidden = false;
+        gyroBtn.addEventListener('click', async () => {
+          try {
+            const permission = await window.DeviceOrientationEvent.requestPermission();
+            if (permission === 'granted') {
+              baselineBeta = null;
+              window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+              gyroBtn.classList.add('is-active');
+              if (gyroBtnLabel) gyroBtnLabel.textContent = 'GYRO ON';
+            }
+          } catch (err) {
+            gyroBtn.hidden = true;
+          }
+        });
+      }
+    } else if (isTouchDevice) {
+      // Android & standard mobile browsers bind directly
+      window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+    }
+  }
+
+  /* ==========================================================================
+     6. Fluid Velocity-Reactive Magnetic Cursor (Desktop Fine Pointer)
      ========================================================================== */
   function initCursorAndSpotlight() {
     const cursorSystem = document.getElementById('cursor-system');
@@ -59,17 +365,21 @@
     }
 
     window.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+
       mouse.x = e.clientX;
       mouse.y = e.clientY;
 
-      // Update CSS Custom Properties for Ambient Cursor Spotlight
+      const nx = (mouse.x / window.innerWidth) * 2 - 1;
+      const ny = -(mouse.y / window.innerHeight) * 2 + 1;
+      kineticState.pointerNormX = nx;
+      kineticState.pointerNormY = ny;
+
       document.documentElement.style.setProperty('--cursor-x', `${mouse.x}px`);
       document.documentElement.style.setProperty('--cursor-y', `${mouse.y}px`);
 
       if (telemetryCoords) {
-        const nx = ((mouse.x / window.innerWidth) * 2 - 1).toFixed(2);
-        const ny = (-(mouse.y / window.innerHeight) * 2 + 1).toFixed(2);
-        telemetryCoords.textContent = `X:${nx} Y:${ny}`;
+        telemetryCoords.textContent = `X:${nx.toFixed(2)} Y:${ny.toFixed(2)}`;
       }
     }, { passive: true });
 
@@ -77,10 +387,10 @@
       return;
     }
 
-    // Interactive Hover State Detection
     const interactiveTargets = document.querySelectorAll('a, button, [role="button"], [data-cursor]');
     interactiveTargets.forEach((el) => {
-      el.addEventListener('pointerenter', () => {
+      el.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'touch') return;
         const customText = el.getAttribute('data-cursor') || 'OPEN';
         if (cursorLabel) {
           cursorLabel.textContent = customText;
@@ -93,7 +403,8 @@
       });
     });
 
-    window.addEventListener('pointerdown', () => {
+    window.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'touch') return;
       cursorSystem.classList.add('is-pressed');
     });
 
@@ -101,7 +412,6 @@
       cursorSystem.classList.remove('is-pressed');
     });
 
-    // RAF Spring-Damped Interpolation Loop with Velocity Deformation
     function renderCursorLoop() {
       const lerpFactor = 0.18;
       ringPos.x += (mouse.x - ringPos.x) * lerpFactor;
@@ -133,7 +443,7 @@
   }
 
   /* ==========================================================================
-     3. Aceternity-Style 3D Perspective Card Tilt & Local Spotlight Tracking
+     7. Aceternity-Style 3D Perspective Card Tilt (Pointer & Touch Tracking)
      ========================================================================== */
   function initTiltCards() {
     const cards = document.querySelectorAll('[data-tilt]');
@@ -147,7 +457,7 @@
         card.style.setProperty('--card-mx', `${localX}px`);
         card.style.setProperty('--card-my', `${localY}px`);
 
-        if (prefersReducedMotion || !isFinePointer) {
+        if (prefersReducedMotion || e.pointerType === 'touch') {
           return;
         }
 
@@ -156,7 +466,6 @@
         const normX = (localX - centerX) / centerX;
         const normY = (localY - centerY) / centerY;
 
-        // Clamp tilt to subtle architectural bounds (-6.5deg to +6.5deg)
         const maxTilt = card.classList.contains('tilt-card--featured') ? 5.0 : 6.5;
         const rotateX = (-normY * maxTilt).toFixed(2);
         const rotateY = (normX * maxTilt).toFixed(2);
@@ -166,14 +475,16 @@
       });
 
       card.addEventListener('pointerleave', () => {
-        card.style.setProperty('--rx', '0deg');
-        card.style.setProperty('--ry', '0deg');
+        if (!kineticState.gyroActive) {
+          card.style.setProperty('--rx', '0deg');
+          card.style.setProperty('--ry', '0deg');
+        }
       });
     });
   }
 
   /* ==========================================================================
-     4. Interactive Portrait Art-Style Switcher (Smooth Cross-Fade & Theme Sync)
+     8. Interactive Portrait Art-Style Switcher (Smooth Cross-Fade & Theme Sync)
      ========================================================================== */
   let updateThreePaletteCallback = null;
 
@@ -192,7 +503,6 @@
     let currentIndex = 0;
     let activeLayerIsPrimary = true;
 
-    // Install graceful fallback handlers in case local assets are missing during preview
     [imgPrimary, imgSecondary].forEach((imgEl) => {
       imgEl.addEventListener('error', function handleImgError() {
         const currentKey = buttons[currentIndex]
@@ -230,7 +540,6 @@
 
       syncPillPosition(targetBtn);
 
-      // Update Document Theme Accent & WebGL 3D Shader Colors
       document.documentElement.setAttribute('data-theme', newTheme);
       if (typeof updateThreePaletteCallback === 'function') {
         updateThreePaletteCallback(newTheme);
@@ -240,7 +549,6 @@
         hudBadge.textContent = newBadge;
       }
 
-      // Cross-fade between primary and secondary image layers
       const incomingImg = activeLayerIsPrimary ? imgSecondary : imgPrimary;
       const outgoingImg = activeLayerIsPrimary ? imgPrimary : imgSecondary;
 
@@ -266,7 +574,6 @@
       });
     });
 
-    // Clicking or pressing Enter/Space on the Avatar Viewport cycles to the next render style
     if (avatarViewport) {
       avatarViewport.addEventListener('click', () => {
         const nextIndex = (currentIndex + 1) % buttons.length;
@@ -282,7 +589,6 @@
       });
     }
 
-    // Initialize sliding indicator geometry on load and resize
     window.addEventListener('resize', () => {
       syncPillPosition(buttons[currentIndex]);
     });
@@ -293,7 +599,7 @@
   }
 
   /* ==========================================================================
-     5. Interactive Three.js 3D Spatial Centerpiece (Morphing Cyber Geometry)
+     9. Scroll-Coupled & Gyroscope-Reactive Three.js 3D Spatial Centerpiece
      ========================================================================== */
   function initSpatialWebGL() {
     const stageWrapper = document.getElementById('webgl-stage');
@@ -312,7 +618,8 @@
     const height = stageWrapper.clientHeight || 245;
 
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    camera.position.set(0, 0, 4.6);
+    const baseCameraZ = 4.6;
+    camera.position.set(0, 0, baseCameraZ);
 
     let renderer;
     try {
@@ -323,18 +630,15 @@
         powerPreference: 'high-performance'
       });
     } catch (err) {
-      // Graceful fallback if WebGL context is restricted
       return;
     }
 
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
-    // Root Spatial Assembly Group
     const assemblyGroup = new THREE.Group();
     scene.add(assemblyGroup);
 
-    // Geometry Modes for Interactive Cycling
     const geometryModes = [
       {
         name: 'TORUS KNOT',
@@ -355,7 +659,6 @@
 
     let currentGeoIndex = 0;
 
-    // Materials
     const outerWireMaterial = new THREE.MeshBasicMaterial({
       color: 0x00f0ff,
       wireframe: true,
@@ -387,13 +690,12 @@
     assemblyGroup.add(innerMesh);
     assemblyGroup.add(innerWireMesh);
 
-    // Orbital Particle Lattice Field
-    const particleCount = 180;
+    const particleCount = 190;
     const particleGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount; i++) {
-      const radius = 1.65 + Math.random() * 1.4;
+      const radius = 1.65 + Math.random() * 1.45;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
 
@@ -407,14 +709,13 @@
       color: 0x00f0ff,
       size: 0.032,
       transparent: true,
-      opacity: 0.65
+      opacity: 0.68
     });
 
     const particleField = new THREE.Points(particleGeo, particleMat);
     assemblyGroup.add(particleField);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
     scene.add(ambientLight);
 
     const pointLightCyan = new THREE.PointLight(0x00f0ff, 2.2, 12);
@@ -425,7 +726,6 @@
     pointLightEmerald.position.set(-3, -2, 2);
     scene.add(pointLightEmerald);
 
-    // Expose Theme Palette Sync Callback
     updateThreePaletteCallback = function (themeName) {
       if (themeName === 'matrix-emerald') {
         outerWireMaterial.color.setHex(0x10b981);
@@ -442,7 +742,6 @@
       }
     };
 
-    // Interactive Geometry Mode Switcher
     function cycleGeometryMode() {
       currentGeoIndex = (currentGeoIndex + 1) % geometryModes.length;
       const mode = geometryModes[currentGeoIndex];
@@ -472,10 +771,9 @@
     let isDragging = false;
     let prevPointerX = 0;
     let prevPointerY = 0;
-    let targetRotX = 0;
-    let targetRotY = 0;
     let userDragRotX = 0;
     let userDragRotY = 0;
+    let scrollAccumulatedSpin = 0;
 
     stageWrapper.addEventListener('pointerdown', (e) => {
       if (e.target === cycleBtn || (cycleBtn && cycleBtn.contains(e.target))) {
@@ -487,27 +785,19 @@
     });
 
     window.addEventListener('pointermove', (e) => {
-      const nx = (e.clientX / window.innerWidth) * 2 - 1;
-      const ny = -(e.clientY / window.innerHeight) * 2 + 1;
-
-      targetRotY = nx * 0.55;
-      targetRotX = -ny * 0.35;
-
-      if (isDragging) {
-        const dx = e.clientX - prevPointerX;
-        const dy = e.clientY - prevPointerY;
-        userDragRotY += dx * 0.0085;
-        userDragRotX += dy * 0.0085;
-        prevPointerX = e.clientX;
-        prevPointerY = e.clientY;
-      }
+      if (!isDragging) return;
+      const dx = e.clientX - prevPointerX;
+      const dy = e.clientY - prevPointerY;
+      userDragRotY += dx * 0.0085;
+      userDragRotX += dy * 0.0085;
+      prevPointerX = e.clientX;
+      prevPointerY = e.clientY;
     }, { passive: true });
 
     window.addEventListener('pointerup', () => {
       isDragging = false;
     });
 
-    // Responsive Resize Handler
     window.addEventListener('resize', () => {
       const newW = stageWrapper.clientWidth;
       const newH = stageWrapper.clientHeight;
@@ -517,31 +807,46 @@
       renderer.setSize(newW, newH);
     });
 
-    // Fade in Canvas once initialized (Zero CLS)
     requestAnimationFrame(() => {
       canvas.classList.add('is-loaded');
     });
 
-    // Render Loop
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     function animateThree() {
       const elapsed = clock.getElapsedTime();
 
-      if (!prefersReducedMotion) {
-        outerMesh.rotation.y = elapsed * 0.22 + userDragRotY;
-        outerMesh.rotation.x = elapsed * 0.14 + userDragRotX;
+      // Integrate Lenis scroll velocity into angular momentum
+      scrollAccumulatedSpin += kineticState.smoothVelocity * 0.0065;
+      const scrollYaw = kineticState.scrollProgress * Math.PI * 1.65;
+      const scrollPitch = kineticState.scrollProgress * Math.PI * 0.85;
 
-        innerMesh.rotation.y = -elapsed * 0.32 + userDragRotY;
-        innerMesh.rotation.x = elapsed * 0.18 + userDragRotX;
+      if (!prefersReducedMotion) {
+        outerMesh.rotation.y = elapsed * 0.22 + userDragRotY + scrollYaw + scrollAccumulatedSpin;
+        outerMesh.rotation.x = elapsed * 0.14 + userDragRotX + scrollPitch * 0.6;
+
+        innerMesh.rotation.y = -elapsed * 0.32 + userDragRotY - scrollYaw * 0.8 - scrollAccumulatedSpin * 0.7;
+        innerMesh.rotation.x = elapsed * 0.18 + userDragRotX + scrollPitch;
         innerWireMesh.rotation.copy(innerMesh.rotation);
 
-        particleField.rotation.y = elapsed * 0.06;
+        particleField.rotation.y = elapsed * 0.06 + scrollYaw * 0.35;
+        particleField.rotation.z = kineticState.scrollProgress * 0.45;
       }
 
-      // Smooth Damped Parallax Tracking
-      assemblyGroup.rotation.y += (targetRotY - assemblyGroup.rotation.y) * 0.06;
-      assemblyGroup.rotation.x += (targetRotX - assemblyGroup.rotation.x) * 0.06;
+      // Combine Desktop Pointer & Mobile Gyroscope into Spatial Target Attitude
+      const inputX = kineticState.gyroActive ? kineticState.gyroNormX : kineticState.pointerNormX;
+      const inputY = kineticState.gyroActive ? kineticState.gyroNormY : kineticState.pointerNormY;
+
+      const targetGroupRotY = inputX * 0.6 + kineticState.smoothVelocity * 0.025;
+      const targetGroupRotX = -inputY * 0.4 + kineticState.smoothVelocity * 0.035;
+
+      assemblyGroup.rotation.y += (targetGroupRotY - assemblyGroup.rotation.y) * 0.07;
+      assemblyGroup.rotation.x += (targetGroupRotX - assemblyGroup.rotation.x) * 0.07;
+
+      // Scroll-Driven Depth Modulation (Camera Z & Group Y Parallax)
+      const velocityDepthZoom = Math.min(Math.abs(kineticState.smoothVelocity) * 0.04, 0.55);
+      const targetCamZ = baseCameraZ - kineticState.scrollProgress * 0.55 + velocityDepthZoom;
+      camera.position.z += (targetCamZ - camera.position.z) * 0.08;
 
       renderer.render(scene, camera);
       requestAnimationFrame(animateThree);
@@ -551,7 +856,7 @@
   }
 
   /* ==========================================================================
-     6. Clipboard Copy Actions, Toast Feedback & Print CV Trigger
+     10. Clipboard Copy Actions, Toast Feedback & Print CV Trigger
      ========================================================================== */
   function initActionsAndToast() {
     const toastRegion = document.getElementById('toast-region');
@@ -592,7 +897,6 @@
         await navigator.clipboard.writeText(text);
         return true;
       }
-      // Fallback for older mobile webviews (e.g., Instagram in-app browser)
       const textArea = document.createElement('textarea');
       textArea.value = text;
       textArea.style.position = 'fixed';
@@ -644,9 +948,13 @@
   }
 
   /* ==========================================================================
-     7. Master Initialization
+     11. Master Initialization
      ========================================================================== */
   document.addEventListener('DOMContentLoaded', () => {
+    initLenisAndScrollTelemetry();
+    initViewportReveals();
+    initTactileTouchInteractions();
+    initGyroscopeParallax();
     initCursorAndSpotlight();
     initTiltCards();
     initAvatarStyleSwitcher();

@@ -22,6 +22,8 @@
   <!-- Core Stylesheet -->
   <link rel="stylesheet" href="css/kinetic-bio.css" />
 
+  <!-- Lenis Smooth Momentum Scroll Engine (CDN) -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <!-- Three.js WebGL Engine (Production CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
   <!-- Kinetic Portal Controller -->
@@ -31,7 +33,22 @@
   <!-- Accessible Skip Navigation -->
   <a href="#action-deck" class="skip-link">Skip to primary navigation and channels</a>
 
-  <!-- Custom Fluid Magnetic Cursor System (Desktop Pointer Only) -->
+  <!-- Futuristic Viewport Top Hairline Scroll Progress Bar & HUD Telemetry -->
+  <div class="scroll-hud-system" aria-hidden="true">
+    <div class="scroll-progress-track">
+      <div id="scroll-progress-bar" class="scroll-progress-bar">
+        <span class="scroll-progress-bead"></span>
+      </div>
+    </div>
+    <div id="scroll-hud-pill" class="scroll-hud-pill">
+      <span id="hud-scroll-pct" class="hud-metric">SCR: 000%</span>
+      <span class="hud-divider">/</span>
+      <span id="hud-scroll-vel" class="hud-metric">VEL: 0.00</span>
+      <span id="hud-gyro-indicator" class="hud-gyro-badge" hidden>GYRO: SYNC</span>
+    </div>
+  </div>
+
+  <!-- Custom Fluid Magnetic Cursor System (Desktop Fine Pointer Only) -->
   <div id="cursor-system" class="cursor-system" aria-hidden="true">
     <div id="cursor-dot" class="cursor-dot"></div>
     <div id="cursor-ring" class="cursor-ring">
@@ -39,7 +56,7 @@
     </div>
   </div>
 
-  <!-- Atmospheric Lighting, Conic Aura & Cursor-Following Radial Spotlight -->
+  <!-- Atmospheric Lighting, Conic Aura & Cursor/Gyro Radial Spotlight -->
   <div class="ambient-stage" aria-hidden="true">
     <div id="ambient-spotlight" class="ambient-spotlight"></div>
     <div class="ambient-conic-glow"></div>
@@ -51,14 +68,24 @@
   <main class="portal-shell" id="portal-top">
     
     <!-- Top Status Telemetry Bar -->
-    <header class="telemetry-bar" aria-label="System telemetry and quick status">
+    <header class="telemetry-bar reveal-item" data-reveal-delay="0" aria-label="System telemetry and quick status">
       <div class="telemetry-status">
         <span class="status-beacon" aria-hidden="true"></span>
         <span class="telemetry-mono">NODE: TOFIQ.SITE // BAKU, AZ</span>
       </div>
       <div class="telemetry-meta">
         <span id="telemetry-coords" class="telemetry-mono" aria-hidden="true">X:0.00 Y:0.00</span>
-        <a href="dossier.html" class="telemetry-badge-link" data-cursor="DOSSIER">
+        <button
+          type="button"
+          id="gyro-toggle-btn"
+          class="telemetry-gyro-btn"
+          hidden
+          aria-label="Enable mobile gyroscope 3D spatial parallax"
+        >
+          <span class="gyro-dot" aria-hidden="true"></span>
+          <span id="gyro-btn-label">3D MOTION</span>
+        </button>
+        <a href="dossier.html" class="telemetry-badge-link" data-cursor="DOSSIER" data-ripple>
           <span>FULL DOSSIER</span>
           <span aria-hidden="true">&nearr;</span>
         </a>
@@ -66,14 +93,21 @@
     </header>
 
     <!-- Hero Identity & Interactive 3D WebGL Centerpiece -->
-    <section class="hero-spatial-deck" aria-labelledby="identity-heading">
+    <section class="hero-spatial-deck reveal-item" data-reveal-delay="60" aria-labelledby="identity-heading">
       
       <!-- Interactive Three.js 3D WebGL Viewport Backdrop & Manipulator -->
       <div class="webgl-stage-wrapper" id="webgl-stage" role="region" aria-label="Interactive 3D spatial geometry centerpiece">
         <canvas id="spatial-canvas" class="spatial-canvas"></canvas>
         <div class="webgl-hud">
-          <span class="webgl-hud-tag">WEBGL // DRAG OR MOVE TO ORBIT</span>
-          <button type="button" id="geometry-cycle-btn" class="webgl-mode-btn" data-cursor="MORPH" aria-label="Cycle 3D spatial geometry mode">
+          <span class="webgl-hud-tag" id="webgl-interaction-hint">WEBGL // SCROLL, TILT OR DRAG TO ORBIT</span>
+          <button
+            type="button"
+            id="geometry-cycle-btn"
+            class="webgl-mode-btn"
+            data-cursor="MORPH"
+            data-ripple
+            aria-label="Cycle 3D spatial geometry mode"
+          >
             <span class="mode-dot" aria-hidden="true"></span>
             <span id="geometry-mode-label">TORUS KNOT</span>
           </button>
@@ -84,7 +118,15 @@
       <div class="identity-core">
         <div class="avatar-chassis-outer">
           <div class="avatar-halo-ring" aria-hidden="true"></div>
-          <div class="avatar-viewport" id="avatar-viewport" data-cursor="SWITCH" tabindex="0" role="button" aria-label="Click or press Enter to cycle portrait render style">
+          <div
+            class="avatar-viewport"
+            id="avatar-viewport"
+            data-cursor="SWITCH"
+            data-ripple
+            tabindex="0"
+            role="button"
+            aria-label="Click or press Enter to cycle portrait render style"
+          >
             <img
               id="avatar-img-primary"
               class="avatar-render is-active"
@@ -92,7 +134,7 @@
               alt="Portrait of Tofig Valizada in Original optical render"
               width="128"
               height="128"
-               fetchpriority="high"
+              fetchpriority="high"
             />
             <img
               id="avatar-img-secondary"
@@ -120,6 +162,7 @@
               data-badge="OPTICAL"
               data-theme-accent="cyber-cyan"
               data-cursor="ORIGINAL"
+              data-ripple
               aria-pressed="true"
             >
               Original
@@ -132,6 +175,7 @@
               data-badge="ASCII // CLR"
               data-theme-accent="cyber-cyan"
               data-cursor="CYBER"
+              data-ripple
               aria-pressed="false"
             >
               Cyber Color
@@ -144,6 +188,7 @@
               data-badge="MATRIX // HEX"
               data-theme-accent="matrix-emerald"
               data-cursor="EMERALD"
+              data-ripple
               aria-pressed="false"
             >
               Matrix Emerald
@@ -156,6 +201,7 @@
               data-badge="MONO // RAW"
               data-theme-accent="monolith-mono"
               data-cursor="MONO"
+              data-ripple
               aria-pressed="false"
             >
               Monolith Mono
@@ -179,12 +225,13 @@
     <!-- Focused Action Deck for Instagram & Direct Visitors -->
     <section id="action-deck" class="action-deck" aria-label="Primary destinations and verified channels">
       
-      <!-- 1. Primary Featured Action: Full Engineering Dossier (Magic UI Border Beam + 3D Tilt) -->
-      <div class="perspective-stage">
+      <!-- 1. Primary Featured Action: Full Engineering Dossier (Magic UI Border Beam + 3D Tilt + Velocity Skew) -->
+      <div class="perspective-stage reveal-item" data-reveal-delay="110" data-velocity-card data-parallax-factor="1.15">
         <a
           href="dossier.html"
           class="tilt-card tilt-card--featured"
           data-tilt
+          data-ripple
           data-cursor="LAUNCH"
           aria-label="Explore Full Engineering Dossier and Projects"
         >
@@ -192,7 +239,9 @@
           <div class="border-beam-container" aria-hidden="true">
             <div class="border-beam-runner"></div>
           </div>
-          <!-- Cursor-Following Spotlight Layer -->
+          <!-- Reveal Sheen Sweep Layer -->
+          <div class="reveal-sheen" aria-hidden="true"></div>
+          <!-- Cursor & Touch Spotlight Layer -->
           <div class="card-spotlight" aria-hidden="true"></div>
 
           <div class="card-3d-inner">
@@ -233,15 +282,17 @@
       <div class="deck-grid">
         
         <!-- 2. GitHub Card -->
-        <div class="perspective-stage">
+        <div class="perspective-stage reveal-item" data-reveal-delay="150" data-velocity-card data-parallax-factor="0.95">
           <a
             href="https://github.com/T0F1Q2007"
             target="_blank"
             rel="noopener noreferrer"
             class="tilt-card"
             data-tilt
+            data-ripple
             data-cursor="GITHUB"
           >
+            <div class="reveal-sheen" aria-hidden="true"></div>
             <div class="card-spotlight" aria-hidden="true"></div>
             <div class="card-3d-inner">
               <div class="card-header-row card-layer-mid">
@@ -269,15 +320,17 @@
         </div>
 
         <!-- 3. LinkedIn Card -->
-        <div class="perspective-stage">
+        <div class="perspective-stage reveal-item" data-reveal-delay="190" data-velocity-card data-parallax-factor="1.1">
           <a
             href="https://www.linkedin.com/in/velizadetofiq1"
             target="_blank"
             rel="noopener noreferrer"
             class="tilt-card"
             data-tilt
+            data-ripple
             data-cursor="LINKEDIN"
           >
+            <div class="reveal-sheen" aria-hidden="true"></div>
             <div class="card-spotlight" aria-hidden="true"></div>
             <div class="card-3d-inner">
               <div class="card-header-row card-layer-mid">
@@ -307,12 +360,14 @@
       </div>
 
       <!-- 4. WhatsApp Direct (Username-Based Protocol with Verification PIN 4458) -->
-      <div class="perspective-stage">
+      <div class="perspective-stage reveal-item" data-reveal-delay="220" data-velocity-card data-parallax-factor="1.05">
         <article
           class="tilt-card tilt-card--protocol"
           data-tilt
+          data-ripple
           aria-labelledby="whatsapp-protocol-heading"
         >
+          <div class="reveal-sheen" aria-hidden="true"></div>
           <div class="card-spotlight" aria-hidden="true"></div>
           <div class="card-3d-inner">
             <div class="protocol-top-bar card-layer-mid">
@@ -343,6 +398,7 @@
                 data-copy-value="@velizadetofiq1"
                 data-copy-label="WhatsApp username @velizadetofiq1"
                 data-cursor="COPY"
+                data-ripple
               >
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -357,6 +413,7 @@
                 data-copy-value="4458"
                 data-copy-label="Verification PIN 4458"
                 data-cursor="COPY PIN"
+                data-ripple
               >
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -373,15 +430,17 @@
       <div class="deck-grid">
         
         <!-- 5. Spotify Card -->
-        <div class="perspective-stage">
+        <div class="perspective-stage reveal-item" data-reveal-delay="250" data-velocity-card data-parallax-factor="0.92">
           <a
             href="https://open.spotify.com/user/31q642whlx33ppuurp67f7gibl7u"
             target="_blank"
             rel="noopener noreferrer"
             class="tilt-card"
             data-tilt
+            data-ripple
             data-cursor="SPOTIFY"
           >
+            <div class="reveal-sheen" aria-hidden="true"></div>
             <div class="card-spotlight" aria-hidden="true"></div>
             <div class="card-3d-inner">
               <div class="card-header-row card-layer-mid">
@@ -411,12 +470,14 @@
         </div>
 
         <!-- 6. Electronic Mail Card -->
-        <div class="perspective-stage">
+        <div class="perspective-stage reveal-item" data-reveal-delay="280" data-velocity-card data-parallax-factor="1.08">
           <article
             class="tilt-card tilt-card--email"
             data-tilt
+            data-ripple
             aria-labelledby="email-channel-heading"
           >
+            <div class="reveal-sheen" aria-hidden="true"></div>
             <div class="card-spotlight" aria-hidden="true"></div>
             <div class="card-3d-inner">
               <div class="card-header-row card-layer-mid">
@@ -442,6 +503,7 @@
                   data-copy-value="velizadetofiq1@gmail.com"
                   data-copy-label="Electronic mail velizadetofiq1@gmail.com"
                   data-cursor="COPY EMAIL"
+                  data-ripple
                 >
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -453,6 +515,7 @@
                   href="mailto:velizadetofiq1@gmail.com"
                   class="action-pill-btn"
                   data-cursor="MAILTO"
+                  data-ripple
                   aria-label="Compose electronic mail to velizadetofiq1@gmail.com"
                 >
                   <span>Compose</span>
@@ -466,8 +529,9 @@
       </div>
 
       <!-- 7. Print / Save Full CV (PDF) Utility Action -->
-      <div class="perspective-stage">
-        <div class="utility-bar-card tilt-card" data-tilt>
+      <div class="perspective-stage reveal-item" data-reveal-delay="310" data-velocity-card data-parallax-factor="1.0">
+        <div class="utility-bar-card tilt-card" data-tilt data-ripple>
+          <div class="reveal-sheen" aria-hidden="true"></div>
           <div class="card-spotlight" aria-hidden="true"></div>
           <div class="utility-bar-inner card-3d-inner">
             <div class="utility-info card-layer-mid">
@@ -481,6 +545,7 @@
                 id="print-cv-btn"
                 class="action-pill-btn action-pill-btn--featured"
                 data-cursor="PRINT PDF"
+                data-ripple
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -524,7 +589,7 @@
     </section>
 
     <!-- Minimalist Architectural Footer -->
-    <footer class="portal-footer">
+    <footer class="portal-footer reveal-item" data-reveal-delay="340">
       <p class="footer-mono">
         <span>&copy; <span id="current-year">2026</span> TOFIG VALIZADA</span>
         <span class="footer-sep" aria-hidden="true">//</span>

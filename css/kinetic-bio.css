@@ -1,6 +1,6 @@
 /* ==========================================================================
-   KINETIC-BIO.CSS — Cyber-Luxe Spatial Identity & Link-in-Bio Architecture
-   Design System: Once UI Surface Hierarchy + Aceternity 3D Tilt + Magic UI Beams
+   KINETIC-BIO.CSS : Cyber-Luxe Spatial Identity & Link-in-Bio Architecture
+   Design System: Once UI Surface Hierarchy + Lenis Momentum + Aceternity 3D
    Base Surface: #080808 | Accents: Cyber Cyan (#00F0FF) & Matrix Emerald (#10B981)
    ========================================================================== */
 
@@ -10,7 +10,7 @@
   --surface-subtle: #0d0f12;
   --surface-card: rgba(18, 21, 26, 0.78);
   --surface-card-solid: #12151a;
-  --surface-card-hover: rgba(24, 29, 36, 0.9);
+  --surface-card-hover: rgba(24, 29, 36, 0.92);
   --surface-popover: #181c23;
 
   /* Hairlines & Structural Borders */
@@ -27,25 +27,32 @@
   /* Dynamic Theme Accents (Synchronized with Portrait Art-Style Switcher) */
   --accent-primary: #00f0ff;
   --accent-secondary: #10b981;
+  --accent-cyan-hud: #06b6d4;
   --accent-glow: rgba(0, 240, 255, 0.22);
   --accent-glow-soft: rgba(16, 185, 129, 0.14);
 
-  /* Cursor & Spotlight Coordinates (Updated via RAF in JS) */
+  /* Cursor, Touch & Gyroscope Spotlight Coordinates (Updated via RAF in JS) */
   --cursor-x: 50vw;
   --cursor-y: 35vh;
+
+  /* Lenis Scroll Velocity & Progress Custom Properties */
+  --scroll-progress: 0;
+  --scroll-skew: 0deg;
+  --scroll-shift: 0px;
 
   /* Typography Families */
   --font-display: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Spatial & Motion Tokens */
+  /* Spatial & Motion Curves (Emil Kowalski & Kinetic Stack Presets) */
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 22px;
   --radius-pill: 9999px;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring-release: cubic-bezier(0.22, 1.35, 0.36, 1);
 }
 
 /* Theme Variations Driven by Portrait Art-Style Selection */
@@ -64,7 +71,7 @@ html[data-theme="monolith-mono"] {
 }
 
 /* ==========================================================================
-   1. Reset & Base Document Foundations
+   1. Reset, Base Document & Canonical Lenis Smooth Scroll Foundations
    ========================================================================== */
 *,
 *::before,
@@ -72,6 +79,28 @@ html[data-theme="monolith-mono"] {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Mandatory Lenis Non-Destructive Smooth Scroll Rules */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 html {
@@ -82,7 +111,6 @@ html {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
   overflow-x: hidden;
 }
 
@@ -93,7 +121,7 @@ body {
   color: var(--text-primary);
   position: relative;
   overflow-x: hidden;
-  selection-background-color: var(--accent-primary);
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::selection {
@@ -131,7 +159,98 @@ body {
 }
 
 /* ==========================================================================
-   2. Custom Fluid Magnetic Cursor System (Desktop Fine Pointer Only)
+   2. Futuristic Viewport Top Hairline Scroll Progress & Telemetry HUD
+   ========================================================================== */
+.scroll-hud-system {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9800;
+  pointer-events: none;
+}
+
+.scroll-progress-track {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: visible;
+}
+
+.scroll-progress-bar {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  transform-origin: 0% 50%;
+  transform: scaleX(var(--scroll-progress, 0));
+  background: linear-gradient(90deg, var(--accent-cyan-hud) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+  box-shadow: 0 0 12px var(--accent-primary), 0 0 24px var(--accent-secondary);
+  will-change: transform;
+}
+
+.scroll-progress-bead {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 10px;
+  height: 4px;
+  transform: translate(50%, -50%);
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff, 0 0 18px var(--accent-primary);
+}
+
+.scroll-hud-pill {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(10, 13, 18, 0.78);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transform: translate3d(0, -8px, 0);
+  transition: opacity 0.28s var(--ease-out-expo), transform 0.28s var(--ease-out-expo), border-color 0.25s ease;
+}
+
+.scroll-hud-pill.is-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.scroll-hud-pill.is-high-velocity {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.hud-metric {
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-divider {
+  color: var(--text-tertiary);
+}
+
+.hud-gyro-badge {
+  color: var(--accent-secondary);
+  padding-left: 4px;
+  border-left: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   3. Custom Fluid Magnetic Cursor System (Desktop Fine Pointer Only)
    ========================================================================== */
 @media (hover: hover) and (pointer: fine) {
   body.has-custom-cursor,
@@ -209,7 +328,6 @@ body {
   pointer-events: none;
 }
 
-/* Cursor Hover Interactive Morph States */
 .cursor-system.is-hovering .cursor-dot {
   opacity: 0;
 }
@@ -235,7 +353,7 @@ body {
 }
 
 /* ==========================================================================
-   3. Atmospheric Background, Conic Glow & Cursor Radial Spotlight
+   4. Atmospheric Background, Conic Glow & Cursor/Gyro Radial Spotlight
    ========================================================================== */
 .ambient-stage {
   position: fixed;
@@ -245,7 +363,6 @@ body {
   overflow: hidden;
 }
 
-/* Dynamic Cursor-Following Radial Spotlight */
 .ambient-spotlight {
   position: absolute;
   inset: 0;
@@ -258,7 +375,6 @@ body {
   will-change: background;
 }
 
-/* Slow-Rotating Atmospheric Conic Aura */
 .ambient-conic-glow {
   position: absolute;
   top: -25%;
@@ -287,7 +403,6 @@ body {
   }
 }
 
-/* Architectural Coordinate Hairline Grid */
 .ambient-grid-mesh {
   position: absolute;
   inset: 0;
@@ -299,7 +414,6 @@ body {
   -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 25%, #000 35%, transparent 100%);
 }
 
-/* Subtle Tactile SVG Grain Texture */
 .ambient-noise-overlay {
   position: absolute;
   inset: 0;
@@ -308,7 +422,7 @@ body {
 }
 
 /* ==========================================================================
-   4. Portal Layout Shell & Top Telemetry Header
+   5. Portal Layout Shell, Reveal Choreography & Top Telemetry Header
    ========================================================================== */
 .portal-shell {
   position: relative;
@@ -316,17 +430,64 @@ body {
   width: 100%;
   max-width: 680px;
   margin: 0 auto;
-  padding: 20px 18px 64px;
+  padding: 24px 18px 68px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+/* Viewport Stagger Reveal Choreography (IntersectionObserver Driven) */
+.reveal-item {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  transition:
+    opacity 0.65s var(--ease-out-expo),
+    transform 0.72s var(--ease-out-expo);
+  will-change: opacity, transform;
+}
+
+.reveal-item.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, var(--card-parallax-y, 0px), 0) skewY(var(--scroll-skew, 0deg)) scale(1);
+}
+
+/* Luminous Border Sheen Sweep on Card Reveal */
+.reveal-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.reveal-sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(0, 240, 255, 0.14) 50%,
+    rgba(16, 185, 129, 0.08) 65%,
+    transparent 85%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.95s var(--ease-out-expo);
+}
+
+.reveal-item.is-revealed .reveal-sheen::after {
+  left: 160%;
 }
 
 .telemetry-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   padding: 10px 14px;
   border-radius: var(--radius-pill);
   background: rgba(14, 17, 22, 0.72);
@@ -372,10 +533,43 @@ body {
 .telemetry-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+}
+
+.telemetry-gyro-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s var(--ease-snappy);
+}
+
+.telemetry-gyro-btn.is-active {
+  background: rgba(0, 240, 255, 0.14);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.gyro-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
 }
 
 .telemetry-badge-link {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -399,7 +593,7 @@ body {
 }
 
 /* ==========================================================================
-   5. Hero Spatial Deck: 3D WebGL Centerpiece + Avatar Switcher
+   6. Hero Spatial Deck: 3D WebGL Centerpiece + Avatar Switcher
    ========================================================================== */
 .hero-spatial-deck {
   position: relative;
@@ -421,7 +615,7 @@ body {
   z-index: 1;
   overflow: hidden;
   cursor: grab;
-  touch-action: none;
+  touch-action: pan-y;
   mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
 }
@@ -466,12 +660,14 @@ body {
 }
 
 .webgl-mode-btn {
+  position: relative;
+  overflow: hidden;
   pointer-events: auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 5px 11px;
-  min-height: 30px;
+  min-height: 32px;
   border-radius: var(--radius-pill);
   background: rgba(14, 18, 24, 0.82);
   border: 1px solid var(--border-strong);
@@ -480,6 +676,7 @@ body {
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.06em;
+  cursor: pointer;
   transition: border-color 0.16s ease, background-color 0.16s ease, transform 0.14s var(--ease-snappy);
 }
 
@@ -548,6 +745,7 @@ body {
   background: #0a0c10;
   border: 2px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75);
+  cursor: pointer;
   transition: transform 0.25s var(--ease-out-expo), border-color 0.25s ease;
 }
 
@@ -641,19 +839,21 @@ body {
 
 .style-switch-btn {
   position: relative;
+  overflow: hidden;
   z-index: 1;
   appearance: none;
   background: transparent;
   border: none;
   padding: 7px 13px;
-  min-height: 34px;
+  min-height: 36px;
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
   color: var(--text-secondary);
   white-space: nowrap;
-  transition: color 0.18s ease;
+  cursor: pointer;
+  transition: color 0.18s ease, transform 0.15s var(--ease-snappy);
 }
 
 .style-switch-btn:hover {
@@ -695,7 +895,7 @@ body {
 }
 
 /* ==========================================================================
-   6. True 3D Perspective Tilt Cards & Action Deck (Aceternity + Magic UI)
+   7. True 3D Perspective Tilt Cards, Velocity Skew & Mobile Touch Ripples
    ========================================================================== */
 .action-deck {
   display: flex;
@@ -711,6 +911,7 @@ body {
 
 .perspective-stage {
   perspective: 1100px;
+  will-change: transform;
 }
 
 .tilt-card {
@@ -719,6 +920,7 @@ body {
   --card-mx: 50%;
   --card-my: 50%;
   --spotlight-opacity: 0;
+  --press-scale: 1;
 
   position: relative;
   display: block;
@@ -730,24 +932,61 @@ body {
   padding: 20px;
   color: var(--text-primary);
   text-decoration: none;
+  overflow: hidden;
   transform-style: preserve-3d;
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--press-scale));
   transition:
-    transform 0.18s var(--ease-out-expo),
+    transform 0.24s var(--ease-spring-release),
     border-color 0.25s ease,
     background-color 0.25s ease,
     box-shadow 0.25s ease;
   will-change: transform;
 }
 
-.tilt-card:hover {
+.tilt-card:hover,
+.tilt-card.is-touch-active {
   border-color: var(--border-strong);
   background: var(--surface-card-hover);
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
   --spotlight-opacity: 1;
 }
 
-/* Per-Card Cursor Spotlight Overlay */
+/* Smooth Spring Haptic Compression on Touch/Pointer Press */
+.tilt-card.is-touch-pressed,
+.action-pill-btn.is-touch-pressed {
+  --press-scale: 0.97;
+  transition: transform 0.11s var(--ease-snappy);
+}
+
+/* Tactile Energy Ripple (Spawned Dynamically at Touch/Tap Coordinates) */
+.tactile-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  transform: translate(-50%, -50%) scale(0);
+  background: radial-gradient(
+    circle,
+    rgba(0, 240, 255, 0.38) 0%,
+    rgba(16, 185, 129, 0.22) 45%,
+    transparent 72%
+  );
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.35);
+  animation: tactileRippleExpand 0.68s var(--ease-out-expo) forwards;
+}
+
+@keyframes tactileRippleExpand {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* Per-Card Cursor & Touch Spotlight Overlay */
 .card-spotlight {
   position: absolute;
   inset: 0;
@@ -755,11 +994,11 @@ body {
   pointer-events: none;
   background: radial-gradient(
     360px circle at var(--card-mx) var(--card-my),
-    rgba(0, 240, 255, 0.13),
+    rgba(0, 240, 255, 0.14),
     transparent 70%
   );
   opacity: var(--spotlight-opacity);
-  transition: opacity 0.25s ease;
+  transition: opacity 0.28s ease;
   z-index: 0;
 }
 
@@ -883,7 +1122,8 @@ body {
   transition: transform 0.2s var(--ease-out-expo);
 }
 
-.tilt-card--featured:hover .arrow-glyph {
+.tilt-card--featured:hover .arrow-glyph,
+.tilt-card--featured.is-touch-active .arrow-glyph {
   transform: translateX(5px);
 }
 
@@ -971,7 +1211,8 @@ body {
   transition: transform 0.18s var(--ease-out-expo), color 0.18s ease;
 }
 
-.tilt-card:hover .card-external-glyph {
+.tilt-card:hover .card-external-glyph,
+.tilt-card.is-touch-active .card-external-glyph {
   color: var(--accent-primary);
   transform: translate(2px, -2px);
 }
@@ -1062,6 +1303,9 @@ body {
 
 /* Tactile Pill Buttons (44px Minimum Mobile Tap Target Height Compliant) */
 .action-pill-btn {
+  --press-scale: 1;
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1077,19 +1321,16 @@ body {
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
+  transform: scale(var(--press-scale));
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
-    transform 0.14s var(--ease-snappy);
+    transform 0.22s var(--ease-spring-release);
 }
 
 .action-pill-btn:hover {
   background: rgba(255, 255, 255, 0.12);
   border-color: var(--text-primary);
-}
-
-.action-pill-btn:active {
-  transform: scale(0.96);
 }
 
 .action-pill-btn--emerald {
@@ -1197,7 +1438,7 @@ body {
 }
 
 /* ==========================================================================
-   7. Footer & Toast Notification
+   8. Footer & Toast Notification
    ========================================================================== */
 .portal-footer {
   text-align: center;
@@ -1261,7 +1502,7 @@ body {
 }
 
 /* ==========================================================================
-   8. Print / PDF Archival Stylesheet (window.print())
+   9. Print / PDF Archival Stylesheet (window.print())
    ========================================================================== */
 .print-only-cv {
   display: none;
@@ -1275,6 +1516,7 @@ body {
 
   .ambient-stage,
   .cursor-system,
+  .scroll-hud-system,
   .webgl-stage-wrapper,
   .style-switcher-container,
   .telemetry-bar,
@@ -1286,6 +1528,11 @@ body {
   .portal-shell {
     max-width: 100%;
     padding: 0;
+  }
+
+  .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .hero-spatial-deck,
@@ -1338,24 +1585,28 @@ body {
 }
 
 /* ==========================================================================
-   9. Responsive Breakpoints & Reduced Motion Safeguards
+   10. Responsive Mobile Breakpoints & Reduced Motion Safeguards
    ========================================================================== */
 @media (max-width: 600px) {
   .portal-shell {
-    padding: 14px 14px 48px;
+    padding: 18px 14px 56px;
     gap: 18px;
-  }
-
-  .telemetry-coords {
-    display: none;
   }
 
   #telemetry-coords {
     display: none;
   }
 
+  .scroll-hud-pill {
+    top: auto;
+    bottom: 14px;
+    right: 12px;
+    font-size: 0.56rem;
+    padding: 4px 9px;
+  }
+
   .hero-spatial-deck {
-    padding: 190px 16px 22px;
+    padding: 192px 16px 22px;
   }
 
   .webgl-stage-wrapper {
@@ -1385,6 +1636,11 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .tilt-card {
