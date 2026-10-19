@@ -1,913 +1,550 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" data-theme="cyber-cyan">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#080808" />
-  <meta name="color-scheme" content="dark" />
-
-  <!-- Primary SEO Meta Tags -->
-  <title>Tofig Valizada — Systems Architect, Reverse Engineer &amp; AI/ML Researcher</title>
-  <meta name="title" content="Tofig Valizada — Systems Architect, Reverse Engineer &amp; AI/ML Researcher" />
-  <meta name="description" content="Personal portfolio of Tofig Valizada (Tofiq Vəlizadə) — Computer Information Systems &amp; Business Administration student at ASOIU in Baku, Azerbaijan. Specializing in Linux kernel/GNOME protocols, BLE reverse engineering, Machine Learning forecasting, Kotlin mobile architectures, and WebAR." />
-  <meta name="keywords" content="Tofig Valizada, Tofiq Valizada, Tofiq Vəlizadə, ASOIU, Computer Information Systems, Baku Developer, Linux Reverse Engineering, BLE Protocol, GNOME Extension, Machine Learning Azerbaijan, Kotlin Android Developer, WebAR" />
+  <meta name="description" content="Tofig Valizada (Tofiq Vəlizadə) : Systems Engineering, Reverse Engineering, Machine Learning, and Spatial Computing Portal." />
   <meta name="author" content="Tofig Valizada" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://tofiq.site/" />
-
-  <!-- OpenGraph / Facebook -->
+  <meta property="og:title" content="Tofig Valizada | Kinetic Identity & Engineering Portal" />
+  <meta property="og:description" content="Direct access to engineering dossier, reverse-engineering repositories, ML architectures, and verified communication channels." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://tofiq.site/" />
-  <meta property="og:title" content="Tofig Valizada — Systems Builder, Reverse Engineer &amp; AI/ML Researcher" />
-  <meta property="og:description" content="Explore the engineering portfolio of Tofig Valizada: Linux BLE reverse engineering, time-series AI forecasting, Kotlin EdTech applications, and cross-platform WebAR." />
-  <meta property="og:image" content="https://tofiq.site/assets/profile.jpg" />
-  <meta property="og:site_name" content="Tofig Valizada Portfolio" />
-  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="assets/profile.jpg" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://tofiq.site/" />
-  <meta name="twitter:title" content="Tofig Valizada — Systems Builder &amp; AI/ML Researcher" />
-  <meta name="twitter:description" content="Computer Information Systems &amp; Business Administration at ASOIU, Baku. Building low-level Linux extensions, predictive ML models, and spatial WebAR." />
-  <meta name="twitter:image" content="https://tofiq.site/assets/profile.jpg" />
+  <title>Tofig Valizada &bull; Kinetic Portal &amp; Engineering Index</title>
 
-  <!-- Typography: Inter & DM Mono -->
+  <!-- Preconnect & Typography Stack -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Master Kinetic Stylesheet -->
-  <link rel="stylesheet" href="css/kinetic.css" />
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/kinetic-bio.css" />
 
-  <!-- Structured Data (JSON-LD) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Tofig Valizada",
-    "alternateName": "Tofiq Vəlizadə",
-    "url": "https://tofiq.site",
-    "image": "https://tofiq.site/assets/profile.jpg",
-    "jobTitle": "Systems Builder, Reverse Engineer & AI/ML Researcher",
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "Azerbaijan State Oil and Industry University (ASOIU)",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Baku",
-        "addressCountry": "AZ"
-      }
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Baku",
-      "addressCountry": "Azerbaijan"
-    },
-    "email": "mailto:velizadetofiq1@gmail.com",
-    "sameAs": [
-      "https://github.com/T0F1Q2007",
-      "https://www.linkedin.com/in/velizadetofiq1",
-      "https://instagram.com/velizadetofiq1",
-      "https://open.spotify.com/user/31q642whlx33ppuurp67f7gibl7u"
-    ],
-    "knowsAbout": [
-      "Computer Information Systems",
-      "Business Administration",
-      "Linux Systems Programming",
-      "Bluetooth Low Energy Reverse Engineering",
-      "GNOME Shell Extensions",
-      "Machine Learning Time-Series Forecasting",
-      "Python",
-      "C++",
-      "Kotlin Android Development",
-      "WebAR"
-    ]
-  }
-  </script>
+  <!-- Three.js WebGL Engine (Production CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <!-- Kinetic Portal Controller -->
+  <script src="js/kinetic-bio.js" defer></script>
 </head>
 <body>
-  <!-- Accessibility Skip Navigation -->
-  <a href="#main-content" class="skip-link">Skip to primary engineering content</a>
+  <!-- Accessible Skip Navigation -->
+  <a href="#action-deck" class="skip-link">Skip to primary navigation and channels</a>
 
-  <!-- Top Scroll Momentum Progress Bar -->
-  <div class="scroll-progress-track" aria-hidden="true">
-    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+  <!-- Custom Fluid Magnetic Cursor System (Desktop Pointer Only) -->
+  <div id="cursor-system" class="cursor-system" aria-hidden="true">
+    <div id="cursor-dot" class="cursor-dot"></div>
+    <div id="cursor-ring" class="cursor-ring">
+      <span id="cursor-label" class="cursor-label"></span>
+    </div>
   </div>
 
-  <!-- Ambient Atmospheric Lighting & Noise Layers -->
-  <div class="ambient-noise" aria-hidden="true"></div>
-  <div class="ambient-glow ambient-glow--cyan" aria-hidden="true"></div>
-  <div class="ambient-glow ambient-glow--emerald" aria-hidden="true"></div>
+  <!-- Atmospheric Lighting, Conic Aura & Cursor-Following Radial Spotlight -->
+  <div class="ambient-stage" aria-hidden="true">
+    <div id="ambient-spotlight" class="ambient-spotlight"></div>
+    <div class="ambient-conic-glow"></div>
+    <div class="ambient-grid-mesh"></div>
+    <div class="ambient-noise-overlay"></div>
+  </div>
 
-  <!-- Floating Dynamic Sliding Pill Navigation -->
-  <header class="site-header" role="banner">
-    <nav class="glass-nav" aria-label="Primary Portfolio Navigation">
-      <a href="#overview" class="nav-brand" aria-label="Tofig Valizada Home">
-        <img src="assets/profile.jpg" alt="Tofig Valizada" class="nav-avatar" width="28" height="28" loading="eager" decoding="async" />
-        <span class="brand-domain">tofiq.site</span>
-      </a>
+  <!-- Primary Spatial Container -->
+  <main class="portal-shell" id="portal-top">
+    
+    <!-- Top Status Telemetry Bar -->
+    <header class="telemetry-bar" aria-label="System telemetry and quick status">
+      <div class="telemetry-status">
+        <span class="status-beacon" aria-hidden="true"></span>
+        <span class="telemetry-mono">NODE: TOFIQ.SITE // BAKU, AZ</span>
+      </div>
+      <div class="telemetry-meta">
+        <span id="telemetry-coords" class="telemetry-mono" aria-hidden="true">X:0.00 Y:0.00</span>
+        <a href="dossier.html" class="telemetry-badge-link" data-cursor="DOSSIER">
+          <span>FULL DOSSIER</span>
+          <span aria-hidden="true">&nearr;</span>
+        </a>
+      </div>
+    </header>
 
-      <div class="nav-pill-container" id="navPillContainer" role="menubar">
-        <span class="nav-sliding-pill" id="navSlidingPill" aria-hidden="true"></span>
-        <a href="#overview" class="nav-link is-active" data-section="overview" role="menuitem">Overview</a>
-        <a href="#projects" class="nav-link" data-section="projects" role="menuitem">Projects</a>
-        <a href="#stack" class="nav-link" data-section="stack" role="menuitem">Stack</a>
-        <a href="#experience" class="nav-link" data-section="experience" role="menuitem">Experience &amp; Education</a>
-        <a href="#connect" class="nav-link" data-section="connect" role="menuitem">Connect</a>
+    <!-- Hero Identity & Interactive 3D WebGL Centerpiece -->
+    <section class="hero-spatial-deck" aria-labelledby="identity-heading">
+      
+      <!-- Interactive Three.js 3D WebGL Viewport Backdrop & Manipulator -->
+      <div class="webgl-stage-wrapper" id="webgl-stage" role="region" aria-label="Interactive 3D spatial geometry centerpiece">
+        <canvas id="spatial-canvas" class="spatial-canvas"></canvas>
+        <div class="webgl-hud">
+          <span class="webgl-hud-tag">WEBGL // DRAG OR MOVE TO ORBIT</span>
+          <button type="button" id="geometry-cycle-btn" class="webgl-mode-btn" data-cursor="MORPH" aria-label="Cycle 3D spatial geometry mode">
+            <span class="mode-dot" aria-hidden="true"></span>
+            <span id="geometry-mode-label">TORUS KNOT</span>
+          </button>
+        </div>
       </div>
 
-      <div class="nav-actions">
-        <button type="button" class="nav-action-btn magnetic-btn" id="headerPrintBtn" data-magnetic-strength="0.22" aria-label="Print or Download CV as PDF">
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M6 9V2h12v7" />
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-            <rect x="6" y="14" width="12" height="8" />
-          </svg>
-          <span class="nav-action-label">CV / Print</span>
-        </button>
-      </div>
-    </nav>
-  </header>
-
-  <main id="main-content">
-    <!-- =====================================================================
-         SECTION 1: OVERVIEW & SPATIAL HERO (THREE.JS + AVATAR ART SWITCHER)
-         ===================================================================== -->
-    <section id="overview" class="hero-section section-anchor" aria-labelledby="hero-heading">
-      <!-- Interactive Three.js 3D WebGL Canvas -->
-      <div class="hero-canvas-wrapper" id="heroCanvasWrapper" aria-hidden="true">
-        <canvas id="kineticHeroCanvas"></canvas>
-        <div class="hero-canvas-vignette"></div>
-      </div>
-
-      <div class="container hero-grid">
-        <!-- Left Column: Narrative, Live Beacon, Headline & CTAs -->
-        <div class="hero-content reveal-item">
-          <!-- Live Status Beacon -->
-          <div class="status-beacon" role="status" aria-live="polite">
-            <span class="beacon-dot-wrapper">
-              <span class="beacon-ping"></span>
-              <span class="beacon-dot"></span>
-            </span>
-            <span class="beacon-text">Open to Opportunities &bull; Baku, Azerbaijan (ASOIU CIS)</span>
+      <!-- Identity & Interactive Portrait Art-Style Switcher -->
+      <div class="identity-core">
+        <div class="avatar-chassis-outer">
+          <div class="avatar-halo-ring" aria-hidden="true"></div>
+          <div class="avatar-viewport" id="avatar-viewport" data-cursor="SWITCH" tabindex="0" role="button" aria-label="Click or press Enter to cycle portrait render style">
+            <img
+              id="avatar-img-primary"
+              class="avatar-render is-active"
+              src="assets/profile.jpg"
+              alt="Portrait of Tofig Valizada in Original optical render"
+              width="128"
+              height="128"
+               fetchpriority="high"
+            />
+            <img
+              id="avatar-img-secondary"
+              class="avatar-render"
+              src="assets/profile_ascii_color.png"
+              alt=""
+              aria-hidden="true"
+              width="128"
+              height="128"
+            />
+            <div class="avatar-scanline" aria-hidden="true"></div>
+            <span class="avatar-corner-tag" id="avatar-hud-badge" aria-hidden="true">OPTICAL</span>
           </div>
+        </div>
 
-          <p class="eyebrow-mono">SYSTEMS ARCHITECT &bull; REVERSE ENGINEER &bull; AI/ML RESEARCHER</p>
-
-          <h1 id="hero-heading" class="hero-title">
-            Engineering at the intersection of <span class="text-gradient-cyan">silicon protocols</span> &amp; <span class="text-gradient-emerald">predictive intelligence</span>.
-          </h1>
-
-          <p class="hero-lead">
-            I am <strong>Tofig Valizada</strong>, pursuing Computer Information Systems &amp; Business Administration at the <strong>Azerbaijan State Oil and Industry University (ASOIU)</strong> in Baku. I dissect proprietary hardware protocols for native Linux ecosystems, architect time-series machine learning models, and build spatial WebAR and Android platforms.
-          </p>
-
-          <!-- Primary Magnetic CTA Cluster -->
-          <div class="hero-cta-group">
-            <a href="#projects" class="btn-primary magnetic-btn" data-magnetic-strength="0.28">
-              <span>Explore Engineering Works</span>
-              <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
-
-            <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="btn-secondary magnetic-btn" data-magnetic-strength="0.22">
-              <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-              </svg>
-              <span>GitHub @T0F1Q2007</span>
-            </a>
-
-            <button type="button" class="btn-ghost magnetic-btn" id="heroPrintBtn" data-magnetic-strength="0.2">
-              <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              <span>Print / Export Dossier</span>
+        <!-- Interactive Avatar Art-Style Segmented Switcher -->
+        <div class="style-switcher-container" role="group" aria-label="Select portrait art render style">
+          <div class="style-switcher-track" id="style-switcher-track">
+            <span class="style-pill-indicator" id="style-pill-indicator" aria-hidden="true"></span>
+            <button
+              type="button"
+              class="style-switch-btn is-selected"
+              data-style-key="original"
+              data-src="assets/profile.jpg"
+              data-badge="OPTICAL"
+              data-theme-accent="cyber-cyan"
+              data-cursor="ORIGINAL"
+              aria-pressed="true"
+            >
+              Original
+            </button>
+            <button
+              type="button"
+              class="style-switch-btn"
+              data-style-key="cyber"
+              data-src="assets/profile_ascii_color.png"
+              data-badge="ASCII // CLR"
+              data-theme-accent="cyber-cyan"
+              data-cursor="CYBER"
+              aria-pressed="false"
+            >
+              Cyber Color
+            </button>
+            <button
+              type="button"
+              class="style-switch-btn"
+              data-style-key="emerald"
+              data-src="assets/profile_ascii_emerald.png"
+              data-badge="MATRIX // HEX"
+              data-theme-accent="matrix-emerald"
+              data-cursor="EMERALD"
+              aria-pressed="false"
+            >
+              Matrix Emerald
+            </button>
+            <button
+              type="button"
+              class="style-switch-btn"
+              data-style-key="mono"
+              data-src="assets/profile_ascii_mono.png"
+              data-badge="MONO // RAW"
+              data-theme-accent="monolith-mono"
+              data-cursor="MONO"
+              aria-pressed="false"
+            >
+              Monolith Mono
             </button>
           </div>
-
-          <!-- Telemetry Metrics Bar -->
-          <div class="hero-telemetry">
-            <div class="telemetry-item">
-              <span class="telemetry-value">ASOIU</span>
-              <span class="telemetry-label">CIS &amp; Business Admin</span>
-            </div>
-            <div class="telemetry-divider" aria-hidden="true"></div>
-            <div class="telemetry-item">
-              <span class="telemetry-value">BLE / Linux</span>
-              <span class="telemetry-label">Protocol Reverse Eng.</span>
-            </div>
-            <div class="telemetry-divider" aria-hidden="true"></div>
-            <div class="telemetry-item">
-              <span class="telemetry-value">AI / ML</span>
-              <span class="telemetry-label">Time-Series &amp; Forecasting</span>
-            </div>
-            <div class="telemetry-divider" aria-hidden="true"></div>
-            <div class="telemetry-item">
-              <span class="telemetry-value">40.4093&deg; N</span>
-              <span class="telemetry-label">Baku, Azerbaijan</span>
-            </div>
-          </div>
         </div>
 
-        <!-- Right Column: Interactive Avatar Art-Style Switcher Card -->
-        <div class="hero-visual reveal-item" data-reveal-delay="120">
-          <div class="avatar-showcase-card tilt-card spotlight-card border-beam-card" id="avatarTiltCard" data-tilt-max="8">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-
-            <div class="avatar-card-header tilt-layer-mid">
-              <div class="terminal-dots" aria-hidden="true">
-                <span></span><span></span><span></span>
-              </div>
-              <span class="avatar-mode-indicator" id="avatarModeLabel">RENDER // 01: ORIGINAL OPTIC</span>
-              <button type="button" class="avatar-cycle-badge" id="avatarCycleBtn" aria-label="Cycle portrait render shader style">
-                <span class="cycle-icon" aria-hidden="true">&#8635;</span>
-                <span>Switch Shader</span>
-              </button>
-            </div>
-
-            <!-- Multi-Layer Cross-Fade Portrait Viewport -->
-            <div class="avatar-viewport tilt-layer-high" id="avatarViewport" role="region" aria-label="Interactive Portrait Art Style Viewer">
-              <img
-                src="assets/profile.jpg"
-                alt="Tofig Valizada — Original Portrait"
-                class="avatar-img is-active"
-                data-style-index="0"
-                data-style-name="RENDER // 01: ORIGINAL OPTIC"
-                loading="eager"
-                decoding="async"
-              />
-              <img
-                src="assets/profile_ascii_color.png"
-                alt="Tofig Valizada — Cyberpunk Color ASCII Render"
-                class="avatar-img"
-                data-style-index="1"
-                data-style-name="RENDER // 02: CYBERPUNK COLOR ASCII"
-                loading="lazy"
-                decoding="async"
-              />
-              <img
-                src="assets/profile_ascii_emerald.png"
-                alt="Tofig Valizada — Matrix Emerald ASCII Render"
-                class="avatar-img"
-                data-style-index="2"
-                data-style-name="RENDER // 03: MATRIX EMERALD ASCII"
-                loading="lazy"
-                decoding="async"
-              />
-              <img
-                src="assets/profile_ascii_mono.png"
-                alt="Tofig Valizada — Monolith Monochrome ASCII Render"
-                class="avatar-img"
-                data-style-index="3"
-                data-style-name="RENDER // 04: MONOLITH MONO ASCII"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="avatar-scanline" aria-hidden="true"></div>
-            </div>
-
-            <!-- Interactive Shader Selector Pills -->
-            <div class="avatar-controls tilt-layer-top" role="tablist" aria-label="Portrait Art Style Modes">
-              <button type="button" class="style-pill is-active" role="tab" aria-selected="true" data-avatar-target="0">
-                <span class="pill-swatch swatch-original"></span>
-                <span>Original</span>
-              </button>
-              <button type="button" class="style-pill" role="tab" aria-selected="false" data-avatar-target="1">
-                <span class="pill-swatch swatch-cyber"></span>
-                <span>Cyber Color</span>
-              </button>
-              <button type="button" class="style-pill" role="tab" aria-selected="false" data-avatar-target="2">
-                <span class="pill-swatch swatch-emerald"></span>
-                <span>Matrix Emerald</span>
-              </button>
-              <button type="button" class="style-pill" role="tab" aria-selected="false" data-avatar-target="3">
-                <span class="pill-swatch swatch-mono"></span>
-                <span>Monolith Mono</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- =====================================================================
-         SECTION 2: REAL SHOWCASE PROJECTS (3D TILT + SPOTLIGHT + BORDER BEAM)
-         ===================================================================== -->
-    <section id="projects" class="section-block section-anchor" aria-labelledby="projects-heading">
-      <div class="container">
-        <div class="section-header reveal-item">
-          <div>
-            <p class="eyebrow-mono">01 // PRODUCTION ARTIFACTS &amp; RESEARCH</p>
-            <h2 id="projects-heading" class="section-title">Engineered Systems &amp; Case Studies</h2>
-          </div>
-          <p class="section-subtitle">
-            From reverse-engineering Bluetooth Low Energy packet frames for native Linux desktops to training quantitative time-series models and spatial WebAR pipelines.
+        <!-- Identity Typography -->
+        <div class="identity-copy">
+          <h1 id="identity-heading" class="identity-title">Tofig Valizada</h1>
+          <p class="identity-subtitle">
+            Systems Architecture &bull; Hardware Reverse Engineering &bull; Applied Machine Learning
+          </p>
+          <p class="identity-abstract">
+            Constructing low-level Linux desktop integrations, neural pipelines, and spatial computing interfaces with deterministic precision.
           </p>
         </div>
-
-        <div class="projects-bento-grid">
-          <!-- Project 1: Redmi Buds 8 Pro Manager (Featured Flagship Card with Border Beam) -->
-          <article class="project-card project-card--featured tilt-card spotlight-card border-beam-card reveal-item" data-tilt-max="6">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="card-inner">
-              <div class="project-meta-top tilt-layer-mid">
-                <span class="project-index">SYS // 01 &bull; FLAGSHIP REVERSE ENGINEERING</span>
-                <span class="project-status-pill status-emerald">Active Linux Extension</span>
-              </div>
-
-              <h3 class="project-title tilt-layer-high">
-                <a href="https://github.com/T0F1Q2007/Redmi-buds-8-pro-linux-software" target="_blank" rel="noopener noreferrer">
-                  Redmi Buds 8 Pro Linux Manager
-                </a>
-              </h3>
-
-              <p class="project-description tilt-layer-mid">
-                Native GNOME Shell desktop integration and control daemon engineered via Bluetooth Low Energy (BLE) protocol reverse engineering. Eliminates proprietary smartphone companion dependencies by decoding hexadecimal GATT characteristics for Active Noise Cancellation (ANC) modes, dual-earbud + charging case battery telemetry, and spatial audio toggles directly from Linux.
-              </p>
-
-              <!-- Architectural Breakdown Diagram Box -->
-              <div class="protocol-diagram tilt-layer-mid" aria-label="BLE Protocol Pipeline">
-                <div class="protocol-node">
-                  <span class="node-code">GATT / RFCOMM</span>
-                  <span class="node-desc">Packet Sniffing &amp; Hex Analysis</span>
-                </div>
-                <span class="protocol-arrow" aria-hidden="true">&rarr;</span>
-                <div class="protocol-node">
-                  <span class="node-code">BlueZ / D-Bus</span>
-                  <span class="node-desc">Asynchronous Linux Daemon</span>
-                </div>
-                <span class="protocol-arrow" aria-hidden="true">&rarr;</span>
-                <div class="protocol-node">
-                  <span class="node-code">GObject / GNOME</span>
-                  <span class="node-desc">Native Quick Settings UI</span>
-                </div>
-              </div>
-
-              <div class="project-tags tilt-layer-high" aria-label="Technologies used">
-                <span class="tech-badge">Linux</span>
-                <span class="tech-badge">GNOME Shell</span>
-                <span class="tech-badge">Reverse Engineering</span>
-                <span class="tech-badge">Bluetooth BLE</span>
-                <span class="tech-badge">C / GObject</span>
-              </div>
-
-              <div class="project-footer tilt-layer-top">
-                <a href="https://github.com/T0F1Q2007/Redmi-buds-8-pro-linux-software" target="_blank" rel="noopener noreferrer" class="project-cta magnetic-btn" data-magnetic-strength="0.18">
-                  <span>Inspect Source &amp; Protocol Spec</span>
-                  <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 17L17 7" />
-                    <path d="M7 7h10v10" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 2: NVIDIA Stock Price Forecasting Model (Featured AI/ML Card with Border Beam) -->
-          <article class="project-card project-card--featured tilt-card spotlight-card border-beam-card reveal-item" data-reveal-delay="80" data-tilt-max="6">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="card-inner">
-              <div class="project-meta-top tilt-layer-mid">
-                <span class="project-index">AIML // 02 &bull; QUANTITATIVE RESEARCH</span>
-                <span class="project-status-pill status-cyan">ASOIU AI/ML Initiative</span>
-              </div>
-
-              <h3 class="project-title tilt-layer-high">
-                <a href="https://github.com/T0F1Q2007/nvidia-stock-price-forecasting-for-uni" target="_blank" rel="noopener noreferrer">
-                  NVIDIA Stock Price Forecasting Model
-                </a>
-              </h3>
-
-              <p class="project-description tilt-layer-mid">
-                End-to-end time-series predictive modeling pipeline trained on historical Kaggle equity datasets for the Azerbaijan State Oil and Industry University (ASOIU) AI/ML research initiative. Implements feature engineering over rolling volatility windows, moving-average convergence indicators, and supervised regression validation to project market trajectories.
-              </p>
-
-              <div class="protocol-diagram tilt-layer-mid" aria-label="Machine Learning Pipeline">
-                <div class="protocol-node">
-                  <span class="node-code">Kaggle OHLCV</span>
-                  <span class="node-desc">Temporal Cleaning &amp; Normalization</span>
-                </div>
-                <span class="protocol-arrow" aria-hidden="true">&rarr;</span>
-                <div class="protocol-node">
-                  <span class="node-code">Feature Matrix</span>
-                  <span class="node-desc">Lag Variables &amp; Volatility</span>
-                </div>
-                <span class="protocol-arrow" aria-hidden="true">&rarr;</span>
-                <div class="protocol-node">
-                  <span class="node-code">Predictive Eval</span>
-                  <span class="node-desc">RMSE / MAE Backtesting</span>
-                </div>
-              </div>
-
-              <div class="project-tags tilt-layer-high" aria-label="Technologies used">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Machine Learning</span>
-                <span class="tech-badge">Time-Series Forecasting</span>
-                <span class="tech-badge">Pandas</span>
-                <span class="tech-badge">Scikit-Learn / NumPy</span>
-              </div>
-
-              <div class="project-footer tilt-layer-top">
-                <a href="https://github.com/T0F1Q2007/nvidia-stock-price-forecasting-for-uni" target="_blank" rel="noopener noreferrer" class="project-cta magnetic-btn" data-magnetic-strength="0.18">
-                  <span>Explore Notebooks &amp; Model</span>
-                  <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 17L17 7" />
-                    <path d="M7 7h10v10" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 3: RepEat Android Application -->
-          <article class="project-card tilt-card spotlight-card reveal-item" data-tilt-max="7">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="card-inner">
-              <div class="project-meta-top tilt-layer-mid">
-                <span class="project-index">MOB // 03 &bull; NATIVE ANDROID EDTECH</span>
-                <span class="project-status-pill">Kotlin SDK</span>
-              </div>
-
-              <h3 class="project-title tilt-layer-high">
-                <a href="https://github.com/T0F1Q2007/RepEat" target="_blank" rel="noopener noreferrer">
-                  RepEat Android Application
-                </a>
-              </h3>
-
-              <p class="project-description tilt-layer-mid">
-                Mobile educational physics retention platform engineered in native Kotlin. Synthesizes cognitive spaced-repetition intervals with structured physics formula decks, enabling students to master mechanics, electromagnetism, and thermodynamics through active recall loops.
-              </p>
-
-              <div class="project-tags tilt-layer-high">
-                <span class="tech-badge">Kotlin</span>
-                <span class="tech-badge">Android SDK</span>
-                <span class="tech-badge">EdTech</span>
-                <span class="tech-badge">Spaced Repetition</span>
-              </div>
-
-              <div class="project-footer tilt-layer-top">
-                <a href="https://github.com/T0F1Q2007/RepEat" target="_blank" rel="noopener noreferrer" class="project-cta magnetic-btn" data-magnetic-strength="0.18">
-                  <span>View Kotlin Repository</span>
-                  <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 17L17 7" />
-                    <path d="M7 7h10v10" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 4: 3D Model to Augmented Reality (3DtoAR) -->
-          <article class="project-card tilt-card spotlight-card reveal-item" data-reveal-delay="80" data-tilt-max="7">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="card-inner">
-              <div class="project-meta-top tilt-layer-mid">
-                <span class="project-index">XR // 04 &bull; SPATIAL COMPUTING</span>
-                <span class="project-status-pill">WebAR Pipeline</span>
-              </div>
-
-              <h3 class="project-title tilt-layer-high">
-                <a href="https://github.com/T0F1Q2007/3DtoAR" target="_blank" rel="noopener noreferrer">
-                  3D Model to Augmented Reality (3DtoAR)
-                </a>
-              </h3>
-
-              <p class="project-description tilt-layer-mid">
-                Cross-platform WebAR spatial viewer bridging browser-based 3D meshes directly into physical environments. Orchestrates Google ARCore Scene Viewer on Android and Apple Quick Look (USDZ) on iOS for zero-install spatial inspection with realistic environmental lighting.
-              </p>
-
-              <div class="project-tags tilt-layer-high">
-                <span class="tech-badge">WebAR</span>
-                <span class="tech-badge">3D Models</span>
-                <span class="tech-badge">ARCore</span>
-                <span class="tech-badge">USDZ / glTF</span>
-              </div>
-
-              <div class="project-footer project-footer--dual tilt-layer-top">
-                <a href="https://github.com/T0F1Q2007/3DtoAR" target="_blank" rel="noopener noreferrer" class="project-cta magnetic-btn" data-magnetic-strength="0.18">
-                  <span>3DtoAR Core Repo</span>
-                  <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 17L17 7" />
-                    <path d="M7 7h10v10" />
-                  </svg>
-                </a>
-                <a href="https://github.com/T0F1Q2007/AR-try" target="_blank" rel="noopener noreferrer" class="project-cta-subtle">
-                  <span>Legacy AR-try Prototype &nearr;</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 5: Republic Olympiad in Informatics -->
-          <article class="project-card tilt-card spotlight-card reveal-item" data-reveal-delay="140" data-tilt-max="7">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="card-inner">
-              <div class="project-meta-top tilt-layer-mid">
-                <span class="project-index">ALG // 05 &bull; COMPETITIVE ALGORITHMS</span>
-                <span class="project-status-pill status-emerald">National Pre-Finalist</span>
-              </div>
-
-              <h3 class="project-title tilt-layer-high">
-                Republic Olympiad in Informatics
-              </h3>
-
-              <p class="project-description tilt-layer-mid">
-                Distinguished national pre-finalist in Azerbaijan's premier algorithmic programming competition. Designed time- and memory-optimal solutions across graph theory, dynamic programming, segment trees, and combinatorics under strict execution constraints.
-              </p>
-
-              <div class="project-tags tilt-layer-high">
-                <span class="tech-badge">C++ (STL)</span>
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Dynamic Programming</span>
-                <span class="tech-badge">Graph Algorithms</span>
-              </div>
-
-              <div class="project-footer tilt-layer-top">
-                <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="project-cta magnetic-btn" data-magnetic-strength="0.18">
-                  <span>View Algorithmic Profile</span>
-                  <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 17L17 7" />
-                    <path d="M7 7h10v10" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </article>
-        </div>
       </div>
     </section>
 
-    <!-- =====================================================================
-         SECTION 3: TECHNICAL STACK & CAPABILITY MATRIX (FILTERABLE BENTO)
-         ===================================================================== -->
-    <section id="stack" class="section-block section-anchor" aria-labelledby="stack-heading">
-      <div class="container">
-        <div class="section-header reveal-item">
-          <div>
-            <p class="eyebrow-mono">02 // TECHNICAL TAXONOMY &amp; ARCHITECTURE</p>
-            <h2 id="stack-heading" class="section-title">Multi-Disciplinary Capability Matrix</h2>
+    <!-- Focused Action Deck for Instagram & Direct Visitors -->
+    <section id="action-deck" class="action-deck" aria-label="Primary destinations and verified channels">
+      
+      <!-- 1. Primary Featured Action: Full Engineering Dossier (Magic UI Border Beam + 3D Tilt) -->
+      <div class="perspective-stage">
+        <a
+          href="dossier.html"
+          class="tilt-card tilt-card--featured"
+          data-tilt
+          data-cursor="LAUNCH"
+          aria-label="Explore Full Engineering Dossier and Projects"
+        >
+          <!-- Animated Perimeter Border Beam -->
+          <div class="border-beam-container" aria-hidden="true">
+            <div class="border-beam-runner"></div>
           </div>
+          <!-- Cursor-Following Spotlight Layer -->
+          <div class="card-spotlight" aria-hidden="true"></div>
 
-          <!-- Interactive Filter Tabs -->
-          <div class="stack-filter-bar" role="tablist" aria-label="Filter technical capabilities by domain">
-            <button type="button" class="stack-filter-btn is-active" data-stack-filter="all" role="tab" aria-selected="true">All Domains</button>
-            <button type="button" class="stack-filter-btn" data-stack-filter="systems" role="tab" aria-selected="false">Systems &amp; Linux</button>
-            <button type="button" class="stack-filter-btn" data-stack-filter="aiml" role="tab" aria-selected="false">AI / ML &amp; Python</button>
-            <button type="button" class="stack-filter-btn" data-stack-filter="mobile" role="tab" aria-selected="false">Mobile &amp; Kotlin</button>
-            <button type="button" class="stack-filter-btn" data-stack-filter="xr" role="tab" aria-selected="false">3D &amp; WebAR</button>
-            <button type="button" class="stack-filter-btn" data-stack-filter="bis" role="tab" aria-selected="false">Business Info Systems</button>
-          </div>
-        </div>
-
-        <div class="stack-bento-grid" id="stackGrid">
-          <!-- Domain 1: Systems & Linux -->
-          <div class="stack-card tilt-card spotlight-card reveal-item" data-stack-category="systems" data-tilt-max="5">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="stack-card-head tilt-layer-mid">
-              <span class="stack-domain-code">DOM // 01</span>
-              <span class="stack-domain-dot dot-emerald"></span>
+          <div class="card-3d-inner">
+            <div class="featured-top-row card-layer-mid">
+              <span class="featured-kicker">PRIMARY ENGINEERING INDEX</span>
+              <span class="featured-status-chip">INTERACTIVE ARCHIVE</span>
             </div>
-            <h3 class="stack-card-title tilt-layer-high">Systems, Linux &amp; Reverse Engineering</h3>
-            <p class="stack-card-desc tilt-layer-mid">
-              Low-level daemon architecture, wireless packet introspection, and desktop environment integration for POSIX/Linux environments.
-            </p>
-            <ul class="stack-skill-list tilt-layer-high">
-              <li><span>C / C++ &amp; GObject Introspection</span><span class="skill-level">Advanced</span></li>
-              <li><span>Bluetooth Low Energy (BLE / GATT / BlueZ)</span><span class="skill-level">Specialist</span></li>
-              <li><span>GNOME Shell Extensions &amp; D-Bus IPC</span><span class="skill-level">Production</span></li>
-              <li><span>Wireshark / btsnoop Packet Dissection</span><span class="skill-level">Advanced</span></li>
-              <li><span>Linux Kernel &amp; Bash Automation</span><span class="skill-level">Core</span></li>
-            </ul>
-          </div>
 
-          <!-- Domain 2: Machine Learning & Python -->
-          <div class="stack-card tilt-card spotlight-card reveal-item" data-stack-category="aiml" data-reveal-delay="60" data-tilt-max="5">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="stack-card-head tilt-layer-mid">
-              <span class="stack-domain-code">DOM // 02</span>
-              <span class="stack-domain-dot dot-cyan"></span>
-            </div>
-            <h3 class="stack-card-title tilt-layer-high">Machine Learning &amp; Quantitative Python</h3>
-            <p class="stack-card-desc tilt-layer-mid">
-              Statistical feature extraction, financial time-series forecasting, and supervised predictive pipelines.
-            </p>
-            <ul class="stack-skill-list tilt-layer-high">
-              <li><span>Python 3 (NumPy, Pandas, SciPy)</span><span class="skill-level">Core</span></li>
-              <li><span>Time-Series Forecasting &amp; Econometrics</span><span class="skill-level">Research</span></li>
-              <li><span>Scikit-Learn Regression &amp; Ensembles</span><span class="skill-level">Production</span></li>
-              <li><span>Matplotlib / Seaborn Data Visualization</span><span class="skill-level">Advanced</span></li>
-              <li><span>Jupyter Reproducible Research Workflows</span><span class="skill-level">Core</span></li>
-            </ul>
-          </div>
-
-          <!-- Domain 3: Mobile & Kotlin -->
-          <div class="stack-card tilt-card spotlight-card reveal-item" data-stack-category="mobile" data-reveal-delay="120" data-tilt-max="5">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="stack-card-head tilt-layer-mid">
-              <span class="stack-domain-code">DOM // 03</span>
-              <span class="stack-domain-dot dot-emerald"></span>
-            </div>
-            <h3 class="stack-card-title tilt-layer-high">Mobile Engineering &amp; Kotlin</h3>
-            <p class="stack-card-desc tilt-layer-mid">
-              Responsive Android client engineering with offline-first persistence and cognitive learning algorithms.
-            </p>
-            <ul class="stack-skill-list tilt-layer-high">
-              <li><span>Kotlin &amp; Coroutines</span><span class="skill-level">Production</span></li>
-              <li><span>Android SDK &amp; Jetpack Architecture</span><span class="skill-level">Production</span></li>
-              <li><span>Material Design 3 &amp; Custom Motion</span><span class="skill-level">Advanced</span></li>
-              <li><span>Local State &amp; Spaced-Repetition Engines</span><span class="skill-level">Specialist</span></li>
-            </ul>
-          </div>
-
-          <!-- Domain 4: 3D & WebAR -->
-          <div class="stack-card tilt-card spotlight-card reveal-item" data-stack-category="xr" data-tilt-max="5">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="stack-card-head tilt-layer-mid">
-              <span class="stack-domain-code">DOM // 04</span>
-              <span class="stack-domain-dot dot-cyan"></span>
-            </div>
-            <h3 class="stack-card-title tilt-layer-high">3D Graphics, WebGL &amp; Spatial WebAR</h3>
-            <p class="stack-card-desc tilt-layer-mid">
-              Interactive browser rendering, shader-inspired DOM physics, and native mobile AR bridge orchestration.
-            </p>
-            <ul class="stack-skill-list tilt-layer-high">
-              <li><span>Three.js &amp; WebGL Particle Systems</span><span class="skill-level">Advanced</span></li>
-              <li><span>Google ARCore Scene Viewer Integration</span><span class="skill-level">Production</span></li>
-              <li><span>Apple iOS Quick Look (USDZ / glTF 2.0)</span><span class="skill-level">Production</span></li>
-              <li><span>CSS 3D Perspective &amp; Kinetic Motion</span><span class="skill-level">Specialist</span></li>
-            </ul>
-          </div>
-
-          <!-- Domain 5: Business Information Systems -->
-          <div class="stack-card stack-card--wide tilt-card spotlight-card reveal-item" data-stack-category="bis" data-reveal-delay="80" data-tilt-max="4">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="stack-card-head tilt-layer-mid">
-              <span class="stack-domain-code">DOM // 05</span>
-              <span class="stack-domain-dot dot-emerald"></span>
-            </div>
-            <h3 class="stack-card-title tilt-layer-high">Computer Information Systems &amp; Business Administration</h3>
-            <p class="stack-card-desc tilt-layer-mid">
-              Bridging rigorous software systems engineering with enterprise decision analytics, quantitative modeling, and organizational strategy at ASOIU.
-            </p>
-            <div class="bis-pillars tilt-layer-high">
-              <div class="bis-pillar">
-                <span class="bis-pillar-title">Enterprise Architecture</span>
-                <span class="bis-pillar-sub">Information flow modeling, relational databases, and systems integration.</span>
+            <div class="featured-main-row card-layer-top">
+              <div class="featured-text-block">
+                <h2 class="featured-heading">
+                  Explore Full Engineering Dossier &amp; Projects <span class="arrow-glyph" aria-hidden="true">&rarr;</span>
+                </h2>
+                <p class="featured-description">
+                  Comprehensive technical specifications, architectural diagrams, hardware reverse-engineering logs, and academic credentials.
+                </p>
               </div>
-              <div class="bis-pillar">
-                <span class="bis-pillar-title">Quantitative Decision Intelligence</span>
-                <span class="bis-pillar-sub">Translating market datasets into actionable executive forecasts.</span>
-              </div>
-              <div class="bis-pillar">
-                <span class="bis-pillar-title">Algorithmic Optimization</span>
-                <span class="bis-pillar-sub">Resource allocation, complexity reduction, and high-reliability operations.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- =====================================================================
-         SECTION 4: EXPERIENCE, RESEARCH & EDUCATION TIMELINE
-         ===================================================================== -->
-    <section id="experience" class="section-block section-anchor" aria-labelledby="experience-heading">
-      <div class="container">
-        <div class="section-header reveal-item">
-          <div>
-            <p class="eyebrow-mono">03 // ACADEMIC &amp; ENGINEERING TRAJECTORY</p>
-            <h2 id="experience-heading" class="section-title">Experience, Research &amp; Education</h2>
-          </div>
-          <p class="section-subtitle">
-            Academic foundation at Azerbaijan State Oil and Industry University paired with independent open-source systems research and competitive informatics.
-          </p>
-        </div>
-
-        <div class="timeline-ledger">
-          <!-- Entry 1 -->
-          <article class="timeline-item spotlight-card reveal-item">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="timeline-meta">
-              <span class="timeline-period">PRESENT &bull; BAKU, AZ</span>
-              <span class="timeline-tag">Academic Degree</span>
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-role">B.S. in Computer Information Systems &amp; Business Administration</h3>
-              <p class="timeline-org">Azerbaijan State Oil and Industry University (ASOIU / ADNSU)</p>
-              <p class="timeline-desc">
-                Pursuing an interdisciplinary curriculum combining systems architecture, data structures, relational database design, and enterprise business administration. Active contributor to university machine learning and quantitative computing initiatives.
-              </p>
-            </div>
-          </article>
-
-          <!-- Entry 2 -->
-          <article class="timeline-item spotlight-card reveal-item" data-reveal-delay="60">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="timeline-meta">
-              <span class="timeline-period">2025 &mdash; 2026</span>
-              <span class="timeline-tag">Open-Source Systems</span>
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-role">Independent Linux Systems &amp; BLE Protocol Researcher</h3>
-              <p class="timeline-org">GNOME Ecosystem &amp; Hardware Interoperability</p>
-              <p class="timeline-desc">
-                Reverse-engineered proprietary Bluetooth Low Energy command structures for Xiaomi/Redmi acoustic hardware, authoring a native GNOME Shell extension and GObject controller enabling full hardware telemetry on Linux workstations.
-              </p>
-            </div>
-          </article>
-
-          <!-- Entry 3 -->
-          <article class="timeline-item spotlight-card reveal-item" data-reveal-delay="120">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="timeline-meta">
-              <span class="timeline-period">2024 &mdash; 2026</span>
-              <span class="timeline-tag">AI/ML &amp; Mobile</span>
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-role">AI/ML Research Contributor &amp; Mobile/WebAR Developer</h3>
-              <p class="timeline-org">ASOIU AI/ML Initiative &amp; Independent Production Projects</p>
-              <p class="timeline-desc">
-                Developed supervised time-series forecasting models for NVIDIA equity valuation using historical Kaggle datasets; architected the RepEat Kotlin physics learning platform and cross-platform 3DtoAR spatial model viewers.
-              </p>
-            </div>
-          </article>
-
-          <!-- Entry 4 -->
-          <article class="timeline-item spotlight-card reveal-item" data-reveal-delay="160">
-            <div class="spotlight-layer" aria-hidden="true"></div>
-            <div class="timeline-meta">
-              <span class="timeline-period">NATIONAL HONORS</span>
-              <span class="timeline-tag">Competitive Programming</span>
-            </div>
-            <div class="timeline-body">
-              <h3 class="timeline-role">Pre-Finalist &mdash; Republic Olympiad in Informatics</h3>
-              <p class="timeline-org">Ministry of Science and Education of the Republic of Azerbaijan</p>
-              <p class="timeline-desc">
-                Qualified as a national pre-finalist through rigorous multi-stage algorithmic evaluations in C++ and Python, solving complex computational problems in graph theory and dynamic optimization.
-              </p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- =====================================================================
-         SECTION 5: DIRECT NETWORKING DECK & FOOTER (PRIVACY UPDATED)
-         ===================================================================== -->
-    <section id="connect" class="section-block section-anchor connect-section" aria-labelledby="connect-heading">
-      <div class="container">
-        <div class="connect-shell spotlight-card border-beam-card reveal-item">
-          <div class="spotlight-layer" aria-hidden="true"></div>
-
-          <div class="connect-header">
-            <div>
-              <p class="eyebrow-mono">04 // DIRECT TRANSMISSION CHANNELS</p>
-              <h2 id="connect-heading" class="section-title">Initiate Collaboration</h2>
-              <p class="section-subtitle">
-                Available for systems architecture dispatches, quantitative AI/ML research inquiries, Linux kernel/userland engineering, and academic collaborations.
-              </p>
-            </div>
-
-            <div class="connect-quick-actions">
-              <button type="button" class="btn-primary magnetic-btn" id="copyEmailBtn" data-email="velizadetofiq1@gmail.com" data-magnetic-strength="0.25">
-                <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              <div class="featured-orb-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
                 </svg>
-                <span id="copyEmailText">Copy velizadetofiq1@gmail.com</span>
+              </div>
+            </div>
+
+            <div class="featured-tags-row card-layer-base" aria-label="Key technical domains">
+              <span class="domain-chip">GNOME / BlueZ Bluetooth</span>
+              <span class="domain-chip">NVIDIA ML Pipelines</span>
+              <span class="domain-chip">3DtoAR Spatial</span>
+              <span class="domain-chip">System Architecture</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Dual Grid: GitHub & LinkedIn -->
+      <div class="deck-grid">
+        
+        <!-- 2. GitHub Card -->
+        <div class="perspective-stage">
+          <a
+            href="https://github.com/T0F1Q2007"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tilt-card"
+            data-tilt
+            data-cursor="GITHUB"
+          >
+            <div class="card-spotlight" aria-hidden="true"></div>
+            <div class="card-3d-inner">
+              <div class="card-header-row card-layer-mid">
+                <div class="card-icon-badge" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12 0.297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385 0.6 0.113 0.82-0.258 0.82-0.577 0-0.285-0.01-1.04-0.015-2.04-3.338 0.724-4.042-1.61-4.042-1.61-0.546-1.385-1.335-1.755-1.335-1.755-1.087-0.744 0.084-0.729 0.084-0.729 1.205 0.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495 0.998 0.108-0.776 0.417-1.305 0.76-1.605-2.665-0.3-5.466-1.332-5.466-5.93 0-1.31 0.465-2.38 1.235-3.22-0.135-0.303-0.54-1.523 0.105-3.176 0 0 1.005-0.322 3.3 1.23 0.96-0.267 1.98-0.399 3-0.405 1.02 0.006 2.04 0.138 3 0.405 2.28-1.552 3.285-1.23 3.285-1.23 0.645 1.653 0.24 2.873 0.12 3.176 0.765 0.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92 0.42 0.36 0.81 1.096 0.81 2.22 0 1.606-0.015 2.896-0.015 3.286 0 0.315 0.21 0.69 0.825 0.57 4.801-1.574 8.236-6.074 8.236-11.369 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                </div>
+                <span class="card-handle">@T0F1Q2007</span>
+                <span class="card-external-glyph" aria-hidden="true">&nearr;</span>
+              </div>
+
+              <div class="card-body-block card-layer-top">
+                <h3 class="card-title">GitHub Source &amp; Research</h3>
+                <p class="card-desc">
+                  Redmi Buds 8 Pro GNOME reverse engineering, NVIDIA ML models, RepEat, and 3DtoAR spatial pipelines.
+                </p>
+              </div>
+
+              <div class="card-footer-meta card-layer-base">
+                <span class="meta-mono">OPEN SOURCE REPOSITORIES</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- 3. LinkedIn Card -->
+        <div class="perspective-stage">
+          <a
+            href="https://www.linkedin.com/in/velizadetofiq1"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tilt-card"
+            data-tilt
+            data-cursor="LINKEDIN"
+          >
+            <div class="card-spotlight" aria-hidden="true"></div>
+            <div class="card-3d-inner">
+              <div class="card-header-row card-layer-mid">
+                <div class="card-icon-badge card-icon-badge--cyan" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                  </svg>
+                </div>
+                <span class="card-handle">/in/velizadetofiq1</span>
+                <span class="card-external-glyph" aria-hidden="true">&nearr;</span>
+              </div>
+
+              <div class="card-body-block card-layer-top">
+                <h3 class="card-title">LinkedIn Network</h3>
+                <p class="card-desc">
+                  Executive engineering trajectory, institutional affiliations, technical endorsements, and industry discourse.
+                </p>
+              </div>
+
+              <div class="card-footer-meta card-layer-base">
+                <span class="meta-mono">VERIFIED PROFESSIONAL PROFILE</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- 4. WhatsApp Direct (Username-Based Protocol with Verification PIN 4458) -->
+      <div class="perspective-stage">
+        <article
+          class="tilt-card tilt-card--protocol"
+          data-tilt
+          aria-labelledby="whatsapp-protocol-heading"
+        >
+          <div class="card-spotlight" aria-hidden="true"></div>
+          <div class="card-3d-inner">
+            <div class="protocol-top-bar card-layer-mid">
+              <div class="protocol-title-group">
+                <div class="card-icon-badge card-icon-badge--emerald" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 id="whatsapp-protocol-heading" class="card-title">WhatsApp Direct (Username Protocol)</h3>
+                  <p class="protocol-sub">Numberless encrypted dispatch via WhatsApp username lookup</p>
+                </div>
+              </div>
+              <span class="protocol-pin-badge" title="Mandatory handshake verification PIN">
+                PIN: <strong>4458</strong>
+              </span>
+            </div>
+
+            <p class="protocol-explanation card-layer-top">
+              To preserve cryptographic privacy, no telephone number is publicly indexed. Initiate contact directly within WhatsApp by searching the handle <code class="inline-code">@velizadetofiq1</code> and entering verification code <code class="inline-code">4458</code> when prompted.
+            </p>
+
+            <div class="protocol-actions card-layer-top">
+              <button
+                type="button"
+                class="action-pill-btn action-pill-btn--emerald"
+                data-copy-value="@velizadetofiq1"
+                data-copy-label="WhatsApp username @velizadetofiq1"
+                data-cursor="COPY"
+              >
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy Handle: <strong>@velizadetofiq1</strong></span>
               </button>
 
-              <button type="button" class="btn-secondary magnetic-btn" id="footerPrintBtn" data-magnetic-strength="0.22">
-                <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="6 9 6 2 18 2 18 9" />
-                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                  <rect x="6" y="14" width="12" height="8" />
+              <button
+                type="button"
+                class="action-pill-btn"
+                data-copy-value="4458"
+                data-copy-label="Verification PIN 4458"
+                data-cursor="COPY PIN"
+              >
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <span>Print / Save CV (PDF)</span>
+                <span>Copy Code: <strong>4458</strong></span>
               </button>
             </div>
           </div>
+        </article>
+      </div>
 
-          <!-- 6-Channel Responsive Networking Bento Deck -->
-          <div class="network-deck-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-            <!-- Channel 1: GitHub -->
-            <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="network-card tilt-card spotlight-card" data-tilt-max="6">
-              <div class="spotlight-layer" aria-hidden="true"></div>
-              <div class="network-card-top tilt-layer-mid">
-                <span class="network-protocol">GIT // 01</span>
-                <span class="network-arrow">&nearr;</span>
-              </div>
-              <div class="network-card-main tilt-layer-high">
-                <span class="network-name">GitHub</span>
-                <span class="network-handle">@T0F1Q2007</span>
-              </div>
-              <span class="network-desc tilt-layer-mid">Source repositories, BLE Linux extensions, ML notebooks &amp; WebAR codebases.</span>
-            </a>
-
-            <!-- Channel 2: LinkedIn -->
-            <a href="https://www.linkedin.com/in/velizadetofiq1" target="_blank" rel="noopener noreferrer" class="network-card tilt-card spotlight-card" data-tilt-max="6">
-              <div class="spotlight-layer" aria-hidden="true"></div>
-              <div class="network-card-top tilt-layer-mid">
-                <span class="network-protocol">PRO // 02</span>
-                <span class="network-arrow">&nearr;</span>
-              </div>
-              <div class="network-card-main tilt-layer-high">
-                <span class="network-name">LinkedIn</span>
-                <span class="network-handle">/in/velizadetofiq1</span>
-              </div>
-              <span class="network-desc tilt-layer-mid">Professional network, academic credentials at ASOIU, and executive updates.</span>
-            </a>
-
-            <!-- Channel 3: Instagram -->
-            <a href="https://instagram.com/velizadetofiq1" target="_blank" rel="noopener noreferrer" class="network-card tilt-card spotlight-card" data-tilt-max="6">
-              <div class="spotlight-layer" aria-hidden="true"></div>
-              <div class="network-card-top tilt-layer-mid">
-                <span class="network-protocol">SOC // 03</span>
-                <span class="network-arrow">&nearr;</span>
-              </div>
-              <div class="network-card-main tilt-layer-high">
-                <span class="network-name">Instagram</span>
-                <span class="network-handle">@velizadetofiq1</span>
-              </div>
-              <span class="network-desc tilt-layer-mid">Social dispatches, engineering stories, and direct messaging.</span>
-            </a>
-
-            <!-- Channel 4: WhatsApp (Username with 4-Digit Key) -->
-            <div class="network-card tilt-card spotlight-card" data-tilt-max="6">
-              <div class="spotlight-layer" aria-hidden="true"></div>
-              <div class="network-card-top tilt-layer-mid">
-                <span class="network-protocol">MSG // 04</span>
-                <span class="network-arrow" style="color: var(--accent-emerald);">&bull;</span>
-              </div>
-              <div class="network-card-main tilt-layer-high">
-                <span class="network-name">WhatsApp (Username)</span>
-                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                  <span class="network-handle">@velizadetofiq1</span>
-                  <span style="display: inline-block; padding: 0.15rem 0.5rem; font-family: var(--font-mono); font-size: 0.68rem; border-radius: var(--radius-pill); background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #6ee7b7; font-weight: 600; letter-spacing: 0.04em;">Code: 4458</span>
+      <!-- Dual Grid: Spotify Sonic Rotation & Electronic Mail -->
+      <div class="deck-grid">
+        
+        <!-- 5. Spotify Card -->
+        <div class="perspective-stage">
+          <a
+            href="https://open.spotify.com/user/31q642whlx33ppuurp67f7gibl7u"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tilt-card"
+            data-tilt
+            data-cursor="SPOTIFY"
+          >
+            <div class="card-spotlight" aria-hidden="true"></div>
+            <div class="card-3d-inner">
+              <div class="card-header-row card-layer-mid">
+                <div class="card-icon-badge card-icon-badge--emerald" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                  </svg>
                 </div>
+                <div class="equalizer-bars" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+                <span class="card-external-glyph" aria-hidden="true">&nearr;</span>
               </div>
-              <span class="network-desc tilt-layer-mid">Contact directly via WhatsApp username @velizadetofiq1 using 4-digit key 4458 (no phone number required).</span>
+
+              <div class="card-body-block card-layer-top">
+                <h3 class="card-title">Sonic Rotation</h3>
+                <p class="card-desc">
+                  Curated acoustic telemetry and high-focus algorithmic soundscapes on Spotify.
+                </p>
+              </div>
+
+              <div class="card-footer-meta card-layer-base">
+                <span class="meta-mono">SPOTIFY // AUDIO STREAM</span>
+              </div>
             </div>
+          </a>
+        </div>
 
-            <!-- Channel 5: Electronic Mail -->
-            <a href="mailto:velizadetofiq1@gmail.com" class="network-card tilt-card spotlight-card" data-tilt-max="6">
-              <div class="spotlight-layer" aria-hidden="true"></div>
-              <div class="network-card-top tilt-layer-mid">
-                <span class="network-protocol">SMTP // 05</span>
-                <span class="network-arrow">&nearr;</span>
+        <!-- 6. Electronic Mail Card -->
+        <div class="perspective-stage">
+          <article
+            class="tilt-card tilt-card--email"
+            data-tilt
+            aria-labelledby="email-channel-heading"
+          >
+            <div class="card-spotlight" aria-hidden="true"></div>
+            <div class="card-3d-inner">
+              <div class="card-header-row card-layer-mid">
+                <div class="card-icon-badge card-icon-badge--cyan" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <span class="card-handle">DIRECT DISPATCH</span>
               </div>
-              <div class="network-card-main tilt-layer-high">
-                <span class="network-name">Electronic Mail</span>
-                <span class="network-handle">velizadetofiq1@gmail.com</span>
-              </div>
-              <span class="network-desc tilt-layer-mid">Formal correspondence, research proposals, and recruitment dispatches.</span>
-            </a>
 
-            <!-- Channel 6: Spotify -->
-            <a href="https://open.spotify.com/user/31q642whlx33ppuurp67f7gibl7u" target="_blank" rel="noopener noreferrer" class="network-card tilt-card spotlight-card" data-tilt-max="6">
-              <div class="spotlight-layer" aria-hidden="true"></div>
-              <div class="network-card-top tilt-layer-mid">
-                <span class="network-protocol">AUD // 06</span>
-                <span class="network-arrow">&nearr;</span>
+              <div class="card-body-block card-layer-top">
+                <h3 id="email-channel-heading" class="card-title">Electronic Mail</h3>
+                <p class="card-email-address" id="email-text-display">velizadetofiq1@gmail.com</p>
               </div>
-              <div class="network-card-main tilt-layer-high">
-                <span class="network-name">Spotify</span>
-                <span class="network-handle">Sonic Rotation</span>
+
+              <div class="email-action-row card-layer-top">
+                <button
+                  type="button"
+                  id="copy-email-btn"
+                  class="action-pill-btn action-pill-btn--cyan"
+                  data-copy-value="velizadetofiq1@gmail.com"
+                  data-copy-label="Electronic mail velizadetofiq1@gmail.com"
+                  data-cursor="COPY EMAIL"
+                >
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span id="copy-email-btn-text">Copy Address</span>
+                </button>
+                <a
+                  href="mailto:velizadetofiq1@gmail.com"
+                  class="action-pill-btn"
+                  data-cursor="MAILTO"
+                  aria-label="Compose electronic mail to velizadetofiq1@gmail.com"
+                >
+                  <span>Compose</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
               </div>
-              <span class="network-desc tilt-layer-mid">Late-night deep-focus acoustics for kernel debugging and model training.</span>
-            </a>
+            </div>
+          </article>
+        </div>
+
+      </div>
+
+      <!-- 7. Print / Save Full CV (PDF) Utility Action -->
+      <div class="perspective-stage">
+        <div class="utility-bar-card tilt-card" data-tilt>
+          <div class="card-spotlight" aria-hidden="true"></div>
+          <div class="utility-bar-inner card-3d-inner">
+            <div class="utility-info card-layer-mid">
+              <span class="utility-mono-tag">OFFLINE ARCHIVAL RECORD</span>
+              <h3 class="utility-title">Print or Export Curriculum Vitae Brief (PDF)</h3>
+              <p class="utility-sub">Generates a high-contrast typographical executive summary formatted for A4 archival.</p>
+            </div>
+            <div class="utility-cta-wrap card-layer-top">
+              <button
+                type="button"
+                id="print-cv-btn"
+                class="action-pill-btn action-pill-btn--featured"
+                data-cursor="PRINT PDF"
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                  <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                <span>Print / Save Full CV (PDF)</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
     </section>
+
+    <!-- Print-Only Executive Curriculum Vitae Summary (Visible during window.print()) -->
+    <section class="print-only-cv" aria-hidden="true">
+      <div class="print-header">
+        <h1>Tofig Valizada (Tofiq Vəlizadə)</h1>
+        <p>Systems Architecture &bull; Hardware Reverse Engineering &bull; Machine Learning Engineering</p>
+        <p>Web: https://tofiq.site &bull; Full Dossier: https://tofiq.site/dossier.html &bull; Email: velizadetofiq1@gmail.com</p>
+      </div>
+      <div class="print-section">
+        <h2>Selected Engineering Domains &amp; Projects</h2>
+        <ul>
+          <li><strong>Redmi Buds 8 Pro GNOME Integration:</strong> Reverse-engineered proprietary Bluetooth protocol packets to construct native Linux GNOME desktop telemetry and acoustic control interfaces.</li>
+          <li><strong>NVIDIA Machine Learning Models &amp; Pipelines:</strong> Engineered high-throughput neural inference workflows and applied computer vision architectures.</li>
+          <li><strong>3DtoAR Spatial Computing:</strong> Built automated 3D mesh reconstruction and Augmented Reality deployment pipelines.</li>
+          <li><strong>RepEat Systems Architecture:</strong> Full-stack application engineering and algorithmic state management.</li>
+        </ul>
+      </div>
+      <div class="print-section">
+        <h2>Verified Digital Channels</h2>
+        <ul>
+          <li><strong>GitHub:</strong> https://github.com/T0F1Q2007 (@T0F1Q2007)</li>
+          <li><strong>LinkedIn:</strong> https://www.linkedin.com/in/velizadetofiq1</li>
+          <li><strong>WhatsApp Direct (Username Lookup):</strong> @velizadetofiq1 (Verification Code: 4458)</li>
+          <li><strong>Electronic Mail:</strong> velizadetofiq1@gmail.com</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Minimalist Architectural Footer -->
+    <footer class="portal-footer">
+      <p class="footer-mono">
+        <span>&copy; <span id="current-year">2026</span> TOFIG VALIZADA</span>
+        <span class="footer-sep" aria-hidden="true">//</span>
+        <a href="dossier.html" class="footer-link" data-cursor="DOSSIER">DOSSIER.HTML</a>
+      </p>
+    </footer>
+
   </main>
 
-  <!-- Site Footer -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container footer-inner">
-      <div class="footer-left">
-        <span class="footer-brand">TOFIG VALIZADA (TOFİQ VƏLİZADƏ)</span>
-        <span class="footer-copy">&copy; <span id="currentYear">2026</span> &bull; Engineered with Kinetic WebGL &amp; Once/Obsidian Surface Architecture.</span>
-      </div>
-      <div class="footer-right">
-        <span class="footer-status-indicator">
-          <span class="status-dot-inline"></span>
-          <span>Baku, Azerbaijan (UTC+4) &bull; All Systems Nominal</span>
-        </span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- External CDN Libraries: Three.js (r128) & Lenis Smooth Scroll -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" crossorigin="anonymous"></script>
-
-  <!-- Modular Kinetic Application Scripts -->
-  <script src="js/kinetic-hero.js" defer></script>
-  <script src="js/kinetic-interactions.js" defer></script>
+  <!-- Accessible Live Toast Notification Region -->
+  <div
+    id="toast-region"
+    class="toast-notification"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    hidden
+  >
+    <span class="toast-indicator" aria-hidden="true"></span>
+    <span id="toast-message" class="toast-message">Copied to clipboard</span>
+  </div>
 </body>
 </html>
