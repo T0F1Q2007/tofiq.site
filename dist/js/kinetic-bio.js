@@ -1,12 +1,12 @@
 /**
- * MasterKineticEngine // Gemini 4 Argon Performance Architecture
- * ---------------------------------------------------------------------------
- * Resolves all 5 critical frame-pacing bottlenecks:
- * 1. Zero `:root` CSS Custom Property mutations per frame (zero Style Recalc).
- * 2. Single unified Master RAF loop driving Lenis, Cursor, Scroll Skew & Three.js.
- * 3. IntersectionObserver pausing Three.js WebGL draw calls when scrolled offscreen.
- * 4. Compositor-only `translate3d` and `scaleX` updates on dedicated GPU layers.
- * 5. Tuned Lenis smooth momentum (`lerp: 0.1`, `wheelMultiplier: 1.0`, `touchMultiplier: 1.2`).
+ * MasterSpatialEngine // Gemini 4 Argon (Commit e2d7cbf Restored + 120fps Compositor Engine)
+ * ------------------------------------------------------------------------------------------
+ * - Unified Hero Spatial Deck: 3D WebGL viewport seamlessly merged with 4-style Avatar Chassis.
+ * - Full Kinetic Suite: Fluid Magnetic Cursor with dynamic labels, Aceternity 3D Perspective
+ *   Tilt Cards with multi-layer translateZ, Perimeter Border Beam, Reveal Sheen Sweeps,
+ *   Scroll-Coupled Three.js Centerpiece, Velocity Skew, Mobile Touch Ripples & Gyroscope 3D.
+ * - 120fps Hardware Acceleration: Single synchronized RAF loop, GPU-translated spotlight,
+ *   compositor scaleX progress bar, and IntersectionObserver offscreen WebGL culling.
  */
 
 (function () {
@@ -16,67 +16,84 @@
   const isCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
   /* =========================================================================
-     1. DOM REFERENCES & STATE
+     1. DOM REFERENCES & ENGINE STATE
      ========================================================================= */
   const dom = {
     progressBar: document.getElementById('scroll-progress-bar'),
     spotlight: document.getElementById('ambient-spotlight'),
     cursorDot: document.getElementById('cursor-dot'),
     cursorRing: document.getElementById('cursor-ring'),
-    fpsCounter: document.getElementById('fps-counter'),
-    webglStatus: document.getElementById('webgl-status'),
+    cursorLabel: document.getElementById('cursor-label'),
+    hudScr: document.getElementById('hud-scr'),
+    hudVel: document.getElementById('hud-vel'),
+    hudGyro: document.getElementById('hud-gyro'),
+    gyroToggleBtn: document.getElementById('btn-gyro-toggle'),
+    gyroToggleLabel: document.getElementById('gyro-toggle-label'),
     webglStage: document.getElementById('webgl-stage'),
     webglCanvas: document.getElementById('hero-webgl-canvas'),
-    geoButtons: document.querySelectorAll('#geo-switcher .seg-btn'),
+    geoButtons: document.querySelectorAll('.geo-mode-btn'),
     avatarViewport: document.getElementById('avatar-viewport'),
-    avatarButtons: document.querySelectorAll('#avatar-switcher .style-pill'),
-    kineticCards: Array.from(document.querySelectorAll('.kinetic-card')),
+    avatarLayers: document.querySelectorAll('.avatar-render-layer'),
+    avatarStyleButtons: document.querySelectorAll('.style-switch-btn'),
+    tiltCards: Array.from(document.querySelectorAll('[data-tilt-card="true"]')),
+    skewNodes: Array.from(document.querySelectorAll('.velocity-skew-node')),
     magneticNodes: Array.from(document.querySelectorAll('[data-magnetic]')),
-    rippleNodes: Array.from(document.querySelectorAll('.ripple-surface')),
+    tactileTargets: Array.from(document.querySelectorAll('.tactile-target')),
     copyEmailBtn: document.getElementById('btn-copy-email'),
     copyWaHandleBtn: document.getElementById('btn-copy-wa-handle'),
     copyWaPinBtn: document.getElementById('btn-copy-wa-pin'),
     printCvBtn: document.getElementById('btn-print-cv'),
-    scrollTopBtn: document.getElementById('btn-scroll-top'),
-    toast: document.getElementById('toast-notification'),
-    toastMessage: document.getElementById('toast-message')
+    backToTopBtn: document.getElementById('btn-back-to-top'),
+    toastBanner: document.getElementById('toast-banner'),
+    toastText: document.getElementById('toast-text')
   };
 
+  // Per-card 3D tilt state for smooth spring interpolation inside Master RAF
+  const cardStates = dom.tiltCards.map((el) => ({
+    el,
+    targetRotX: 0,
+    targetRotY: 0,
+    currentRotX: 0,
+    currentRotY: 0,
+    isHovered: false
+  }));
+
   const state = {
-    // Scroll & Velocity
     scrollY: window.scrollY || 0,
     maxScroll: Math.max(1, document.documentElement.scrollHeight - window.innerHeight),
-    scrollProgress: 0,
-    targetVelocity: 0,
+    progress: 0,
+    rawVelocity: 0,
     smoothVelocity: 0,
 
-    // Pointer & Magnetic Cursor
+    // Cursor & Spotlight Coordinates
     pointerX: window.innerWidth * 0.5,
-    pointerY: window.innerHeight * 0.35,
+    pointerY: window.innerHeight * 0.3,
     ringX: window.innerWidth * 0.5,
-    ringY: window.innerHeight * 0.35,
+    ringY: window.innerHeight * 0.3,
     spotX: window.innerWidth * 0.5,
-    spotY: window.innerHeight * 0.35,
-    pointerActive: false,
+    spotY: window.innerHeight * 0.3,
+    pointerMoved: false,
 
-    // Mobile Gyroscope Tilt
-    gyroX: 0,
-    gyroY: 0,
+    // 3D Motion & Mobile Gyroscope State
+    motionEnabled: !prefersReducedMotion,
+    gyroActive: false,
+    gyroBeta: 0,
+    gyroGamma: 0,
     smoothGyroX: 0,
     smoothGyroY: 0,
 
-    // WebGL Visibility Gate (IntersectionObserver)
+    // WebGL Culling & Geometry State
     isWebGLVisible: true,
-    activeGeometryMode: 'torusKnot',
-
-    // Frame Telemetry
-    lastTimestamp: performance.now(),
-    frameCount: 0,
-    fpsLastSample: performance.now()
+    geometryMode: 'torusKnot',
+    lastTime: performance.now()
   };
 
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
   /* =========================================================================
-     2. LENIS SMOOTH SCROLL INITIALIZATION (TUNED MOMENTUM)
+     2. LENIS SMOOTH MOMENTUM SCROLLING
      ========================================================================= */
   let lenis = null;
 
@@ -87,7 +104,7 @@
         () => {
           state.scrollY = window.scrollY || window.pageYOffset;
           state.maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-          state.scrollProgress = Math.min(1, Math.max(0, state.scrollY / state.maxScroll));
+          state.progress = clamp(state.scrollY / state.maxScroll, 0, 1);
         },
         { passive: true }
       );
@@ -104,32 +121,31 @@
     lenis.on('scroll', (e) => {
       state.scrollY = e.scroll;
       state.maxScroll = Math.max(1, e.limit);
-      state.scrollProgress = e.progress;
-      state.targetVelocity = e.velocity || 0;
+      state.progress = clamp(e.progress, 0, 1);
+      state.rawVelocity = e.velocity || 0;
     });
   }
 
   /* =========================================================================
-     3. THREE.JS WEBGL SPATIAL STAGE + INTERSECTION OBSERVER
+     3. SCROLL-COUPLED THREE.JS WEBGL CENTERPIECE + OFFSCREEN CULLING
      ========================================================================= */
-  let threeCtx = null;
+  let webgl = null;
 
-  function buildGeometryByName(mode) {
+  function createGeometry(mode) {
     if (typeof window.THREE === 'undefined') return null;
     const THREE = window.THREE;
-
     switch (mode) {
       case 'octahedron':
-        return new THREE.OctahedronGeometry(1.35, 2);
+        return new THREE.OctahedronGeometry(1.38, 2);
       case 'helixTorus':
-        return new THREE.TorusKnotGeometry(1.05, 0.22, 160, 24, 3, 5);
+        return new THREE.TorusKnotGeometry(1.06, 0.22, 160, 24, 3, 5);
       case 'torusKnot':
       default:
-        return new THREE.TorusKnotGeometry(1.0, 0.28, 140, 20, 2, 3);
+        return new THREE.TorusKnotGeometry(1.02, 0.28, 150, 22, 2, 3);
     }
   }
 
-  function initWebGLStage() {
+  function initWebGL() {
     if (!dom.webglCanvas || !dom.webglStage || typeof window.THREE === 'undefined') return;
     const THREE = window.THREE;
 
@@ -139,7 +155,7 @@
     const height = Math.max(1, rect.height);
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 0, 4.6);
+    camera.position.set(0, 0, 4.5);
 
     const renderer = new THREE.WebGLRenderer({
       canvas: dom.webglCanvas,
@@ -150,33 +166,33 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(width, height, false);
 
-    // Primary Wireframe Mesh
-    const primaryGeo = buildGeometryByName(state.activeGeometryMode);
-    const primaryMat = new THREE.MeshBasicMaterial({
+    // Outer Wireframe Centerpiece
+    const mainGeo = createGeometry(state.geometryMode);
+    const mainMat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       wireframe: true,
       transparent: true,
-      opacity: 0.42
+      opacity: 0.46
     });
-    const primaryMesh = new THREE.Mesh(primaryGeo, primaryMat);
-    scene.add(primaryMesh);
+    const mainMesh = new THREE.Mesh(mainGeo, mainMat);
+    scene.add(mainMesh);
 
-    // Inner Core Mesh
-    const coreGeo = new THREE.IcosahedronGeometry(0.52, 1);
+    // Inner Counter-Rotating Geodesic Core
+    const coreGeo = new THREE.IcosahedronGeometry(0.54, 1);
     const coreMat = new THREE.MeshBasicMaterial({
       color: 0x10b981,
       wireframe: true,
       transparent: true,
-      opacity: 0.68
+      opacity: 0.72
     });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     scene.add(coreMesh);
 
-    // Orbital Particle Field
-    const particleCount = 260;
+    // Spatial Starfield Particles
+    const particleCount = 280;
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
-      const r = 1.8 + Math.random() * 2.2;
+      const r = 1.7 + Math.random() * 2.4;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
@@ -191,30 +207,24 @@
       transparent: true,
       opacity: 0.65
     });
-    const particleSystem = new THREE.Points(particleGeo, particleMat);
-    scene.add(particleSystem);
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
 
-    threeCtx = {
-      THREE,
+    webgl = {
       scene,
       camera,
       renderer,
-      primaryMesh,
+      mainMesh,
       coreMesh,
-      particleSystem,
-      scaleSpring: 1
+      particles,
+      morphScale: 1
     };
 
-    // IntersectionObserver gates offscreen WebGL rendering
+    // Offscreen WebGL Culling via IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           state.isWebGLVisible = entry.isIntersecting;
-          if (dom.webglStatus) {
-            dom.webglStatus.textContent = state.isWebGLVisible ? 'ACTIVE' : 'PAUSED (OFFSCREEN)';
-            dom.webglStatus.classList.toggle('status-active', state.isWebGLVisible);
-            dom.webglStatus.classList.toggle('status-paused', !state.isWebGLVisible);
-          }
         }
       },
       { root: null, threshold: 0.01 }
@@ -222,71 +232,63 @@
     observer.observe(dom.webglStage);
   }
 
-  function switchWebGLGeometry(mode) {
-    if (!threeCtx || mode === state.activeGeometryMode) return;
-    state.activeGeometryMode = mode;
+  function setGeometryMode(mode) {
+    if (!webgl || mode === state.geometryMode) return;
+    state.geometryMode = mode;
 
-    const oldGeo = threeCtx.primaryMesh.geometry;
-    const nextGeo = buildGeometryByName(mode);
+    const prevGeo = webgl.mainMesh.geometry;
+    const nextGeo = createGeometry(mode);
     if (nextGeo) {
-      threeCtx.primaryMesh.geometry = nextGeo;
-      if (oldGeo) oldGeo.dispose();
-      threeCtx.scaleSpring = 0.72; // Tactile scale pop on switch
+      webgl.mainMesh.geometry = nextGeo;
+      if (prevGeo) prevGeo.dispose();
+      webgl.morphScale = 0.7;
     }
 
-    // Accent color shift per topology
-    const colorMap = {
+    const palette = {
       torusKnot: 0x38bdf8,
       octahedron: 0x10b981,
       helixTorus: 0x818cf8
     };
-    threeCtx.primaryMesh.material.color.setHex(colorMap[mode] || 0x38bdf8);
+    webgl.mainMesh.material.color.setHex(palette[mode] || 0x38bdf8);
   }
 
   /* =========================================================================
-     4. UNIFIED MASTER RAF TICKER (LENIS + CURSOR + KINETIC CARDS + THREE.JS)
+     4. UNIFIED MASTER RAF LOOP (120FPS COMPOSITOR PIPELINE)
      ========================================================================= */
-  function clamp(val, min, max) {
-    return Math.max(min, Math.min(max, val));
-  }
-
-  function masterTick(now) {
-    // Delta-time in seconds, clamped to 50ms (lagSmoothing(0) principle)
-    const rawDt = (now - state.lastTimestamp) * 0.001;
+  function masterRAF(now) {
+    const rawDt = (now - state.lastTime) * 0.001;
     const dt = Math.min(Math.max(rawDt, 0.001), 0.05);
-    state.lastTimestamp = now;
+    state.lastTime = now;
 
-    // 1. Update Real-time FPS Telemetry Badge
-    state.frameCount++;
-    if (now - state.fpsLastSample >= 500) {
-      const currentFps = Math.min(120, Math.round((state.frameCount * 1000) / (now - state.fpsLastSample)));
-      if (dom.fpsCounter) {
-        dom.fpsCounter.textContent = `${currentFps} FPS`;
-      }
-      state.frameCount = 0;
-      state.fpsLastSample = now;
-    }
-
-    // 2. Step Lenis Smooth Scroll
+    // 1. Step Lenis Smooth Scroll
     if (lenis) {
       lenis.raf(now);
     } else {
-      state.targetVelocity *= 0.85;
+      state.rawVelocity *= 0.85;
     }
 
-    // Frame-rate independent exponential smoothing
-    const velAlpha = 1 - Math.exp(-14 * dt);
-    state.smoothVelocity += (state.targetVelocity - state.smoothVelocity) * velAlpha;
+    // Exponential velocity damping
+    const velDecay = 1 - Math.exp(-14 * dt);
+    state.smoothVelocity += (state.rawVelocity - state.smoothVelocity) * velDecay;
 
-    // 3. Drive Top Progress Bar via Compositor-Only scaleX
+    // 2. Update Top Hairline Progress Bar via GPU scaleX
     if (dom.progressBar) {
-      dom.progressBar.style.transform = `scaleX(${state.scrollProgress.toFixed(4)})`;
+      dom.progressBar.style.transform = `scaleX(${state.progress.toFixed(4)})`;
     }
 
-    // 4. Drive Custom Magnetic Cursor & Static Radial Spotlight via translate3d
-    if (!isCoarsePointer && state.pointerActive) {
+    // 3. Update Telemetry HUD Readouts
+    if (dom.hudScr) {
+      const pct = String(Math.round(state.progress * 100)).padStart(3, '0');
+      dom.hudScr.textContent = `${pct}%`;
+    }
+    if (dom.hudVel) {
+      dom.hudVel.textContent = Math.abs(state.smoothVelocity).toFixed(2);
+    }
+
+    // 4. Update Custom Magnetic Cursor & GPU-Translated Ambient Spotlight
+    if (!isCoarsePointer && state.pointerMoved) {
       const ringAlpha = 1 - Math.exp(-18 * dt);
-      const spotAlpha = 1 - Math.exp(-10 * dt);
+      const spotAlpha = 1 - Math.exp(-9 * dt);
 
       state.ringX += (state.pointerX - state.ringX) * ringAlpha;
       state.ringY += (state.pointerY - state.ringY) * ringAlpha;
@@ -300,217 +302,338 @@
         dom.cursorRing.style.transform = `translate3d(${state.ringX.toFixed(1)}px, ${state.ringY.toFixed(1)}px, 0)`;
       }
       if (dom.spotlight) {
-        dom.spotlight.style.transform = `translate3d(${state.spotX.toFixed(1)}px, ${state.spotY.toFixed(1)}px, 0)`;
+        // Translate spotlight center (-400px offset for 800x800 element)
+        dom.spotlight.style.transform = `translate3d(${(state.spotX - 400).toFixed(1)}px, ${(state.spotY - 400).toFixed(1)}px, 0)`;
       }
     }
 
-    // 5. Drive Kinetic Card Velocity Skew, Parallax & Mobile Gyro Tilt Directly
-    if (!prefersReducedMotion) {
-      const gyroAlpha = 1 - Math.exp(-8 * dt);
-      state.smoothGyroX += (state.gyroX - state.smoothGyroX) * gyroAlpha;
-      state.smoothGyroY += (state.gyroY - state.smoothGyroY) * gyroAlpha;
+    // 5. Smooth Gyroscope Interpolation
+    const gyroAlpha = 1 - Math.exp(-8 * dt);
+    state.smoothGyroX += (state.gyroGamma - state.smoothGyroX) * gyroAlpha;
+    state.smoothGyroY += (state.gyroBeta - state.smoothGyroY) * gyroAlpha;
 
-      const skewDeg = clamp(state.smoothVelocity * 0.065, -2.2, 2.2);
-      const centeredScroll = state.scrollY - window.innerHeight * 0.35;
+    // 6. Apply Velocity-Reactive Skew & Aceternity 3D Perspective Card Tilt
+    const skewY = state.motionEnabled ? clamp(state.smoothVelocity * 0.06, -2.4, 2.4) : 0;
+    const tiltAlpha = 1 - Math.exp(-14 * dt);
 
-      for (let i = 0; i < dom.kineticCards.length; i++) {
-        const card = dom.kineticCards[i];
-        const parallaxFactor = parseFloat(card.getAttribute('data-parallax') || '0');
-        const yOffset = clamp(centeredScroll * parallaxFactor, -18, 18);
-
-        if (isCoarsePointer && card.hasAttribute('data-tilt')) {
-          card.style.transform = `translate3d(${state.smoothGyroX.toFixed(1)}px, ${(yOffset + state.smoothGyroY).toFixed(1)}px, 0) skewY(${skewDeg.toFixed(2)}deg)`;
-        } else {
-          card.style.transform = `translate3d(0, ${yOffset.toFixed(1)}px, 0) skewY(${skewDeg.toFixed(2)}deg)`;
-        }
-      }
+    if (dom.skewNodes.length > 0 && dom.skewNodes[0]) {
+      // Hero Spatial Deck velocity skew
+      dom.skewNodes[0].style.transform = `translate3d(0, 0, 0) skewY(${(skewY * 0.45).toFixed(2)}deg)`;
     }
 
-    // 6. Render Three.js Scene ONLY When Visible in Viewport
-    if (threeCtx && state.isWebGLVisible) {
-      const { renderer, scene, camera, primaryMesh, coreMesh, particleSystem } = threeCtx;
+    for (let i = 0; i < cardStates.length; i++) {
+      const c = cardStates[i];
+      let goalX = c.targetRotX;
+      let goalY = c.targetRotY;
 
-      // Spring scale recovery on geometry switch
-      threeCtx.scaleSpring += (1 - threeCtx.scaleSpring) * (1 - Math.exp(-12 * dt));
-      primaryMesh.scale.setScalar(threeCtx.scaleSpring);
+      if (state.motionEnabled && state.gyroActive && !c.isHovered) {
+        goalX = clamp(state.smoothGyroY * 0.35, -7, 7);
+        goalY = clamp(state.smoothGyroX * 0.35, -7, 7);
+      } else if (!state.motionEnabled) {
+        goalX = 0;
+        goalY = 0;
+      }
 
-      const rotSpeed = prefersReducedMotion ? 0.08 : 0.42 + Math.abs(state.smoothVelocity) * 0.015;
-      primaryMesh.rotation.x += rotSpeed * dt;
-      primaryMesh.rotation.y += rotSpeed * 1.25 * dt;
+      c.currentRotX += (goalX - c.currentRotX) * tiltAlpha;
+      c.currentRotY += (goalY - c.currentRotY) * tiltAlpha;
 
-      coreMesh.rotation.x -= rotSpeed * 0.8 * dt;
-      coreMesh.rotation.z += rotSpeed * 1.1 * dt;
+      c.el.style.transform = `perspective(1200px) rotateX(${c.currentRotX.toFixed(2)}deg) rotateY(${c.currentRotY.toFixed(2)}deg) skewY(${skewY.toFixed(2)}deg) translate3d(0, 0, 0)`;
+    }
 
-      particleSystem.rotation.y += 0.08 * dt;
+    // 7. Scroll-Coupled Three.js Render (Only when visible in viewport)
+    if (webgl && state.isWebGLVisible) {
+      const { renderer, scene, camera, mainMesh, coreMesh, particles } = webgl;
 
-      // Subtle pointer parallax on 3D group
-      const normX = (state.pointerX / Math.max(1, window.innerWidth) - 0.5) * 0.45;
-      const normY = (state.pointerY / Math.max(1, window.innerHeight) - 0.5) * 0.45;
-      scene.rotation.y += (normX - scene.rotation.y) * (1 - Math.exp(-6 * dt));
-      scene.rotation.x += (normY - scene.rotation.x) * (1 - Math.exp(-6 * dt));
+      webgl.morphScale += (1 - webgl.morphScale) * (1 - Math.exp(-12 * dt));
+      mainMesh.scale.setScalar(webgl.morphScale);
+
+      const baseSpeed = state.motionEnabled ? 0.45 : 0.05;
+      const scrollBoost = state.motionEnabled ? Math.abs(state.smoothVelocity) * 0.035 : 0;
+      const angularVel = baseSpeed + scrollBoost;
+
+      mainMesh.rotation.x += angularVel * dt;
+      mainMesh.rotation.y += angularVel * 1.3 * dt;
+
+      coreMesh.rotation.x -= angularVel * 0.85 * dt;
+      coreMesh.rotation.z += angularVel * 1.15 * dt;
+
+      particles.rotation.y += 0.09 * dt;
+
+      // Scroll-coupled camera depth & pitch
+      const targetCamZ = 4.5 - Math.min(0.65, state.progress * 1.4);
+      camera.position.z += (targetCamZ - camera.position.z) * (1 - Math.exp(-8 * dt));
+
+      // Pointer + Gyroscope 3D spatial parallax on scene
+      const pointerNormX = (state.pointerX / Math.max(1, window.innerWidth) - 0.5) * 0.55;
+      const pointerNormY = (state.pointerY / Math.max(1, window.innerHeight) - 0.5) * 0.55;
+      const targetSceneY = pointerNormX + (state.gyroActive ? state.smoothGyroX * 0.03 : 0);
+      const targetSceneX = pointerNormY + (state.gyroActive ? state.smoothGyroY * 0.03 : 0);
+
+      scene.rotation.y += (targetSceneY - scene.rotation.y) * (1 - Math.exp(-6 * dt));
+      scene.rotation.x += (targetSceneX - scene.rotation.x) * (1 - Math.exp(-6 * dt));
 
       renderer.render(scene, camera);
     }
 
-    requestAnimationFrame(masterTick);
+    requestAnimationFrame(masterRAF);
   }
 
   /* =========================================================================
-     5. INTERACTIONS: POINTER, MAGNETIC BUTTONS, RIPPLES, SWITCHERS & COPY
+     5. INTERACTIONS: CURSOR LABELS, 3D CARD TILT, RIPPLES, SWITCHERS & GYRO
      ========================================================================= */
-  let toastTimer = null;
+  let toastTimeout = null;
 
-  function showToast(message) {
-    if (!dom.toast || !dom.toastMessage) return;
-    dom.toastMessage.textContent = message;
-    dom.toast.classList.add('visible');
-    if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      dom.toast.classList.remove('visible');
+  function triggerToast(text) {
+    if (!dom.toastBanner || !dom.toastText) return;
+    dom.toastText.textContent = text;
+    dom.toastBanner.classList.add('is-visible');
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      dom.toastBanner.classList.remove('is-visible');
     }, 2600);
   }
 
-  async function copyToClipboard(text, feedbackMessage) {
+  async function copyClipboard(value, message) {
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(text);
+        await navigator.clipboard.writeText(value);
       } else {
-        const tempInput = document.createElement('textarea');
-        tempInput.value = text;
-        tempInput.style.position = 'fixed';
-        tempInput.style.opacity = '0';
-        document.body.appendChild(tempInput);
-        tempInput.select();
+        const area = document.createElement('textarea');
+        area.value = value;
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
         document.execCommand('copy');
-        document.body.removeChild(tempInput);
+        document.body.removeChild(area);
       }
-      showToast(feedbackMessage);
+      triggerToast(message);
     } catch (_) {
-      showToast(`Ready to copy: ${text}`);
+      triggerToast(`Copied: ${value}`);
     }
   }
 
-  function bindInteractions() {
-    // Pointer tracking (zero style mutations here; coordinates read in masterTick)
+  function setupInteractions() {
+    // Pointer move tracking
     window.addEventListener(
       'pointermove',
       (e) => {
         state.pointerX = e.clientX;
         state.pointerY = e.clientY;
-        state.pointerActive = true;
+        state.pointerMoved = true;
       },
       { passive: true }
     );
 
-    // Magnetic Pull on [data-magnetic] controls
-    if (!isCoarsePointer && !prefersReducedMotion) {
-      dom.magneticNodes.forEach((node) => {
-        const strength = parseFloat(node.getAttribute('data-magnetic') || '0.2');
-
-        node.addEventListener('pointerenter', () => {
-          if (dom.cursorRing) dom.cursorRing.classList.add('cursor-hover');
+    // Dynamic Cursor Ring Expansion + Contextual Labels
+    if (!isCoarsePointer) {
+      const labeledElements = document.querySelectorAll('[data-cursor-label]');
+      labeledElements.forEach((el) => {
+        el.addEventListener('pointerenter', () => {
+          const labelText = el.getAttribute('data-cursor-label') || '';
+          if (dom.cursorLabel) dom.cursorLabel.textContent = labelText;
+          if (dom.cursorRing && labelText) dom.cursorRing.classList.add('is-expanded');
         });
+        el.addEventListener('pointerleave', () => {
+          if (dom.cursorRing) dom.cursorRing.classList.remove('is-expanded');
+        });
+      });
 
+      // Magnetic button attraction
+      dom.magneticNodes.forEach((node) => {
+        const pull = parseFloat(node.getAttribute('data-magnetic') || '0.2');
         node.addEventListener('pointermove', (e) => {
+          if (!state.motionEnabled) return;
           const rect = node.getBoundingClientRect();
-          const dx = (e.clientX - (rect.left + rect.width * 0.5)) * strength;
-          const dy = (e.clientY - (rect.top + rect.height * 0.5)) * strength;
+          const dx = (e.clientX - (rect.left + rect.width * 0.5)) * pull;
+          const dy = (e.clientY - (rect.top + rect.height * 0.5)) * pull;
           node.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
         });
-
         node.addEventListener('pointerleave', () => {
           node.style.transform = 'translate3d(0, 0, 0)';
-          if (dom.cursorRing) dom.cursorRing.classList.remove('cursor-hover');
         });
       });
     }
 
-    // Tactile Touch / Click Ripples (Compositor scale3d + opacity)
-    dom.rippleNodes.forEach((surface) => {
-      surface.addEventListener('pointerdown', (e) => {
-        const rect = surface.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height) * 0.65;
+    // Aceternity 3D Perspective Tilt Calculation per Card
+    cardStates.forEach((c) => {
+      c.el.addEventListener('pointerenter', () => {
+        c.isHovered = true;
+      });
+      c.el.addEventListener('pointermove', (e) => {
+        if (!state.motionEnabled || isCoarsePointer) return;
+        const rect = c.el.getBoundingClientRect();
+        const normX = (e.clientX - rect.left) / Math.max(1, rect.width) - 0.5;
+        const normY = (e.clientY - rect.top) / Math.max(1, rect.height) - 0.5;
+        c.targetRotX = clamp(-normY * 11, -8, 8);
+        c.targetRotY = clamp(normX * 11, -8, 8);
+      });
+      c.el.addEventListener('pointerleave', () => {
+        c.isHovered = false;
+        c.targetRotX = 0;
+        c.targetRotY = 0;
+      });
+    });
+
+    // Tactile Touch Ripples & Haptic Spring Compression
+    dom.tactileTargets.forEach((target) => {
+      target.addEventListener('pointerdown', (e) => {
+        target.classList.add('is-pressed');
+        const rect = target.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 0.55;
         const ripple = document.createElement('span');
-        ripple.className = 'touch-ripple';
+        ripple.className = 'tactile-ripple';
         ripple.style.width = `${size}px`;
         ripple.style.height = `${size}px`;
         ripple.style.left = `${e.clientX - rect.left - size * 0.5}px`;
         ripple.style.top = `${e.clientY - rect.top - size * 0.5}px`;
-        surface.appendChild(ripple);
+        target.appendChild(ripple);
         ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
       });
+
+      const releasePress = () => target.classList.remove('is-pressed');
+      target.addEventListener('pointerup', releasePress);
+      target.addEventListener('pointerleave', releasePress);
+      target.addEventListener('pointercancel', releasePress);
     });
 
-    // 3D Geometry Switcher Buttons
+    // 3D Geometry Switcher (Torus Knot, Cyber Octa, Helix Torus)
     dom.geoButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const mode = btn.getAttribute('data-geo');
+        const mode = btn.getAttribute('data-geo-mode') || 'torusKnot';
         dom.geoButtons.forEach((b) => {
-          const isTarget = b === btn;
-          b.classList.toggle('active', isTarget);
-          b.setAttribute('aria-pressed', isTarget ? 'true' : 'false');
+          const active = b === btn;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
         });
-        switchWebGLGeometry(mode);
+        setGeometryMode(mode);
       });
     });
 
-    // Avatar Art-Style Switcher (Original, Cyber Color, Emerald Matrix, Mono)
-    dom.avatarButtons.forEach((btn) => {
+    // Avatar 4-Style Cross-Fade Switcher (Original, Cyber Color, Matrix Emerald, Monolith Mono)
+    dom.avatarStyleButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const styleName = btn.getAttribute('data-avatar-style') || 'original';
-        dom.avatarButtons.forEach((b) => {
-          const isTarget = b === btn;
-          b.classList.toggle('active', isTarget);
-          b.setAttribute('aria-pressed', isTarget ? 'true' : 'false');
+        const targetMode = btn.getAttribute('data-avatar-mode') || 'original';
+
+        dom.avatarStyleButtons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-checked', active ? 'true' : 'false');
         });
 
         if (dom.avatarViewport) {
           dom.avatarViewport.classList.remove(
-            'style-original',
-            'style-cyber',
-            'style-matrix',
-            'style-mono'
+            'mode-original',
+            'mode-cyber',
+            'mode-emerald',
+            'mode-mono'
           );
-          dom.avatarViewport.classList.add(`style-${styleName}`);
-          dom.avatarViewport.setAttribute('data-current-style', styleName);
+          dom.avatarViewport.classList.add(`mode-${targetMode}`);
+        }
+
+        // Cross-fade image layers; if a specific render file is missing offline, gracefully filter the available portrait
+        let matchedValidLayer = false;
+        dom.avatarLayers.forEach((img) => {
+          const isMatch = img.getAttribute('data-style-id') === targetMode;
+          const isBroken = img.dataset.broken === 'true';
+          if (isMatch && !isBroken) {
+            matchedValidLayer = true;
+            img.classList.add('is-active');
+          } else {
+            img.classList.remove('is-active');
+          }
+        });
+
+        if (!matchedValidLayer && dom.avatarLayers.length > 0) {
+          const primaryImg = dom.avatarLayers[0];
+          if (primaryImg.dataset.broken !== 'true') {
+            primaryImg.classList.add('is-active');
+          }
         }
       });
     });
 
-    // Email Copy Action
-    if (dom.copyEmailBtn) {
-      dom.copyEmailBtn.addEventListener('click', () => {
-        const email = dom.copyEmailBtn.getAttribute('data-copy-value') || 'velizadetofiq1@gmail.com';
-        copyToClipboard(email, `Email copied: ${email}`);
+    // Mobile Gyroscope 3D Parallax & 3D MOTION Toggle
+    function attachGyroListener() {
+      window.addEventListener(
+        'deviceorientation',
+        (e) => {
+          if (!state.motionEnabled) return;
+          if (e.gamma !== null && e.beta !== null) {
+            state.gyroActive = true;
+            state.gyroGamma = clamp(e.gamma * 0.35, -14, 14);
+            state.gyroBeta = clamp((e.beta - 45) * 0.35, -14, 14);
+            if (dom.hudGyro) dom.hudGyro.textContent = 'LOCK';
+          }
+        },
+        { passive: true }
+      );
+    }
+
+    if (typeof window.DeviceOrientationEvent !== 'undefined' && typeof window.DeviceOrientationEvent.requestPermission !== 'function') {
+      attachGyroListener();
+    }
+
+    if (dom.gyroToggleBtn) {
+      dom.gyroToggleBtn.addEventListener('click', async () => {
+        if (
+          typeof window.DeviceOrientationEvent !== 'undefined' &&
+          typeof window.DeviceOrientationEvent.requestPermission === 'function' &&
+          !state.gyroActive
+        ) {
+          try {
+            const res = await window.DeviceOrientationEvent.requestPermission();
+            if (res === 'granted') attachGyroListener();
+          } catch (_) {
+            // Permission declined or unavailable
+          }
+        }
+
+        state.motionEnabled = !state.motionEnabled;
+        dom.gyroToggleBtn.setAttribute('aria-pressed', state.motionEnabled ? 'true' : 'false');
+        if (dom.gyroToggleLabel) {
+          dom.gyroToggleLabel.textContent = state.motionEnabled ? '3D MOTION: ON' : '3D MOTION: OFF';
+        }
+        if (dom.hudGyro) {
+          dom.hudGyro.textContent = state.motionEnabled ? (state.gyroActive ? 'LOCK' : 'SYNC') : 'OFF';
+        }
       });
     }
 
-    // WhatsApp Handle Copy Action (Strictly handle @velizadetofiq1 & PIN 4458)
+    // Direct Copy & Utility Endpoints
     if (dom.copyWaHandleBtn) {
-      dom.copyWaHandleBtn.addEventListener('click', () => {
-        copyToClipboard('@velizadetofiq1', 'WhatsApp handle @velizadetofiq1 copied (PIN: 4458)');
+      dom.copyWaHandleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        copyClipboard('@velizadetofiq1', 'WhatsApp handle @velizadetofiq1 copied (PIN: 4458)');
       });
     }
 
     if (dom.copyWaPinBtn) {
-      dom.copyWaPinBtn.addEventListener('click', () => {
-        copyToClipboard(
+      dom.copyWaPinBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        copyClipboard(
           'WhatsApp Handle: @velizadetofiq1 | Verification PIN: 4458',
           'Copied @velizadetofiq1 + Verification PIN 4458'
         );
       });
     }
 
-    // Print Executive CV Action
+    if (dom.copyEmailBtn) {
+      dom.copyEmailBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        copyClipboard('velizadetofiq1@gmail.com', 'Email copied: velizadetofiq1@gmail.com');
+      });
+    }
+
     if (dom.printCvBtn) {
-      dom.printCvBtn.addEventListener('click', () => {
+      dom.printCvBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         window.print();
       });
     }
 
-    // Back to Top Action
-    if (dom.scrollTopBtn) {
-      dom.scrollTopBtn.addEventListener('click', () => {
+    if (dom.backToTopBtn) {
+      dom.backToTopBtn.addEventListener('click', () => {
         if (lenis) {
           lenis.scrollTo(0);
         } else {
@@ -519,32 +642,18 @@
       });
     }
 
-    // Mobile Gyroscope Tilt Support
-    if (isCoarsePointer && typeof window.DeviceOrientationEvent !== 'undefined') {
-      window.addEventListener(
-        'deviceorientation',
-        (e) => {
-          if (e.gamma !== null && e.beta !== null) {
-            state.gyroX = clamp(e.gamma * 0.25, -8, 8);
-            state.gyroY = clamp((e.beta - 45) * 0.2, -8, 8);
-          }
-        },
-        { passive: true }
-      );
-    }
-
-    // Debounced Resize Handler for WebGL & Scroll Bounds
+    // Resize Observer / Window Resize
     window.addEventListener(
       'resize',
       () => {
         state.maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-        if (threeCtx && dom.webglStage) {
+        if (webgl && dom.webglStage) {
           const rect = dom.webglStage.getBoundingClientRect();
           const w = Math.max(1, rect.width);
           const h = Math.max(1, rect.height);
-          threeCtx.camera.aspect = w / h;
-          threeCtx.camera.updateProjectionMatrix();
-          threeCtx.renderer.setSize(w, h, false);
+          webgl.camera.aspect = w / h;
+          webgl.camera.updateProjectionMatrix();
+          webgl.renderer.setSize(w, h, false);
         }
       },
       { passive: true }
@@ -552,18 +661,18 @@
   }
 
   /* =========================================================================
-     6. BOOTSTRAP ENGINE
+     6. BOOTSTRAP
      ========================================================================= */
-  function bootstrap() {
+  function init() {
     initLenis();
-    initWebGLStage();
-    bindInteractions();
-    requestAnimationFrame(masterTick);
+    initWebGL();
+    setupInteractions();
+    requestAnimationFrame(masterRAF);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootstrap, { once: true });
+    document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
-    bootstrap();
+    init();
   }
 })();

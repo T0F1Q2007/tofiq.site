@@ -1,17 +1,17 @@
 
 /* ==========================================================================
-   1. DESIGN TOKENS (STATIC - NEVER MUTATED ON :ROOT PER FRAME)
+   1. STATIC DESIGN TOKENS (ZERO PER-FRAME :ROOT MUTATIONS)
    ========================================================================== */
 :root {
-  --bg-page: #07080c;
-  --bg-elevated: #0d1017;
-  --bg-card: rgba(17, 21, 31, 0.72);
-  --bg-card-hover: rgba(24, 30, 44, 0.86);
-  --bg-glass-pill: rgba(15, 19, 29, 0.78);
+  --bg-deep: #06070b;
+  --bg-surface: rgba(13, 17, 26, 0.74);
+  --bg-surface-elevated: rgba(19, 25, 39, 0.85);
+  --bg-pill: rgba(10, 14, 22, 0.82);
 
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.18);
-  --border-accent: rgba(56, 189, 248, 0.45);
+  --border-hairline: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.18);
+  --border-cyan: rgba(56, 189, 248, 0.45);
+  --border-emerald: rgba(16, 185, 129, 0.45);
 
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
@@ -19,22 +19,22 @@
 
   --accent-cyan: #38bdf8;
   --accent-emerald: #10b981;
-  --accent-indigo: #6366f1;
+  --accent-indigo: #818cf8;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --radius-xl: 24px;
-  --radius-lg: 16px;
-  --radius-md: 12px;
+  --radius-2xl: 28px;
+  --radius-xl: 22px;
+  --radius-lg: 14px;
   --radius-pill: 9999px;
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ==========================================================================
-   2. RESET & LENIS BASELINE
+   2. FOUNDATION & LENIS SMOOTH SCROLL
    ========================================================================== */
 *,
 *::before,
@@ -58,14 +58,13 @@ html.lenis body {
 }
 
 body {
-  background-color: var(--bg-page);
+  background-color: var(--bg-deep);
   color: var(--text-primary);
   font-family: var(--font-sans);
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  selection-background-color: var(--accent-cyan);
 }
 
 ::selection {
@@ -73,59 +72,70 @@ body {
   color: var(--text-primary);
 }
 
-/* Visible Keyboard Focus Ring (WCAG AA Compliant) */
 :focus-visible {
   outline: 2px solid var(--accent-cyan);
   outline-offset: 3px;
 }
 
 /* ==========================================================================
-   3. COMPOSITOR-ONLY SCROLL PROGRESS BAR & AMBIENT LAYERS
+   3. 2PX TOP HAIRLINE HUD SCROLL PROGRESS + LEADING BEAD
    ========================================================================== */
-.scroll-progress-track {
+.scroll-hud-track {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 3px;
-  z-index: 100;
+  height: 2px;
+  z-index: 120;
+  background: rgba(255, 255, 255, 0.04);
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.03);
 }
 
 .scroll-progress-bar {
+  position: relative;
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, var(--accent-cyan), var(--accent-emerald));
-  transform-origin: 0% 50%;
+  transform-origin: 0 50%;
   transform: scaleX(0);
   will-change: transform;
 }
 
-/* Static Radial Gradient Translated via GPU translate3d(x, y, 0) */
+.progress-leading-bead {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 10px;
+  height: 4px;
+  transform: translateY(-50%);
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  box-shadow: 0 0 12px var(--accent-cyan), 0 0 20px var(--accent-emerald);
+}
+
+/* ==========================================================================
+   4. GPU-TRANSLATED AMBIENT SPOTLIGHT & CONTAINED CONIC GLOW
+   ========================================================================== */
 .ambient-spotlight {
   position: fixed;
   top: 0;
   left: 0;
-  width: 720px;
-  height: 720px;
-  margin-left: -360px;
-  margin-top: -360px;
+  width: 800px;
+  height: 800px;
   border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
   background: radial-gradient(
     circle,
     rgba(56, 189, 248, 0.11) 0%,
-    rgba(16, 185, 129, 0.05) 38%,
-    rgba(7, 8, 12, 0) 70%
+    rgba(16, 185, 129, 0.05) 36%,
+    rgba(6, 7, 11, 0) 70%
   );
-  pointer-events: none;
-  z-index: 1;
   transform: translate3d(-9999px, -9999px, 0);
   will-change: transform;
   contain: layout style paint;
 }
 
-/* Optimized Conic Glow: Strict Containment & Efficient Blur Radius */
 .ambient-conic-stage {
   position: fixed;
   inset: 0;
@@ -137,19 +147,19 @@ body {
 
 .ambient-conic-glow {
   position: absolute;
-  top: -15%;
-  left: calc(50% - 380px);
-  width: 760px;
-  height: 760px;
+  top: -18%;
+  left: calc(50% - 400px);
+  width: 800px;
+  height: 800px;
   border-radius: 50%;
   background: conic-gradient(
     from 0deg,
-    rgba(56, 189, 248, 0.12),
-    rgba(16, 185, 129, 0.08),
-    rgba(99, 102, 241, 0.11),
-    rgba(56, 189, 248, 0.12)
+    rgba(56, 189, 248, 0.13),
+    rgba(16, 185, 129, 0.09),
+    rgba(129, 140, 248, 0.12),
+    rgba(56, 189, 248, 0.13)
   );
-  filter: blur(48px);
+  filter: blur(50px);
   opacity: 0.65;
   contain: strict;
   will-change: transform;
@@ -168,222 +178,208 @@ body {
 }
 
 /* ==========================================================================
-   4. DESKTOP CUSTOM MAGNETIC CURSOR
+   5. MULTI-LAYER FLUID MAGNETIC CURSOR SYSTEM
    ========================================================================== */
+.cursor-system {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 130;
+  overflow: hidden;
+}
+
 .cursor-dot,
 .cursor-ring {
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 95;
-  border-radius: 50%;
   will-change: transform;
-  transform: translate3d(-100px, -100px, 0);
+  transform: translate3d(-200px, -200px, 0);
 }
 
 .cursor-dot {
-  width: 8px;
-  height: 8px;
-  margin-left: -4px;
-  margin-top: -4px;
-  background-color: var(--accent-cyan);
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
 }
 
 .cursor-ring {
-  width: 36px;
-  height: 36px;
-  margin-left: -18px;
-  margin-top: -18px;
+  width: 38px;
+  height: 38px;
+  margin-left: -19px;
+  margin-top: -19px;
+  border-radius: var(--radius-pill);
   border: 1.5px solid rgba(56, 189, 248, 0.45);
-  transition: width 0.2s var(--ease-out-expo), height 0.2s var(--ease-out-expo),
-    margin 0.2s var(--ease-out-expo), border-color 0.2s ease, background-color 0.2s ease;
+  background: rgba(10, 14, 22, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.24s var(--ease-spring), height 0.24s var(--ease-spring),
+    margin 0.24s var(--ease-spring), border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.cursor-ring.cursor-hover {
-  width: 54px;
-  height: 54px;
-  margin-left: -27px;
-  margin-top: -27px;
-  border-color: var(--accent-emerald);
-  background-color: rgba(16, 185, 129, 0.08);
+.cursor-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #03111a;
+  opacity: 0;
+  white-space: nowrap;
+  transform: scale(0.8);
+  transition: opacity 0.18s ease, transform 0.2s var(--ease-spring);
+}
+
+.cursor-ring.is-expanded {
+  width: 86px;
+  height: 30px;
+  margin-left: -43px;
+  margin-top: -15px;
+  background: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
+}
+
+.cursor-ring.is-expanded .cursor-label {
+  opacity: 1;
+  transform: scale(1);
 }
 
 @media (hover: none), (pointer: coarse) {
-  .cursor-dot,
-  .cursor-ring,
+  .cursor-system,
   .ambient-spotlight {
     display: none !important;
   }
 }
 
 /* ==========================================================================
-   5. TOP TELEMETRY BAR
+   6. FLOATING TELEMETRY HUD HEADER
    ========================================================================== */
-.top-telemetry-bar {
+.telemetry-hud-header {
   position: sticky;
-  top: 0;
-  z-index: 40;
-  border-bottom: 1px solid var(--border-subtle);
-  background: rgba(7, 8, 12, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  top: 0.75rem;
+  z-index: 90;
+  padding: 0 1.25rem;
+  pointer-events: none;
 }
 
-.telemetry-inner {
-  max-width: 1200px;
+.telemetry-hud-inner {
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.telemetry-brand {
-  display: flex;
+.hud-brand-pill,
+.hud-telemetry-pill,
+.hud-motion-toggle {
+  pointer-events: auto;
+  display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.55rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-pill);
+  border: 1px solid var(--border-hairline);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  color: var(--text-secondary);
 }
 
-.status-beacon {
-  width: 8px;
-  height: 8px;
+.hud-pulse-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--accent-emerald);
   box-shadow: 0 0 10px var(--accent-emerald);
 }
 
-.telemetry-mono {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+.hud-brand-text {
   color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 
-.telemetry-metrics {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+.hud-telemetry-pill strong {
+  color: var(--accent-cyan);
+  font-weight: 600;
 }
 
-.telemetry-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-}
-
-.telemetry-label {
+.hud-sep {
   color: var(--text-muted);
 }
 
-.telemetry-value {
+.hud-motion-toggle {
+  cursor: pointer;
   color: var(--text-primary);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s var(--ease-spring);
 }
 
-.telemetry-value.status-active {
-  color: var(--accent-emerald);
+.hud-motion-toggle:hover {
+  border-color: var(--border-cyan);
 }
 
-.telemetry-value.status-paused {
-  color: var(--accent-cyan);
+.motion-led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.hud-motion-toggle[aria-pressed="false"] .motion-led {
+  background: var(--text-muted);
+  box-shadow: none;
 }
 
 /* ==========================================================================
-   6. MAIN LAYOUT & KINETIC CARDS (DEDICATED GPU COMPOSITING LAYERS)
+   7. SPATIAL VIEWPORT & UNIFIED HERO SPATIAL DECK
    ========================================================================== */
-.kinetic-main {
+.spatial-viewport {
   position: relative;
   z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 5rem;
+  max-width: 1120px;
+  margin: 1.5rem auto 4.5rem;
+  padding: 0 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 2.25rem;
 }
 
-.kinetic-card {
+/* Single Unified Hero Spatial Deck */
+.hero-spatial-deck {
   position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-2xl);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
   will-change: transform;
-  transition: border-color 0.25s ease, background-color 0.25s ease;
   overflow: hidden;
+  box-shadow: 0 28px 70px -20px rgba(0, 0, 0, 0.75);
 }
 
-.kinetic-card:hover {
-  border-color: var(--border-strong);
-  background: var(--bg-card-hover);
-}
-
-/* Active Tactile Compression */
-.ripple-surface {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.ripple-surface:active {
-  transform: scale3d(0.985, 0.985, 1) !important;
-}
-
-.touch-ripple {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(16, 185, 129, 0.1) 60%, transparent 100%);
-  transform: scale3d(0, 0, 1);
-  opacity: 1;
-  will-change: transform, opacity;
-  animation: rippleExpand 550ms var(--ease-out-expo) forwards;
-}
-
-@keyframes rippleExpand {
-  0% {
-    transform: scale3d(0, 0, 1);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale3d(2.6, 2.6, 1);
-    opacity: 0;
-  }
-}
-
-/* ==========================================================================
-   7. HERO WEBGL STAGE & GEOMETRY SWITCHER
-   ========================================================================== */
-.hero-stage-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
+/* 3D WebGL Space Centerpiece (Top of Unified Hero Deck) */
 .webgl-stage {
   position: relative;
   width: 100%;
-  height: 340px;
-  border-radius: var(--radius-xl);
-  background: radial-gradient(circle at 50% 50%, #111827 0%, #07080c 100%);
-  border: 1px solid var(--border-subtle);
+  height: 360px;
+  background: radial-gradient(circle at 50% 45%, rgba(30, 41, 59, 0.65) 0%, rgba(6, 7, 11, 0.95) 100%);
+  border-bottom: 1px solid var(--border-hairline);
   overflow: hidden;
   contain: content;
-  transform: translateZ(0);
 }
 
 #hero-webgl-canvas {
@@ -392,120 +388,109 @@ body {
   display: block;
 }
 
-.webgl-controls-bar {
+.webgl-hud-overlay {
   position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
+  top: 1rem;
+  left: 1.25rem;
+  right: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.75rem;
-  padding: 0.6rem 0.9rem;
-  border-radius: var(--radius-lg);
-  background: var(--bg-glass-pill);
-  border: 1px solid var(--border-subtle);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transform: translateZ(0);
+  pointer-events: none;
 }
 
-.control-eyebrow {
+.webgl-telemetry-tag {
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--text-secondary);
+  background: rgba(6, 7, 11, 0.7);
+  border: 1px solid var(--border-hairline);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
 }
 
-.segmented-control {
+.geometry-mode-track {
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  flex-wrap: wrap;
+  padding: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: rgba(6, 7, 11, 0.78);
+  border: 1px solid var(--border-hairline);
 }
 
-.seg-btn,
-.style-pill {
+.geo-mode-btn {
   appearance: none;
-  border: 1px solid transparent;
-  background: rgba(255, 255, 255, 0.04);
+  border: none;
+  background: transparent;
   color: var(--text-secondary);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.7rem;
   font-weight: 500;
-  padding: 0.45rem 0.85rem;
-  min-height: 36px;
+  padding: 0.38rem 0.8rem;
   border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  will-change: transform;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s var(--ease-spring);
 }
 
-.seg-btn:hover,
-.style-pill:hover {
+.geo-mode-btn:hover {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.09);
 }
 
-.seg-btn.active,
-.style-pill.active {
-  color: #041019;
+.geo-mode-btn.active {
   background: var(--accent-cyan);
-  border-color: var(--accent-cyan);
-  font-weight: 600;
+  color: #03111a;
+  font-weight: 700;
 }
 
-/* ==========================================================================
-   8. HERO IDENTITY GRID & AVATAR ART-STYLE SWITCHER
-   ========================================================================== */
-.hero-identity-grid {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 1.5rem;
-  align-items: stretch;
-}
-
-.avatar-console-card {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.25rem;
-}
-
-.avatar-frame-wrapper {
+/* Seamless Avatar Module Positioned Directly Beneath WebGL Viewport */
+.hero-identity-core {
   position: relative;
+  padding: 0 2rem 2.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  text-align: center;
+  margin-top: -74px;
+  z-index: 4;
+}
+
+.avatar-chassis-outer {
+  position: relative;
+  width: 152px;
+  height: 152px;
+  border-radius: 50%;
+  padding: 6px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
+  box-shadow: 0 0 36px rgba(56, 189, 248, 0.32), 0 12px 30px rgba(0, 0, 0, 0.7);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+.avatar-orbital-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px dashed rgba(56, 189, 248, 0.45);
+  pointer-events: none;
+  animation: rotateConic 18s linear infinite;
 }
 
 .avatar-viewport {
   position: relative;
-  width: 210px;
-  height: 210px;
-  border-radius: 28px;
-  overflow: hidden;
-  border: 1px solid var(--border-strong);
-  background: #0f172a;
-  transform: translateZ(0);
-  transition: filter 0.35s var(--ease-out-expo), border-color 0.35s ease;
-}
-
-.avatar-photo {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: 2;
-  transition: opacity 0.3s ease;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #0b111e;
+  transform: translateZ(0);
 }
 
-.avatar-vector-fallback {
+.avatar-fallback-svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -513,7 +498,36 @@ body {
   z-index: 1;
 }
 
-.avatar-scanline {
+.avatar-render-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.42s var(--ease-spring), transform 0.42s var(--ease-spring), filter 0.42s ease;
+  pointer-events: none;
+}
+
+.avatar-render-layer.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Optical Filter Enhancements When Cross-Fading */
+.avatar-viewport.mode-cyber {
+  filter: saturate(1.45) contrast(1.15);
+}
+.avatar-viewport.mode-emerald {
+  filter: hue-rotate(12deg) contrast(1.18);
+}
+.avatar-viewport.mode-mono {
+  filter: grayscale(1) contrast(1.28);
+}
+
+.avatar-scanline-overlay {
   position: absolute;
   inset: 0;
   z-index: 3;
@@ -521,401 +535,496 @@ body {
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
-    transparent 3px,
-    rgba(255, 255, 255, 0.03) 4px
+    transparent 2px,
+    rgba(56, 189, 248, 0.08) 3px
   );
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  opacity: 0.55;
 }
 
-/* 4 Avatar Optical Shader Modes */
-.avatar-viewport.style-original {
-  filter: none;
-}
-
-.avatar-viewport.style-cyber {
-  filter: saturate(1.85) contrast(1.22) hue-rotate(-18deg);
-  border-color: var(--accent-cyan);
-}
-.avatar-viewport.style-cyber .avatar-scanline {
-  opacity: 1;
-}
-
-.avatar-viewport.style-matrix {
-  filter: sepia(0.85) hue-rotate(95deg) saturate(2.3) contrast(1.25);
-  border-color: var(--accent-emerald);
-}
-.avatar-viewport.style-matrix .avatar-scanline {
-  opacity: 1;
-}
-
-.avatar-viewport.style-mono {
-  filter: grayscale(1) contrast(1.35) brightness(1.05);
-  border-color: rgba(255, 255, 255, 0.45);
-}
-
-.avatar-badge-online {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--accent-emerald);
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 0.25rem 0.75rem;
+/* 4-Style Segmented Switcher Track */
+.style-switcher-track {
+  margin-top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem;
   border-radius: var(--radius-pill);
+  background: rgba(8, 12, 20, 0.85);
+  border: 1px solid var(--border-hairline);
 }
 
-.avatar-switcher-wrap {
+.style-switch-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.42rem 0.9rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.22s var(--ease-spring);
+}
+
+.style-switch-btn:hover {
+  color: var(--text-primary);
+}
+
+.style-switch-btn.active {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: var(--border-cyan);
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+/* Hero Typography Stack Inside Unified Deck */
+.hero-typography-stack {
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 680px;
 }
 
-.avatar-style-pills {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.45rem;
+.hero-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-emerald);
 }
 
-/* Hero Copy Card */
-.hero-copy-card {
-  padding: 2.25rem;
+.status-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+}
+
+.hero-title-main {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.85rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+.hero-subtitle-mono {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+}
+
+.hero-abstract-copy {
+  font-size: 1.02rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* ==========================================================================
+   8. ACETERNITY 3D PERSPECTIVE TILT CARDS, BORDER BEAM & REVEAL SHEEN
+   ========================================================================== */
+.featured-portal-section,
+.action-deck-section {
+  perspective: 1200px;
+}
+
+.perspective-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1.5rem;
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transform-style: preserve-3d;
+  transform: perspective(1200px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0);
+  will-change: transform;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+  text-decoration: none;
+  color: var(--text-primary);
+  overflow: hidden;
 }
 
-.eyebrow-row {
+.perspective-card:hover {
+  border-color: var(--border-highlight);
+  background: var(--bg-surface-elevated);
+}
+
+/* Multi-Layer 3D Depth Stack */
+.card-layer-base {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(0px);
+  pointer-events: none;
+}
+
+.card-layer-mid {
+  position: relative;
+  z-index: 2;
+  transform: translateZ(22px);
+  transform-style: preserve-3d;
+}
+
+.card-layer-top {
+  position: relative;
+  z-index: 3;
+  transform: translateZ(38px);
+  transform-style: preserve-3d;
+}
+
+/* Luminous Reveal Sheen Sweep */
+.reveal-sheen {
+  position: absolute;
+  inset: -40%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(56, 189, 248, 0.12) 48%,
+    rgba(16, 185, 129, 0.14) 52%,
+    transparent 65%
+  );
+  transform: translate3d(-120%, 0, 0);
+  will-change: transform;
+  transition: transform 0.85s var(--ease-spring);
+}
+
+.perspective-card:hover .reveal-sheen,
+.hero-spatial-deck:hover .reveal-sheen {
+  transform: translate3d(120%, 0, 0);
+}
+
+/* Perimeter Animated Border Beam on Featured Dossier Card */
+.featured-dossier-card {
+  padding: 2.25rem;
+  gap: 1.5rem;
+  border-color: rgba(56, 189, 248, 0.28);
+}
+
+.border-beam-container {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  z-index: 1;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  overflow: hidden;
+}
+
+.border-beam-runner {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 270deg,
+    var(--accent-cyan) 315deg,
+    var(--accent-emerald) 355deg,
+    transparent 360deg
+  );
+  will-change: transform;
+  animation: rotateConic 5.5s linear infinite;
+}
+
+.dossier-badge-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 0.65rem;
 }
 
-.eyebrow-tag {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: var(--accent-cyan);
-  letter-spacing: 0.06em;
-}
-
-.eyebrow-code {
+.dossier-chip {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--text-muted);
-}
-
-.hero-display-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.25rem, 4.5vw, 3.6rem);
-  font-weight: 700;
-  line-height: 1.06;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-}
-
-.hero-lead {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  max-width: 64ch;
-}
-
-/* Primary Dossier Portal CTA */
-.primary-dossier-cta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.15rem 1.4rem;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.16), rgba(16, 185, 129, 0.12));
-  border: 1px solid var(--border-accent);
-  text-decoration: none;
-  color: var(--text-primary);
-  transition: transform 0.25s var(--ease-out-expo), border-color 0.25s ease, background 0.25s ease;
-  will-change: transform;
-}
-
-.primary-dossier-cta:hover {
-  border-color: var(--accent-cyan);
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.24), rgba(16, 185, 129, 0.18));
-}
-
-.cta-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.cta-kicker {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--accent-cyan);
 }
 
-.cta-headline {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
+.dossier-chip-code {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
-.cta-arrow-box {
+.dossier-card-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.dossier-card-description {
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+  max-width: 72ch;
+}
+
+.dossier-cta-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.dossier-cta-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-emerald);
+}
+
+.dossier-cta-orb {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: rgba(56, 189, 248, 0.2);
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid var(--border-cyan);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--accent-cyan);
-  flex-shrink: 0;
-}
-
-/* Utility Bar */
-.hero-utility-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.utility-action-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.65rem 1rem;
-  min-height: 44px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
-  will-change: transform;
-}
-
-.utility-action-btn:hover {
-  border-color: var(--border-strong);
-  background: rgba(255, 255, 255, 0.08);
 }
 
 /* ==========================================================================
-   9. CHANNELS BENTO MATRIX
+   9. ACTION DECK BENTO GRID & CHANNEL CARDS
    ========================================================================== */
-.channels-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.section-header-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.section-kicker {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--accent-cyan);
-  letter-spacing: 0.08em;
-  margin-bottom: 0.25rem;
-}
-
-.section-heading {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.section-subtext {
-  font-size: 0.92rem;
-  color: var(--text-secondary);
-  max-width: 46ch;
-}
-
-.channels-bento-grid {
+.action-deck-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
-}
-
-.channel-card {
-  padding: 1.75rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   gap: 1.35rem;
-  text-decoration: none;
-  color: var(--text-primary);
 }
 
-.card-top-bar {
+.deck-card {
+  padding: 1.75rem;
+  gap: 1.35rem;
+}
+
+.deck-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  margin-bottom: 0.9rem;
 }
 
-.channel-icon-wrap {
+.deck-icon-box {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-cyan);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-hairline);
 }
 
-.card-whatsapp .channel-icon-wrap,
-.card-spotify .channel-icon-wrap {
+.icon-cyan {
+  color: var(--accent-cyan);
+}
+.icon-emerald {
   color: var(--accent-emerald);
 }
+.icon-indigo {
+  color: var(--accent-indigo);
+}
 
-.channel-tag {
+.deck-card-tag {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
-  letter-spacing: 0.06em;
 }
 
-.card-body-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.channel-title {
+.deck-card-title {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.32rem;
   font-weight: 700;
+  margin-bottom: 0.2rem;
 }
 
-.channel-handle {
+.deck-card-handle {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--accent-cyan);
+  margin-bottom: 0.55rem;
 }
 
-.channel-desc {
-  font-size: 0.92rem;
+.deck-card-copy {
+  font-size: 0.9rem;
   color: var(--text-secondary);
 }
 
-.card-footer-meta {
+.deck-card-copy code {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.deck-card-footer {
   padding-top: 0.9rem;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--border-hairline);
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.74rem;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
-/* WhatsApp Handle + PIN Box */
-.wa-credentials-box {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin: 0.35rem 0;
+.deck-arrow {
+  color: var(--accent-cyan);
 }
 
-.wa-credential-item {
+/* WhatsApp Handle + PIN Vault Strip */
+.wa-vault-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.45rem 0 0.65rem;
+}
+
+.wa-vault-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: var(--radius-md);
-  background: rgba(16, 185, 129, 0.09);
-  border: 1px solid rgba(16, 185, 129, 0.28);
+  padding: 0.3rem 0.65rem;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-.wa-label {
+.wa-vault-key {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.64rem;
   color: var(--text-secondary);
 }
 
-.wa-code {
+.wa-vault-val {
   font-family: var(--font-mono);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-emerald);
+}
+
+.deck-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.deck-inline-btn {
+  flex: 1 1 auto;
+  min-height: 42px;
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-hairline);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s var(--ease-spring);
+}
+
+.deck-inline-btn:hover {
+  border-color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.14);
+}
+
+.btn-emerald-accent {
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.btn-emerald-accent:hover {
+  border-color: var(--accent-emerald);
+  background: rgba(16, 185, 129, 0.16);
+}
+
+/* Spotify 4 Bouncing Equalizer Bars */
+.spotify-eq-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+}
+
+.eq-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
   font-weight: 600;
   color: var(--accent-emerald);
 }
 
-.card-action-split {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  padding-top: 0.5rem;
-}
-
-.wa-action-btn {
-  flex: 1 1 auto;
-  min-height: 44px;
-  padding: 0.55rem 0.85rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-.wa-action-btn:hover {
-  background: rgba(16, 185, 129, 0.16);
-  border-color: var(--accent-emerald);
-}
-
-.wa-pin-btn {
-  border-color: rgba(16, 185, 129, 0.35);
-}
-
-/* Spotify Equalizer Animation (Compositor scaleY Only) */
 .equalizer-bars {
   display: inline-flex;
   align-items: flex-end;
   gap: 3px;
-  height: 18px;
+  height: 14px;
 }
 
 .eq-bar {
   width: 3px;
-  height: 18px;
-  background: var(--accent-emerald);
+  height: 14px;
   border-radius: 2px;
+  background: var(--accent-emerald);
   transform-origin: 50% 100%;
   will-change: transform;
-  animation: eqPulse 1.1s ease-in-out infinite alternate;
+  animation: eqBounce 0.95s ease-in-out infinite alternate;
 }
 
 .eq-bar:nth-child(2) {
-  animation-duration: 0.75s;
+  animation-duration: 0.65s;
 }
 .eq-bar:nth-child(3) {
-  animation-duration: 1.3s;
+  animation-duration: 1.15s;
 }
 .eq-bar:nth-child(4) {
-  animation-duration: 0.9s;
+  animation-duration: 0.8s;
 }
 
-@keyframes eqPulse {
+@keyframes eqBounce {
   0% {
-    transform: scaleY(0.25);
+    transform: scaleY(0.22);
   }
   100% {
     transform: scaleY(1);
@@ -923,87 +1032,58 @@ body {
 }
 
 /* ==========================================================================
-   10. COMPOSITOR BENCHMARK SPECS SECTION
+   10. MOBILE TACTILE TOUCH RIPPLES & HAPTIC SPRING COMPRESSION
    ========================================================================== */
-.specs-banner-card {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.tactile-target {
+  position: relative;
+  overflow: hidden;
+  touch-action: manipulation;
 }
 
-.specs-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
+.tactile-target.is-pressed {
+  transform: scale3d(0.97, 0.97, 1) !important;
 }
 
-.secondary-dossier-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.1rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-strong);
-  color: var(--text-primary);
-  text-decoration: none;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+.tactile-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.4) 0%,
+    rgba(16, 185, 129, 0.18) 55%,
+    transparent 100%
+  );
+  transform: scale3d(0, 0, 1);
+  opacity: 1;
+  will-change: transform, opacity;
+  animation: tactileWave 580ms var(--ease-spring) forwards;
 }
 
-.secondary-dossier-link:hover {
-  border-color: var(--accent-cyan);
-  background: rgba(56, 189, 248, 0.1);
-}
-
-.specs-metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-}
-
-.spec-metric-box {
-  padding: 1.15rem;
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.spec-metric-label {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--text-muted);
-}
-
-.spec-metric-val {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--accent-emerald);
-}
-
-.spec-metric-note {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
+@keyframes tactileWave {
+  0% {
+    transform: scale3d(0, 0, 1);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale3d(2.8, 2.8, 1);
+    opacity: 0;
+  }
 }
 
 /* ==========================================================================
-   11. FOOTER & TOAST NOTIFICATION
+   11. FOOTER & LIVE TOAST BANNER
    ========================================================================== */
-.kinetic-footer {
+.spatial-footer {
   position: relative;
   z-index: 2;
-  border-top: 1px solid var(--border-subtle);
-  padding: 2rem 1.5rem;
+  border-top: 1px solid var(--border-hairline);
+  padding: 2rem 1.25rem;
 }
 
-.footer-inner {
-  max-width: 1200px;
+.spatial-footer-inner {
+  max-width: 1120px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -1012,107 +1092,113 @@ body {
   gap: 1rem;
 }
 
-.footer-copy {
-  font-size: 0.85rem;
+.footer-id {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
   color: var(--text-muted);
 }
 
-.footer-links {
+.footer-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+}
+
+.footer-actions {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
 
-.footer-link {
+.footer-nav-link {
+  appearance: none;
+  background: none;
+  border: none;
   color: var(--text-secondary);
   text-decoration: none;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  background: none;
-  border: none;
+  font-size: 0.75rem;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
 
-.footer-link:hover {
+.footer-nav-link:hover {
   color: var(--accent-cyan);
 }
 
-/* GPU-Accelerated Toast Notification */
-.toast-notification {
+.toast-banner {
   position: fixed;
-  bottom: 1.75rem;
-  right: 1.75rem;
-  z-index: 110;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 140;
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   padding: 0.75rem 1.15rem;
   border-radius: var(--radius-pill);
-  background: rgba(13, 16, 23, 0.92);
+  background: rgba(10, 14, 22, 0.94);
   border: 1px solid var(--accent-emerald);
   color: var(--text-primary);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transform: translate3d(0, 120%, 0);
+  font-size: 0.76rem;
+  transform: translate3d(0, 130%, 0);
   opacity: 0;
   pointer-events: none;
   will-change: transform, opacity;
-  transition: transform 0.3s var(--ease-out-expo), opacity 0.3s ease;
+  transition: transform 0.32s var(--ease-spring), opacity 0.32s ease;
 }
 
-.toast-notification.visible {
+.toast-banner.is-visible {
   transform: translate3d(0, 0, 0);
   opacity: 1;
 }
 
-.toast-dot {
+.toast-indicator {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--accent-emerald);
+  box-shadow: 0 0 10px var(--accent-emerald);
 }
 
 /* ==========================================================================
-   12. RESPONSIVE BREAKPOINTS & REDUCED MOTION / PRINT
+   12. RESPONSIVE & PRINT RULES
    ========================================================================== */
-@media (max-width: 960px) {
-  .hero-identity-grid {
+@media (max-width: 860px) {
+  .action-deck-grid {
     grid-template-columns: 1fr;
   }
-  .channels-bento-grid {
-    grid-template-columns: 1fr;
-  }
-  .specs-metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .telemetry-hud-inner {
+    justify-content: center;
   }
 }
 
 @media (max-width: 600px) {
-  .hide-mobile {
-    display: none;
-  }
-  .specs-metrics-grid {
-    grid-template-columns: 1fr;
-  }
   .webgl-stage {
-    height: 280px;
+    height: 300px;
   }
-  .hero-copy-card,
-  .channel-card {
-    padding: 1.35rem;
+  .hero-identity-core {
+    padding: 0 1.25rem 2rem;
+  }
+  .featured-dossier-card,
+  .deck-card {
+    padding: 1.4rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ambient-conic-glow,
+  .border-beam-runner,
+  .avatar-orbital-ring,
   .eq-bar {
     animation: none !important;
   }
 }
 
-/* Executive CV Print Stylesheet */
 @media print {
   body {
     background: #ffffff !important;
@@ -1121,17 +1207,18 @@ body {
   .webgl-stage,
   .ambient-spotlight,
   .ambient-conic-stage,
-  .cursor-dot,
-  .cursor-ring,
-  .scroll-progress-track,
-  .toast-notification {
+  .cursor-system,
+  .scroll-hud-track,
+  .telemetry-hud-header,
+  .toast-banner {
     display: none !important;
   }
-  .kinetic-card {
+  .hero-spatial-deck,
+  .perspective-card {
     background: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
     color: #000000 !important;
-    backdrop-filter: none !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
     transform: none !important;
   }
 }

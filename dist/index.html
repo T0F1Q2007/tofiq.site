@@ -3,454 +3,630 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#07080c" />
-  <meta name="description" content="Tofiq Valizada - Systems Architect, Creative Technologist & Performance Engineer. High-frequency 120fps kinetic engineering hub." />
-  <title>Tofiq Valizada // Kinetic Architecture & Engineering Hub</title>
+  <meta name="theme-color" content="#06070b" />
+  <meta name="description" content="Tofig Valizada // Systems Architect, Creative Technologist, and Full-Stack Performance Engineer." />
+  <title>Tofig Valizada // Spatial Engineering &amp; Architecture Hub</title>
 
-  <!-- Preconnect & Typography -->
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
 
-  <!-- Core Stylesheet -->
+  <!-- Master Stylesheet -->
   <link rel="stylesheet" href="css/kinetic-bio.css" />
 </head>
 <body>
-  <!-- Top Compositor-Only Scroll Progress Hairline -->
-  <div class="scroll-progress-track" aria-hidden="true">
-    <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+  <!-- 2px Futuristic Top Hairline HUD Scroll Progress Bar + Leading Bead -->
+  <div class="scroll-hud-track" aria-hidden="true">
+    <div id="scroll-progress-bar" class="scroll-progress-bar">
+      <span class="progress-leading-bead"></span>
+    </div>
   </div>
 
-  <!-- GPU-Translated Static Radial Spotlight (Zero CSS Variable Recalculation) -->
+  <!-- GPU-Translated Ambient Cursor Spotlight (Static Radial Gradient, Zero Style Recalc) -->
   <div id="ambient-spotlight" class="ambient-spotlight" aria-hidden="true"></div>
 
-  <!-- Strictly Contained Conic Atmospheric Glow -->
+  <!-- Strictly Contained Rotating Atmospheric Conic Glow -->
   <div class="ambient-conic-stage" aria-hidden="true">
     <div class="ambient-conic-glow"></div>
   </div>
 
-  <!-- Desktop Custom Magnetic Cursor -->
-  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
-  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+  <!-- Custom Multi-Layer Fluid Magnetic Cursor System -->
+  <div id="cursor-system" class="cursor-system" aria-hidden="true">
+    <div id="cursor-dot" class="cursor-dot"></div>
+    <div id="cursor-ring" class="cursor-ring">
+      <span id="cursor-label" class="cursor-label"></span>
+    </div>
+  </div>
 
-  <!-- Top Telemetry & Architecture Bar -->
-  <header class="top-telemetry-bar" role="banner">
-    <div class="telemetry-inner">
-      <div class="telemetry-brand">
-        <span class="status-beacon" aria-hidden="true"></span>
-        <span class="telemetry-mono">ARGON.4 // COMPOSITOR LOCK</span>
+  <!-- Floating Futuristic Telemetry Pill & Gyroscope HUD -->
+  <header class="telemetry-hud-header" role="banner">
+    <div class="telemetry-hud-inner">
+      <div class="hud-brand-pill">
+        <span class="hud-pulse-dot" aria-hidden="true"></span>
+        <span class="hud-brand-text">TOFIG.VALIZADA // SYS.HUB</span>
       </div>
 
-      <div class="telemetry-metrics" aria-label="Real-time rendering telemetry">
-        <span class="telemetry-pill">
-          <span class="telemetry-label">ENGINE</span>
-          <strong id="fps-counter" class="telemetry-value">120 FPS</strong>
-        </span>
-        <span class="telemetry-pill hide-mobile">
-          <span class="telemetry-label">WEBGL STAGE</span>
-          <strong id="webgl-status" class="telemetry-value status-active">ACTIVE</strong>
-        </span>
-        <span class="telemetry-pill">
-          <span class="telemetry-label">LOC</span>
-          <strong class="telemetry-value">BAKU, AZ</strong>
-        </span>
+      <div class="hud-telemetry-pill" aria-live="off">
+        <span>SCR: <strong id="hud-scr">000%</strong></span>
+        <span class="hud-sep">/</span>
+        <span>VEL: <strong id="hud-vel">0.00</strong></span>
+        <span class="hud-sep">/</span>
+        <span>GYRO: <strong id="hud-gyro">SYNC</strong></span>
       </div>
+
+      <button
+        type="button"
+        id="btn-gyro-toggle"
+        class="hud-motion-toggle tactile-target"
+        data-magnetic="0.25"
+        data-cursor-label="3D SENSOR"
+        aria-pressed="true"
+      >
+        <span class="motion-led" aria-hidden="true"></span>
+        <span id="gyro-toggle-label">3D MOTION: ON</span>
+      </button>
     </div>
   </header>
 
-  <!-- Main Smooth Scroll Viewport -->
-  <main id="kinetic-main" class="kinetic-main">
+  <!-- Main Smooth-Scrolled Spatial Container -->
+  <main id="spatial-viewport" class="spatial-viewport">
 
-    <!-- HERO SECTION: Spatial 3D WebGL Stage + Avatar Art Switcher -->
-    <section class="hero-stage-section" aria-labelledby="hero-title">
-      <!-- WebGL Viewport Container (Observed by IntersectionObserver) -->
-      <div id="webgl-stage" class="webgl-stage" aria-label="Interactive 3D geometry canvas">
-        <canvas id="hero-webgl-canvas"></canvas>
+    <!-- ===================================================================
+         UNIFIED HERO SPATIAL DECK (3D WebGL Stage + Avatar + Identity)
+         =================================================================== -->
+    <section class="hero-spatial-deck velocity-skew-node" aria-labelledby="hero-identity-name">
+      <div class="reveal-sheen" aria-hidden="true"></div>
 
-        <!-- 3D Geometry Mode Switcher Overlay -->
-        <div class="webgl-controls-bar" role="toolbar" aria-label="3D Geometry Mode Switcher">
-          <span class="control-eyebrow">3D TOPOLOGY</span>
-          <div class="segmented-control" id="geo-switcher">
-            <button type="button" class="seg-btn active" data-geo="torusKnot" data-magnetic="0.22" aria-pressed="true">
+      <!-- 1. Interactive Three.js 3D WebGL Viewport (Top of Unified Deck) -->
+      <div id="webgl-stage" class="webgl-stage" data-cursor-label="3D ORBIT">
+        <canvas id="hero-webgl-canvas" aria-label="Interactive 3D wireframe centerpiece"></canvas>
+
+        <div class="webgl-hud-overlay">
+          <span class="webgl-telemetry-tag">WEBGL 2.0 // SCROLL-COUPLED GEOMETRY</span>
+          <div class="geometry-mode-track" role="toolbar" aria-label="3D Geometry Topology Switcher">
+            <button
+              type="button"
+              class="geo-mode-btn active tactile-target"
+              data-geo-mode="torusKnot"
+              data-magnetic="0.22"
+              data-cursor-label="TORUS KNOT"
+              aria-pressed="true"
+            >
               Torus Knot
             </button>
-            <button type="button" class="seg-btn" data-geo="octahedron" data-magnetic="0.22" aria-pressed="false">
+            <button
+              type="button"
+              class="geo-mode-btn tactile-target"
+              data-geo-mode="octahedron"
+              data-magnetic="0.22"
+              data-cursor-label="CYBER OCTA"
+              aria-pressed="false"
+            >
               Cyber Octa
             </button>
-            <button type="button" class="seg-btn" data-geo="helixTorus" data-magnetic="0.22" aria-pressed="false">
+            <button
+              type="button"
+              class="geo-mode-btn tactile-target"
+              data-geo-mode="helixTorus"
+              data-magnetic="0.22"
+              data-cursor-label="HELIX TORUS"
+              aria-pressed="false"
+            >
               Helix Torus
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Hero Identity & Avatar Console -->
-      <div class="hero-identity-grid">
-        <!-- Avatar Art-Style Module -->
-        <div class="avatar-console-card kinetic-card" data-parallax="-0.04">
-          <div class="avatar-frame-wrapper">
-            <div id="avatar-viewport" class="avatar-viewport style-original" data-current-style="original">
-              <!-- High-Resolution Vector/Raster Hybrid Portrait (Fallback-safe) -->
-              <img
-                src="assets/profile.jpg"
-                alt="Portrait of Tofiq Valizada"
-                class="avatar-photo"
-                loading="eager"
-                decoding="async"
-                onerror="this.style.opacity='0'"
-              />
-              <!-- Procedural Architectural Portrait Layer (Always crisp even offline) -->
-              <svg class="avatar-vector-fallback" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <defs>
-                  <linearGradient id="avatarBgGrad" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#0f172a" />
-                    <stop offset="50%" stop-color="#1e293b" />
-                    <stop offset="100%" stop-color="#090d16" />
-                  </linearGradient>
-                  <linearGradient id="cyberAccent" x1="20" y1="20" x2="220" y2="220" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#38bdf8" />
-                    <stop offset="100%" stop-color="#10b981" />
-                  </linearGradient>
-                </defs>
-                <rect width="240" height="240" rx="28" fill="url(#avatarBgGrad)" />
-                <circle cx="120" cy="120" r="92" stroke="url(#cyberAccent)" stroke-opacity="0.25" stroke-width="1.2" stroke-dasharray="4 6" />
-                <circle cx="120" cy="92" r="38" fill="#1e293b" stroke="url(#cyberAccent)" stroke-width="2" />
-                <path d="M52 214C58 168 84 146 120 146C156 146 182 168 188 214" fill="#1e293b" stroke="url(#cyberAccent)" stroke-width="2" stroke-linecap="round" />
-              </svg>
-              <div class="avatar-scanline" aria-hidden="true"></div>
-            </div>
-            <span class="avatar-badge-online">SYS.ARCHITECT // AVAILABLE</span>
-          </div>
+      <!-- 2. Seamless Unified Avatar Chassis & 4-Style Switcher (Directly Beneath WebGL) -->
+      <div class="hero-identity-core">
+        <div class="avatar-chassis-outer" data-magnetic="0.18" data-cursor-label="OPTICAL MATRIX">
+          <div class="avatar-orbital-ring" aria-hidden="true"></div>
+          <div id="avatar-viewport" class="avatar-viewport mode-original">
+            <!-- Vector Architectural Backdrop (Guaranteed visual integrity if local assets are offline) -->
+            <svg class="avatar-fallback-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="240" height="240" rx="120" fill="#0b111e" />
+              <circle cx="120" cy="120" r="102" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1.5" stroke-dasharray="5 5" />
+              <circle cx="120" cy="94" r="36" fill="#131c2e" stroke="#38bdf8" stroke-width="2" />
+              <path d="M54 212C62 166 86 146 120 146C154 146 178 166 186 212" fill="#131c2e" stroke="#10b981" stroke-width="2" />
+            </svg>
 
-          <!-- Avatar Art-Style Switcher (Original, Cyber Color, Emerald Matrix, Mono) -->
-          <div class="avatar-switcher-wrap" role="group" aria-label="Avatar Art Style Switcher">
-            <span class="control-eyebrow">OPTICAL SHADER PROFILE</span>
-            <div class="avatar-style-pills" id="avatar-switcher">
-              <button type="button" class="style-pill active" data-avatar-style="original" data-magnetic="0.18" aria-pressed="true">
-                Original
-              </button>
-              <button type="button" class="style-pill" data-avatar-style="cyber" data-magnetic="0.18" aria-pressed="false">
-                Cyber Color
-              </button>
-              <button type="button" class="style-pill" data-avatar-style="matrix" data-magnetic="0.18" aria-pressed="false">
-                Emerald Matrix
-              </button>
-              <button type="button" class="style-pill" data-avatar-style="mono" data-magnetic="0.18" aria-pressed="false">
-                Mono
-              </button>
-            </div>
+            <!-- 4 Cross-Fading Portrait Render Layers -->
+            <img
+              src="assets/profile.jpg"
+              alt="Tofig Valizada - Original Portrait"
+              class="avatar-render-layer is-active"
+              data-style-id="original"
+              loading="eager"
+              decoding="async"
+              onerror="this.dataset.broken='true'; this.style.opacity='0';"
+            />
+            <img
+              src="assets/profile_ascii_color.png"
+              alt="Tofig Valizada - Cyber Color Portrait"
+              class="avatar-render-layer"
+              data-style-id="cyber"
+              loading="lazy"
+              decoding="async"
+              onerror="this.dataset.broken='true'; this.style.opacity='0';"
+            />
+            <img
+              src="assets/profile_ascii_emerald.png"
+              alt="Tofig Valizada - Matrix Emerald Portrait"
+              class="avatar-render-layer"
+              data-style-id="emerald"
+              loading="lazy"
+              decoding="async"
+              onerror="this.dataset.broken='true'; this.style.opacity='0';"
+            />
+            <img
+              src="assets/profile_ascii_mono.png"
+              alt="Tofig Valizada - Monolith Mono Portrait"
+              class="avatar-render-layer"
+              data-style-id="mono"
+              loading="lazy"
+              decoding="async"
+              onerror="this.dataset.broken='true'; this.style.opacity='0';"
+            />
+
+            <!-- Holographic CRT Scanline Overlay -->
+            <div class="avatar-scanline-overlay" aria-hidden="true"></div>
           </div>
         </div>
 
-        <!-- Hero Narrative & Primary Dossier Portal -->
-        <div class="hero-copy-card kinetic-card" data-parallax="0.03">
-          <div class="eyebrow-row">
-            <span class="eyebrow-tag">FULL-STACK SYSTEMS &amp; CREATIVE ENGINEERING</span>
-            <span class="eyebrow-code">ID // TV-2007</span>
+        <!-- 4-Style Segmented Switcher Track -->
+        <div class="style-switcher-track" role="radiogroup" aria-label="Portrait Art Style Switcher">
+          <button
+            type="button"
+            class="style-switch-btn active tactile-target"
+            data-avatar-mode="original"
+            data-magnetic="0.16"
+            data-cursor-label="ORIGINAL"
+            role="radio"
+            aria-checked="true"
+          >
+            Original
+          </button>
+          <button
+            type="button"
+            class="style-switch-btn tactile-target"
+            data-avatar-mode="cyber"
+            data-magnetic="0.16"
+            data-cursor-label="CYBER COLOR"
+            role="radio"
+            aria-checked="false"
+          >
+            Cyber Color
+          </button>
+          <button
+            type="button"
+            class="style-switch-btn tactile-target"
+            data-avatar-mode="emerald"
+            data-magnetic="0.16"
+            data-cursor-label="EMERALD"
+            role="radio"
+            aria-checked="false"
+          >
+            Matrix Emerald
+          </button>
+          <button
+            type="button"
+            class="style-switch-btn tactile-target"
+            data-avatar-mode="mono"
+            data-magnetic="0.16"
+            data-cursor-label="MONOLITH"
+            role="radio"
+            aria-checked="false"
+          >
+            Monolith Mono
+          </button>
+        </div>
+
+        <!-- 3. Unified Hero Typography & Abstract -->
+        <div class="hero-typography-stack">
+          <div class="hero-status-pill">
+            <span class="status-led" aria-hidden="true"></span>
+            <span>SYSTEMS ARCHITECT &amp; CREATIVE TECHNOLOGIST</span>
           </div>
 
-          <h1 id="hero-title" class="hero-display-title">
-            Tofiq Valizada
-          </h1>
+          <h1 id="hero-identity-name" class="hero-title-main">Tofig Valizada</h1>
 
-          <p class="hero-lead">
-            Architecting deterministic, low-latency web applications, spatial WebGL interfaces, and resilient distributed systems. Engineered for zero-reflow compositor execution and tactile precision.
+          <p class="hero-subtitle-mono">
+            DISTRIBUTED SYSTEMS // REAL-TIME WEBGL // FULL-STACK ENGINEERING
           </p>
 
-          <!-- Primary CTA to Dossier -->
-          <div class="hero-cta-row">
-            <a
-              href="dossier.html"
-              class="primary-dossier-cta ripple-surface"
-              data-magnetic="0.28"
-            >
-              <span class="cta-content">
-                <span class="cta-kicker">TECHNICAL ARCHIVE &amp; CASE STUDIES</span>
-                <span class="cta-headline">Explore Full Engineering Dossier &amp; Projects</span>
-              </span>
-              <span class="cta-arrow-box" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </span>
-            </a>
-          </div>
-
-          <!-- Quick Utility Actions: Email Copy & Print CV -->
-          <div class="hero-utility-bar">
-            <button
-              type="button"
-              id="btn-copy-email"
-              class="utility-action-btn ripple-surface"
-              data-copy-value="velizadetofiq1@gmail.com"
-              data-magnetic="0.2"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <rect x="2" y="4" width="20" height="16" rx="3" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-              <span id="email-btn-label">Copy Email: velizadetofiq1@gmail.com</span>
-            </button>
-
-            <button
-              type="button"
-              id="btn-print-cv"
-              class="utility-action-btn ripple-surface"
-              data-magnetic="0.2"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <path d="M6 9V2h12v7" />
-                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                <rect x="6" y="14" width="12" height="8" />
-              </svg>
-              <span>Print Executive CV</span>
-            </button>
-          </div>
+          <p class="hero-abstract-copy">
+            Designing high-frequency interactive architectures, resilient backend infrastructure, and tactile spatial interfaces engineered for mathematical precision.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: KINETIC NETWORK & DIRECT CHANNELS MATRIX -->
-    <section class="channels-section" aria-labelledby="channels-heading">
-      <div class="section-header-row">
-        <div>
-          <span class="section-kicker">VERIFIED ENDPOINTS // ZERO LATENCY</span>
-          <h2 id="channels-heading" class="section-heading">Direct Engineering &amp; Social Channels</h2>
+    <!-- ===================================================================
+         FEATURED DOSSIER PORTAL CARD (WITH PERIMETER ANIMATED BORDER BEAM)
+         =================================================================== -->
+    <section class="featured-portal-section" aria-label="Primary Engineering Dossier">
+      <a
+        href="dossier.html"
+        class="perspective-card featured-dossier-card velocity-skew-node tactile-target"
+        data-tilt-card="true"
+        data-magnetic="0.12"
+        data-cursor-label="OPEN DOSSIER"
+      >
+        <!-- Animated Perimeter Border Beam -->
+        <div class="border-beam-container" aria-hidden="true">
+          <div class="border-beam-runner"></div>
         </div>
-        <p class="section-subtext">
-          Hardware-accelerated interactive nodes. Use keyboard Tab or pointer magnetism to inspect and trigger direct endpoints.
-        </p>
-      </div>
 
-      <div class="channels-bento-grid">
+        <!-- Luminous Reveal Sheen Sweep -->
+        <div class="reveal-sheen" aria-hidden="true"></div>
 
-        <!-- 1. GitHub Engineering Card -->
+        <!-- 3D Perspective Layer 1: Base -->
+        <div class="card-layer-base">
+          <span class="dossier-grid-accent" aria-hidden="true"></span>
+        </div>
+
+        <!-- 3D Perspective Layer 2: Mid -->
+        <div class="card-layer-mid">
+          <div class="dossier-badge-row">
+            <span class="dossier-chip">PRIMARY ARCHIVE // CASE STUDIES &amp; ARCHITECTURE</span>
+            <span class="dossier-chip-code">REV.2026</span>
+          </div>
+          <h2 class="dossier-card-heading">
+            Explore Full Engineering Dossier &amp; Projects
+          </h2>
+          <p class="dossier-card-description">
+            Inspect full-stack production deployments, system topology blueprints, algorithmic benchmarks, and interactive technical specifications.
+          </p>
+        </div>
+
+        <!-- 3D Perspective Layer 3: Top Elevated -->
+        <div class="card-layer-top">
+          <div class="dossier-cta-strip">
+            <span class="dossier-cta-label">ENTER ENGINEERING DOSSIER</span>
+            <span class="dossier-cta-orb" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- ===================================================================
+         ACETERNITY 3D PERSPECTIVE ACTION DECK (MULTI-LAYER TILT CARDS)
+         =================================================================== -->
+    <section class="action-deck-section" aria-label="Direct Communication and Code Endpoints">
+      <div class="action-deck-grid">
+
+        <!-- Card 1: GitHub Architecture -->
         <a
           href="https://github.com/T0F1Q2007"
           target="_blank"
           rel="noopener noreferrer"
-          class="channel-card kinetic-card ripple-surface card-github"
-          data-parallax="-0.025"
-          data-tilt="true"
+          class="perspective-card deck-card velocity-skew-node tactile-target"
+          data-tilt-card="true"
+          data-cursor-label="GITHUB REPOS"
         >
-          <div class="card-top-bar">
-            <span class="channel-icon-wrap" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" />
-              </svg>
-            </span>
-            <span class="channel-tag">OPEN SOURCE REPOSITORIES</span>
-          </div>
+          <div class="reveal-sheen" aria-hidden="true"></div>
+          <div class="card-layer-base"></div>
 
-          <div class="card-body-content">
-            <h3 class="channel-title">GitHub Architecture</h3>
-            <p class="channel-handle">@T0F1Q2007</p>
-            <p class="channel-desc">
-              Production source trees, systems tooling, algorithmic benchmarks, and WebGL kinetic experiments.
+          <div class="card-layer-mid">
+            <div class="deck-card-header">
+              <div class="deck-icon-box icon-cyan" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" />
+                </svg>
+              </div>
+              <span class="deck-card-tag">SOURCE REPOSITORIES</span>
+            </div>
+
+            <h3 class="deck-card-title">GitHub Engineering</h3>
+            <p class="deck-card-handle">@T0F1Q2007</p>
+            <p class="deck-card-copy">
+              Open-source architectures, WebGL shaders, algorithmic modules, and production codebases.
             </p>
           </div>
 
-          <div class="card-footer-meta">
-            <span class="meta-status">VERIFY REPOSITORIES</span>
-            <span class="meta-arrow" aria-hidden="true">-&gt;</span>
+          <div class="card-layer-top">
+            <div class="deck-card-footer">
+              <span>INSPECT SOURCE TREES</span>
+              <span class="deck-arrow" aria-hidden="true">-&gt;</span>
+            </div>
           </div>
         </a>
 
-        <!-- 2. LinkedIn Executive Network Card -->
+        <!-- Card 2: LinkedIn Executive Network -->
         <a
           href="https://www.linkedin.com/in/tofiq-valizada"
           target="_blank"
           rel="noopener noreferrer"
-          class="channel-card kinetic-card ripple-surface card-linkedin"
-          data-parallax="0.025"
-          data-tilt="true"
+          class="perspective-card deck-card velocity-skew-node tactile-target"
+          data-tilt-card="true"
+          data-cursor-label="LINKEDIN"
         >
-          <div class="card-top-bar">
-            <span class="channel-icon-wrap" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z" />
-              </svg>
-            </span>
-            <span class="channel-tag">EXECUTIVE CREDENTIALS</span>
-          </div>
+          <div class="reveal-sheen" aria-hidden="true"></div>
+          <div class="card-layer-base"></div>
 
-          <div class="card-body-content">
-            <h3 class="channel-title">LinkedIn Network</h3>
-            <p class="channel-handle">in/tofiq-valizada</p>
-            <p class="channel-desc">
-              Professional trajectory, engineering leadership, cross-functional collaborations, and technical endorsements.
+          <div class="card-layer-mid">
+            <div class="deck-card-header">
+              <div class="deck-icon-box icon-indigo" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z" />
+                </svg>
+              </div>
+              <span class="deck-card-tag">EXECUTIVE GRAPH</span>
+            </div>
+
+            <h3 class="deck-card-title">LinkedIn Network</h3>
+            <p class="deck-card-handle">in/tofiq-valizada</p>
+            <p class="deck-card-copy">
+              Verified professional history, architectural leadership, and cross-functional engineering initiatives.
             </p>
           </div>
 
-          <div class="card-footer-meta">
-            <span class="meta-status">CONNECT DIRECTLY</span>
-            <span class="meta-arrow" aria-hidden="true">-&gt;</span>
+          <div class="card-layer-top">
+            <div class="deck-card-footer">
+              <span>ESTABLISH CONNECTION</span>
+              <span class="deck-arrow" aria-hidden="true">-&gt;</span>
+            </div>
           </div>
         </a>
 
-        <!-- 3. WhatsApp Handle-Based Encrypted Protocol (STRICTLY NO PHONE NUMBERS) -->
+        <!-- Card 3: WhatsApp Handle-Based Protocol (STRICTLY NO PHONE NUMBERS) -->
         <div
-          class="channel-card kinetic-card ripple-surface card-whatsapp"
-          data-parallax="-0.03"
-          data-tilt="true"
+          class="perspective-card deck-card velocity-skew-node tactile-target"
+          data-tilt-card="true"
+          data-cursor-label="COPY HANDLE"
           role="region"
-          aria-labelledby="wa-card-title"
+          aria-labelledby="wa-deck-title"
         >
-          <div class="card-top-bar">
-            <span class="channel-icon-wrap" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-              </svg>
-            </span>
-            <span class="channel-tag">HANDLE-ONLY // PRIVACY SHIELD</span>
-          </div>
+          <div class="reveal-sheen" aria-hidden="true"></div>
+          <div class="card-layer-base"></div>
 
-          <div class="card-body-content">
-            <h3 id="wa-card-title" class="channel-title">WhatsApp Direct Handle</h3>
-            <div class="wa-credentials-box">
-              <div class="wa-credential-item">
-                <span class="wa-label">HANDLE</span>
-                <code class="wa-code" id="wa-handle-text">@velizadetofiq1</code>
+          <div class="card-layer-mid">
+            <div class="deck-card-header">
+              <div class="deck-icon-box icon-emerald" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
               </div>
-              <div class="wa-credential-item">
-                <span class="wa-label">VERIFY PIN</span>
-                <code class="wa-code wa-pin-badge" id="wa-pin-text">4458</code>
+              <span class="deck-card-tag">PRIVACY SHIELD // NO PHONE NUMBER</span>
+            </div>
+
+            <h3 id="wa-deck-title" class="deck-card-title">WhatsApp Direct Handle</h3>
+
+            <div class="wa-vault-strip">
+              <div class="wa-vault-pill">
+                <span class="wa-vault-key">HANDLE</span>
+                <code class="wa-vault-val">@velizadetofiq1</code>
+              </div>
+              <div class="wa-vault-pill">
+                <span class="wa-vault-key">PIN</span>
+                <code class="wa-vault-val">4458</code>
               </div>
             </div>
-            <p class="channel-desc">
-              Privacy-first handle routing without phone number exposure. Copy handle and verification PIN 4458 for direct encrypted dispatch.
+
+            <p class="deck-card-copy">
+              Zero-phone-number identity routing. Copy handle <code>@velizadetofiq1</code> and verification PIN <code>4458</code> for encrypted messaging.
             </p>
           </div>
 
-          <div class="card-action-split">
-            <button
-              type="button"
-              id="btn-copy-wa-handle"
-              class="wa-action-btn"
-              data-copy-value="@velizadetofiq1"
-              data-magnetic="0.18"
-            >
-              Copy @velizadetofiq1
-            </button>
-            <button
-              type="button"
-              id="btn-copy-wa-pin"
-              class="wa-action-btn wa-pin-btn"
-              data-copy-value="Handle: @velizadetofiq1 | Verification PIN: 4458"
-              data-magnetic="0.18"
-            >
-              Copy Handle + PIN 4458
-            </button>
+          <div class="card-layer-top">
+            <div class="deck-button-group">
+              <button
+                type="button"
+                id="btn-copy-wa-handle"
+                class="deck-inline-btn tactile-target"
+                data-copy="@velizadetofiq1"
+                data-magnetic="0.2"
+                data-cursor-label="COPY @HANDLE"
+              >
+                Copy @velizadetofiq1
+              </button>
+              <button
+                type="button"
+                id="btn-copy-wa-pin"
+                class="deck-inline-btn btn-emerald-accent tactile-target"
+                data-copy="Handle: @velizadetofiq1 | Verification PIN: 4458"
+                data-magnetic="0.2"
+                data-cursor-label="COPY + PIN 4458"
+              >
+                Copy + PIN 4458
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- 4. Spotify Acoustic Telemetry Card -->
+        <!-- Card 4: Spotify Sonic Rotation (With 4 Dynamic Equalizer Bars) -->
         <a
           href="https://open.spotify.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="channel-card kinetic-card ripple-surface card-spotify"
-          data-parallax="0.03"
-          data-tilt="true"
+          class="perspective-card deck-card velocity-skew-node tactile-target"
+          data-tilt-card="true"
+          data-cursor-label="SONIC STREAM"
         >
-          <div class="card-top-bar">
-            <span class="channel-icon-wrap" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.348-1.435-5.304-1.76-8.785-.964-.335.077-.67-.133-.746-.469-.077-.335.132-.67.469-.746 3.809-.871 7.077-.496 9.713 1.115.293.18.386.563.206.857zm1.224-2.723c-.226.367-.706.482-1.072.257-2.687-1.652-6.785-2.131-9.965-1.166-.413.125-.849-.106-.973-.517-.125-.413.106-.849.517-.973 3.632-1.102 8.147-.568 11.236 1.328.366.226.48.707.257 1.071zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71c-.493.15-1.016-.128-1.166-.62-.149-.493.129-1.016.621-1.166 3.532-1.073 9.404-.865 13.115 1.338.445.264.59.837.327 1.282-.264.444-.838.59-1.279.322z" />
-              </svg>
-            </span>
-            <div class="equalizer-bars" aria-hidden="true">
-              <span class="eq-bar"></span>
-              <span class="eq-bar"></span>
-              <span class="eq-bar"></span>
-              <span class="eq-bar"></span>
-            </div>
-          </div>
+          <div class="reveal-sheen" aria-hidden="true"></div>
+          <div class="card-layer-base"></div>
 
-          <div class="card-body-content">
-            <h3 class="channel-title">Spotify Sonic Rotation</h3>
-            <p class="channel-handle">Deep Focus // Synth &amp; Ambient</p>
-            <p class="channel-desc">
-              Acoustic telemetry curated for deep architectural sprints, profiling sessions, and shader mathematics.
+          <div class="card-layer-mid">
+            <div class="deck-card-header">
+              <div class="deck-icon-box icon-emerald" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.348-1.435-5.304-1.76-8.785-.964-.335.077-.67-.133-.746-.469-.077-.335.132-.67.469-.746 3.809-.871 7.077-.496 9.713 1.115.293.18.386.563.206.857zm1.224-2.723c-.226.367-.706.482-1.072.257-2.687-1.652-6.785-2.131-9.965-1.166-.413.125-.849-.106-.973-.517-.125-.413.106-.849.517-.973 3.632-1.102 8.147-.568 11.236 1.328.366.226.48.707.257 1.071zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71c-.493.15-1.016-.128-1.166-.62-.149-.493.129-1.016.621-1.166 3.532-1.073 9.404-.865 13.115 1.338.445.264.59.837.327 1.282-.264.444-.838.59-1.279.322z" />
+                </svg>
+              </div>
+
+              <!-- 4 Dynamic Bouncing Equalizer Bars -->
+              <div class="spotify-eq-cluster" aria-label="Active audio frequency equalizer">
+                <span class="eq-label">LIVE FREQ</span>
+                <div class="equalizer-bars" aria-hidden="true">
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="deck-card-title">Sonic Rotation</h3>
+            <p class="deck-card-handle">Spotify // Deep Synthesis &amp; Focus</p>
+            <p class="deck-card-copy">
+              Curated acoustic telemetry for deep kernel profiling, mathematical modeling, and late-night architecture sprints.
             </p>
           </div>
 
-          <div class="card-footer-meta">
-            <span class="meta-status">LAUNCH AUDIO STREAM</span>
-            <span class="meta-arrow" aria-hidden="true">-&gt;</span>
+          <div class="card-layer-top">
+            <div class="deck-card-footer">
+              <span>SYNCHRONIZE AUDIO</span>
+              <span class="deck-arrow" aria-hidden="true">-&gt;</span>
+            </div>
           </div>
         </a>
 
-      </div>
-    </section>
+        <!-- Card 5: Direct Electronic Mail Dispatch -->
+        <div
+          class="perspective-card deck-card velocity-skew-node tactile-target"
+          data-tilt-card="true"
+          data-cursor-label="COPY EMAIL"
+          role="region"
+          aria-labelledby="email-deck-title"
+        >
+          <div class="reveal-sheen" aria-hidden="true"></div>
+          <div class="card-layer-base"></div>
 
-    <!-- SECTION 3: 120FPS COMPOSITOR BENCHMARK & ARCHITECTURE SPECS -->
-    <section class="architecture-specs-section" aria-labelledby="specs-heading">
-      <div class="kinetic-card specs-banner-card" data-parallax="0.015">
-        <div class="specs-header">
-          <div>
-            <span class="section-kicker">SYSTEM TELEMETRY // COMPOSITOR VERIFIED</span>
-            <h2 id="specs-heading" class="section-heading">120fps Pipeline Optimization Matrix</h2>
+          <div class="card-layer-mid">
+            <div class="deck-card-header">
+              <div class="deck-icon-box icon-cyan" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+              </div>
+              <span class="deck-card-tag">DIRECT DISPATCH</span>
+            </div>
+
+            <h3 id="email-deck-title" class="deck-card-title">Electronic Mail</h3>
+            <p class="deck-card-handle">velizadetofiq1@gmail.com</p>
+            <p class="deck-card-copy">
+              Primary inbox for architectural consulting, research collaborations, and systems engineering inquiries.
+            </p>
           </div>
-          <a href="dossier.html" class="secondary-dossier-link" data-magnetic="0.2">
-            <span>Inspect Full Architecture Dossier</span>
-            <span aria-hidden="true">-&gt;</span>
-          </a>
+
+          <div class="card-layer-top">
+            <div class="deck-button-group">
+              <button
+                type="button"
+                id="btn-copy-email"
+                class="deck-inline-btn tactile-target"
+                data-copy="velizadetofiq1@gmail.com"
+                data-magnetic="0.2"
+                data-cursor-label="COPY ADDRESS"
+              >
+                Copy Email Address
+              </button>
+              <a
+                href="mailto:velizadetofiq1@gmail.com"
+                class="deck-inline-btn tactile-target"
+                data-magnetic="0.2"
+                data-cursor-label="LAUNCH MAIL"
+              >
+                Compose -&gt;
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div class="specs-metrics-grid">
-          <div class="spec-metric-box">
-            <span class="spec-metric-label">STYLE INVALIDATION</span>
-            <strong class="spec-metric-val">0.00 ms</strong>
-            <span class="spec-metric-note">Zero `:root` CSS variable mutations during scroll or pointer move.</span>
+        <!-- Card 6: Executive Print CV -->
+        <div
+          class="perspective-card deck-card velocity-skew-node tactile-target"
+          data-tilt-card="true"
+          data-cursor-label="PRINT CV"
+          role="region"
+          aria-labelledby="cv-deck-title"
+        >
+          <div class="reveal-sheen" aria-hidden="true"></div>
+          <div class="card-layer-base"></div>
+
+          <div class="card-layer-mid">
+            <div class="deck-card-header">
+              <div class="deck-icon-box icon-indigo" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 9V2h12v7" />
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                  <rect width="12" height="8" x="6" y="14" />
+                </svg>
+              </div>
+              <span class="deck-card-tag">HARDCOPY SPECIFICATION</span>
+            </div>
+
+            <h3 id="cv-deck-title" class="deck-card-title">Executive Curriculum Vitae</h3>
+            <p class="deck-card-handle">Print-Ready Vector Formatting</p>
+            <p class="deck-card-copy">
+              Generate an instant, high-contrast academic and technical curriculum vitae formatted for physical or PDF archival.
+            </p>
           </div>
-          <div class="spec-metric-box">
-            <span class="spec-metric-label">RAF SYNCHRONIZATION</span>
-            <strong class="spec-metric-val">1 Loop</strong>
-            <span class="spec-metric-note">Unified Master RAF Ticker driving Lenis, Cursor, and WebGL.</span>
-          </div>
-          <div class="spec-metric-box">
-            <span class="spec-metric-label">OFFSCREEN WEBGL</span>
-            <strong class="spec-metric-val">0% GPU</strong>
-            <span class="spec-metric-note">IntersectionObserver halts Three.js draw calls when scrolled away.</span>
-          </div>
-          <div class="spec-metric-box">
-            <span class="spec-metric-label">LENIS INTERPOLATION</span>
-            <strong class="spec-metric-val">Lerp 0.10</strong>
-            <span class="spec-metric-note">Tuned wheelMultiplier 1.0 and touchMultiplier 1.2 for instant response.</span>
+
+          <div class="card-layer-top">
+            <div class="deck-button-group">
+              <button
+                type="button"
+                id="btn-print-cv"
+                class="deck-inline-btn tactile-target"
+                data-magnetic="0.2"
+                data-cursor-label="TRIGGER PRINT"
+              >
+                Print Executive CV
+              </button>
+              <a
+                href="dossier.html"
+                class="deck-inline-btn tactile-target"
+                data-magnetic="0.2"
+                data-cursor-label="FULL DOSSIER"
+              >
+                Full Dossier -&gt;
+              </a>
+            </div>
           </div>
         </div>
+
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="kinetic-footer">
-    <div class="footer-inner">
-      <p class="footer-copy">
-        &copy; 2026 Tofiq Valizada. Engineered with compositor-only transforms &amp; unified RAF architecture.
-      </p>
-      <div class="footer-links">
-        <a href="dossier.html" class="footer-link">Engineering Dossier</a>
-        <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub (@T0F1Q2007)</a>
-        <button type="button" class="footer-link footer-btn-top" id="btn-scroll-top">Back to Top ^</button>
+  <!-- Minimalist Architectural Footer -->
+  <footer class="spatial-footer">
+    <div class="spatial-footer-inner">
+      <div class="footer-id">
+        <span class="footer-dot" aria-hidden="true"></span>
+        <span>TOFIG VALIZADA // BAKU, AZERBAIJAN</span>
+      </div>
+      <div class="footer-actions">
+        <a href="dossier.html" class="footer-nav-link" data-magnetic="0.2" data-cursor-label="DOSSIER">Engineering Dossier</a>
+        <a href="https://github.com/T0F1Q2007" target="_blank" rel="noopener noreferrer" class="footer-nav-link" data-magnetic="0.2" data-cursor-label="GITHUB">GitHub</a>
+        <button type="button" id="btn-back-to-top" class="footer-nav-link tactile-target" data-magnetic="0.2" data-cursor-label="TOP">
+          Top ^
+        </button>
       </div>
     </div>
   </footer>
 
-  <!-- Accessible Live Toast Notification -->
-  <div id="toast-notification" class="toast-notification" role="status" aria-live="polite" aria-atomic="true">
-    <span class="toast-dot" aria-hidden="true"></span>
-    <span id="toast-message">Copied to clipboard</span>
+  <!-- Live Toast Notification Banner -->
+  <div id="toast-banner" class="toast-banner" role="status" aria-live="polite" aria-atomic="true">
+    <span class="toast-indicator" aria-hidden="true"></span>
+    <span id="toast-text">Copied to clipboard</span>
   </div>
 
-  <!-- External Vendor Scripts: Three.js & Lenis Smooth Scroll -->
+  <!-- Vendor Runtimes: Three.js & Lenis Smooth Momentum Scroll -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
 
-  <!-- Master Kinetic Engine Script -->
+  <!-- Unified Master Kinetic Engine -->
   <script src="js/kinetic-bio.js" defer></script>
 </body>
 </html>
